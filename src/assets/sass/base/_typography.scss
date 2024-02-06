@@ -1,0 +1,101 @@
+//  覆蓋 Bootstrap 的顏色變數
+$primary: #916019;
+$secondary: #8d8d8d;
+$muted: #e0e0e0;
+
+// 覆蓋 Bootstrap 的字體變數
+$font-style: normal;
+$font-variant: normal;
+$font-family: 'PingFang TC', 'SF Pro Text';
+
+.md-icon {
+  padding-right: 3px;
+  width: 20px;
+  height: 20px;
+}
+
+.fs-40 {
+  font-size: 2.5rem;
+
+  @media (max-width: 375px) {
+    font-size: 2rem;
+  }
+}
+
+.mt-60 {
+  margin-top: 3.75rem; // 60px
+
+  @media (max-width: 375px) {
+    margin-top: 2.5rem;
+  }
+}
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  //4
+  2: $spacer * 0.5,
+  //8
+  25: $spacer * 0.75,
+  //12
+  3: $spacer,
+  //16
+  35: $spacer * 1.25,
+  //20
+  4: $spacer * 1.5,
+  //24
+  5: $spacer * 2,
+  //32
+  6: $spacer * 2.5,
+  //40
+  7: $spacer * 3,
+  //48
+  60: $spacer * 3.75,
+  //60
+  80: $spacer * 5,
+  // 80
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1110px,
+  xxl: 1320px
+);
+
+.nav-link {
+  &:hover {
+    color: #916019 !important;
+  }
+}
+
+.nav-link-dark {
+  text-decoration: none;
+  &:hover {
+    color: #ac8a46 !important;
+  }
+}
+
+.router-link-active {
+  text-decoration: none !important;
+  font-weight: bolder;
+}
+
+.btn-primary-hover-dark {
+  transition: 0.2s ease-in;
+
+  &:hover {
+    border: 2px solid #42361e;
+    color: #473b22;
+  }
+}
+
+.card-img-hover {
+  transition: 0.2s ease-in;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
