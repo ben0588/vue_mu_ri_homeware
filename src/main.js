@@ -1,4 +1,7 @@
 import './assets/sass/all.scss';
+import 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
+
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 

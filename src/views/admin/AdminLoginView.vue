@@ -25,6 +25,7 @@
         </div>
         <input type="submit" value="登入" />
       </form>
+      <button type="button" @click="testAlter">測試 sweet alert2</button>
     </div>
   </div>
 </template>
@@ -33,13 +34,37 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
+
+import { useAlert } from '@/composables/useAlert';
+import useLoadingStore from '@/stores/loadingStores';
+
+const LoadingStore = useLoadingStore();
+
+const { showAlert } = useAlert();
 
 const router = useRouter();
 
 const adminData = ref({
   username: '',
-  password: ''
+  password: '',
 });
+
+const testAlter = () => {
+  // Swal.fire({
+  //   title: 'Error!',
+  //   text: 'Do you want to continue',
+  //   icon: 'error',
+  //   confirmButtonText: 'Cool'
+  // });
+  console.log('LoadingStore', LoadingStore.isLoading);
+  LoadingStore.toggleLoading();
+  showAlert({
+    title: '成功',
+    text: '操作已成功完成',
+    icon: 'success',
+  });
+};
 
 const adminLogin = async () => {
   try {
