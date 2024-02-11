@@ -1,0 +1,12 @@
+{
+  "menu.aboutUs": "關於我們",
+  "menu.productContent": "產品內容",
+  "menu.blog": "部落格",
+  "menu.faq": "常見QA",
+  "admin.dashboardName": "沐日家居管理後台",
+  "admin.loginTitle": "管理者登入",
+  "admin.loginAccount": "帳號",
+  "admin.loginAccountPlaceholder": "請輸入管理者帳號",
+  "admin.loginPassword": "密碼",
+  "admin.loginPasswordPlaceholder": "請輸入管理者密碼"
+}

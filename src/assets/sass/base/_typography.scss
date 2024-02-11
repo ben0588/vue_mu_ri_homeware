@@ -1,12 +1,12 @@
 //  覆蓋 Bootstrap 的顏色變數
-$primary: #916019;
-$secondary: #8d8d8d;
-$muted: #e0e0e0;
+// $primary: #916019;
+// $secondary: #8d8d8d;
+// $muted: #e0e0e0;
 
 // 覆蓋 Bootstrap 的字體變數
-$font-style: normal;
-$font-variant: normal;
-$font-family: 'PingFang TC', 'SF Pro Text';
+// $font-style: normal;
+// $font-variant: normal;
+// $font-family: 'PingFang TC', 'SF Pro Text';
 
 .md-icon {
   padding-right: 3px;
@@ -61,20 +61,30 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1110px,
-  xxl: 1320px
+  xxl: 1320px,
 );
 
 .nav-link {
   &:hover {
-    color: #916019 !important;
+    color: $primary !important;
   }
 }
 
 .nav-link-dark {
-  text-decoration: none;
+  color: rgb(33, 37, 41) !important;
   &:hover {
-    color: #ac8a46 !important;
+    // color: #fff !important;
+    background: #e9f1f5cc;
   }
+}
+
+.admin-nav-active {
+  color: #fff !important;
+  background: rgb(33, 37, 41) !important;
+}
+
+.text-color {
+  color: #fff !important;
 }
 
 .router-link-active {

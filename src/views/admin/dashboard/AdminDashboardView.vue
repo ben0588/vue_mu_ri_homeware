@@ -1,62 +1,49 @@
 <template>
-  <div>
-    後臺登入成功之後!
-
-    <hr />
-    <router-view></router-view>
+  <div class="row pt-2 m-0">
+    <div class="col-2 border-end vh-100 p-0">
+      <nav class="d-flex flex-column">
+        <router-link
+          class="nav-link-dark fs-5 fw-bolder border-bottom p-3"
+          :exact-active-class="'admin-nav-active'"
+          :to="`/admin/dashboard/${item.path}`"
+          v-for="item in navbarList"
+          :key="item.path"
+          >{{ item.title }}</router-link
+        >
+      </nav>
+    </div>
+    <div class="col-10">
+      <VueLoading
+        :active="loadingStore.isLoading"
+        :can-cancel="false"
+        :color="'#0089A7'"
+      ></VueLoading>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import VueLoading from 'vue-loading-overlay';
 
-<!-- 以下是倒數 cookie 時間的 function -->
-<!-- <script>
-import ProductsView from './ProductsView.vue'
+import useLoadingStore from '@/stores/loadingStores';
 
-export default {
-  data() {
-    return {
-      expiresTime: '',
-      countdown: '',
-      intervalId: null
-    }
+const loadingStore = useLoadingStore();
+const navbarList = [
+  {
+    path: 'products',
+    title: '商品管理',
   },
-  components: {
-    ProductsView
+  {
+    path: 'coupon',
+    title: '優惠卷管理',
   },
-  methods: {
-    getCookieExpiresTime() {
-      const expiresTime = localStorage.getItem('expiresTime')
-      this.expiresTime = expiresTime
-      console.log('expiresTime', expiresTime)
-    },
-    getRemainingTime(expirationTime) {
-      const expiresDate = new Date(expirationTime).getTime()
-      const now = new Date().getTime()
-      return expiresDate - now
-    },
-
-    updateCountdown() {
-      const expires = localStorage.getItem('expiresTime')
-      const remainingTime = this.getRemainingTime(expires)
-
-      if (remainingTime > 0) {
-        let seconds = Math.floor((remainingTime / 1000) % 60)
-        let minutes = Math.floor((remainingTime / 1000 / 60) % 60)
-        let hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24)
-        let days = Math.floor(remainingTime / (1000 * 60 * 60 * 24))
-
-        this.countdown = `${days}天 ${hours}小時 ${minutes}分 ${seconds}秒`
-      } else {
-        this.countdown = 'Cookie 已經過期'
-        // 您也可以在這裡執行一些清理操作，比如刪除 localStorage 中的存儲項目
-      }
-    }
+  {
+    path: 'order',
+    title: '訂單管理',
   },
-  mounted() {
-    this.intervalId = setInterval(this.updateCountdown, 1000)
+  {
+    path: 'article',
+    title: '文章管理',
   },
-  beforeUnmount() {
-    clearInterval(this.intervalId)
-  }
-}
-</script> -->
+];
+</script>

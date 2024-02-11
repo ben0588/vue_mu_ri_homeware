@@ -1,0 +1,12 @@
+{
+  "menu.aboutUs": "会社概要",
+  "menu.productContent": "製品内容",
+  "menu.blog": "ブログ",
+  "menu.faq": "よくある質問",
+  "admin.dashboardName": "家庭管理バックエンド",
+  "admin.loginTitle": "管理者ログイン",
+  "admin.loginAccount": "アカウント",
+  "admin.loginAccountPlaceholder": "管理者アカウントを入力してください",
+  "admin.loginPassword": "パスワード",
+  "admin.loginPasswordPlaceholder": "管理者パスワードを入力してください"
+}

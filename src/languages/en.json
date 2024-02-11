@@ -1,0 +1,12 @@
+{
+  "menu.aboutUs": "About Us",
+  "menu.productContent": "Product Content",
+  "menu.blog": "Blog",
+  "menu.faq": "FAQ",
+  "admin.dashboardName": "Home Management Backend",
+  "admin.loginTitle": "Admin Login",
+  "admin.loginAccount": "Account",
+  "admin.loginAccountPlaceholder": "Administrator Account",
+  "admin.loginPassword": "Password",
+  "admin.loginPasswordPlaceholder": "Administrator Password"
+}

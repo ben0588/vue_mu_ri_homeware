@@ -1,0 +1,12 @@
+{
+  "menu.aboutUs": "เกี่ยวกับเรา",
+  "menu.productContent": "เนื้อหาผลิตภัณฑ์",
+  "menu.blog": "บล็อก",
+  "menu.faq": "คำถามที่พบบ่อย",
+  "admin.dashboardName": "ระบบบริหารจัดการบ้าน",
+  "admin.loginTitle": "เข้าสู่ระบบผู้ดูแล",
+  "admin.loginAccount": "บัญชี",
+  "admin.loginAccountPlaceholder": "โปรดใส่บัญชีผู้ดูแล",
+  "admin.loginPassword": "รหัสผ่าน",
+  "admin.loginPasswordPlaceholder": "โปรดใส่รหัสผ่านผู้ดูแล"
+}

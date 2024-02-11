@@ -24,27 +24,36 @@ const router = createRouter({
           path: 'dashboard',
           name: 'admin_dashboard',
           component: () => import('../views/admin/dashboard/AdminDashboardView.vue'),
-          meta: { requiresAuth: true }, // 需要驗證權限
+          meta: { requiresAuth: false }, // 需要驗證權限
           children: [
             {
               path: 'products',
               name: 'admin_products',
               component: () => import('../views/admin/products/AdminProductsView.vue'),
+              // 分頁要加上這個功能，否者變成每次進入分頁都會重新呼叫一次權限驗證，不用 routers 的驗證功能是
+              // 因為，呼叫後臺產品管理 API，也會檢查 cookie 是不是有過期，所以不必要多做一層呼叫
+              meta: { requiresAuth: false },
             },
             {
               path: 'coupon',
               name: 'admin_coupon',
               component: () => import('../views/admin/coupon/AdminCouponView.vue'),
+              meta: { requiresAuth: false },
+
             },
             {
               path: 'order',
               name: 'admin_order',
               component: () => import('../views/admin/order/AdminOrderView.vue'),
+              meta: { requiresAuth: false },
+
             },
             {
               path: 'article',
               name: 'admin_article',
               component: () => import('../views/admin/article/AdminArticleView.vue'),
+              meta: { requiresAuth: false },
+
             },
 
           ],
@@ -64,7 +73,6 @@ const checkAuth = async () => {
     const cookie = document.cookie.replace(/(?:(?:^|.*;\s*)AdminToken\s*\=\s*([^;]*).*$)|^.*$/, '$1');
     axios.defaults.headers.common.Authorization = cookie;
     if (!cookie) {
-      console.log('請重新登入');
       return false;
     }
     // 呼叫檢查權限驗證 token 是否過期，過期就返回登入頁。
@@ -72,7 +80,6 @@ const checkAuth = async () => {
     const response = await axios.post(api, {});
     return response?.data?.success;
   } catch (error) {
-    console.log(error?.response?.data?.message);
     return false;
   }
 };
