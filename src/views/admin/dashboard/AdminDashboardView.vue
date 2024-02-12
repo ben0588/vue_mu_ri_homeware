@@ -24,26 +24,30 @@
 </template>
 <script setup>
 import VueLoading from 'vue-loading-overlay';
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
 import useLoadingStore from '@/stores/loadingStores';
 
+const { t } = useI18n();
 const loadingStore = useLoadingStore();
-const navbarList = [
+
+const navbarList = computed(() => [
   {
     path: 'products',
-    title: '商品管理',
+    title: t('admin.menu_products_manage'),
   },
   {
     path: 'coupon',
-    title: '優惠卷管理',
+    title: t('admin.menu_coupon_manage'),
   },
   {
     path: 'order',
-    title: '訂單管理',
+    title: t('admin.menu_orders_manage'),
   },
   {
     path: 'article',
-    title: '文章管理',
+    title: t('admin.menu_article_manage'),
   },
-];
+]);
 </script>

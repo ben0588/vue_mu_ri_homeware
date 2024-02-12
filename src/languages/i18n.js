@@ -10,6 +10,15 @@ import { ref } from 'vue';
 
 export const currentLocale = ref('zh-TW'); // 默认语言为英文
 
+// 檢查當前語系
+function getLocale() {
+  const locale = localStorage.getItem('locale');
+  if (locale !== 'zh-TW') {
+    currentLocale.value = locale;
+  }
+}
+getLocale();
+
 const i18n = createI18n({
   legacy: false, // 啟用新的 Vue3 選項
   locale: currentLocale.value, // 設置默認語言
@@ -24,6 +33,7 @@ const i18n = createI18n({
 
 export function changeLocale(locale) {
   currentLocale.value = locale;
+  localStorage.setItem('locale', locale);
   i18n.global.locale.value = locale;
 }
 

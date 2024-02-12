@@ -1,25 +1,29 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center vh-100 pt-5">
     <div class="admin-form-container border border-2 shadow rounded p-5">
-      <h2 class="text-center fw-bolder fs-1">管理者登入</h2>
+      <h2 class="text-center fw-bolder fs-1">{{ t('admin.loginTitle') }}</h2>
       <form @submit.prevent="adminLogin" class="mt-5">
         <div class="mb-3">
-          <label for="admin_account" class="form-label fs-4 fw-bolder mb-1">帳號</label>
+          <label for="admin_account" class="form-label fs-4 fw-bolder mb-1">{{
+            t('admin.loginAccount')
+          }}</label>
           <input
             type="email"
             class="form-control form-control-lg"
             id="admin_account"
-            placeholder="請輸入管理者帳號"
+            :placeholder="`${t('admin.loginAccountPlaceholder')}`"
             v-model="adminData.username"
           />
         </div>
         <div class="mb-3">
-          <label for="admin_password" class="form-label fs-4 fw-bolder mb-1">密碼</label>
+          <label for="admin_password" class="form-label fs-4 fw-bolder mb-1">{{
+            t('admin.loginPassword')
+          }}</label>
           <input
             type="password"
             class="form-control form-control-lg"
             id="admin_password"
-            placeholder="請輸入管理者密碼"
+            :placeholder="`${t('admin.loginPasswordPlaceholder')}`"
             v-model="adminData.password"
           />
         </div>
@@ -31,9 +35,9 @@
           <!-- 登入時無法多次發出登入請求，並且更換指定 loading 樣式 -->
           <span v-if="LoadingStore.isLoading">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            登入中
+            {{ t('admin.logging_in_text') }}
           </span>
-          <span v-else>登入</span>
+          <span v-else> {{ t('admin.login_text') }}</span>
         </button>
       </form>
     </div>
@@ -76,7 +80,7 @@ const adminLogin = async () => {
       adminData.value.password = '';
       let timerInterval;
       showAlert({
-        title: `${response.data.message}`,
+        title: `${response.data.message} | ${t('admin.message_success')}`,
         html: '讀取中，請等待 <b></b> 秒後，即將進入後台管理頁面。謝謝',
         icon: 'success',
         showConfirmButton: false,
@@ -100,10 +104,10 @@ const adminLogin = async () => {
     }
   } catch (error) {
     showAlert({
-      title: `${error.response.data.message}`,
+      title: `${error.response.data.message} | ${t('admin.message_error')}`,
       text: '請檢查帳號密碼是否有誤，嘗試重新登入。謝謝',
       icon: 'error',
-      confirmButtonText: '確認',
+      confirmButtonText: `${t('admin.message_confirm_text')}`,
       confirmButtonColor: '#000000',
     });
   } finally {
