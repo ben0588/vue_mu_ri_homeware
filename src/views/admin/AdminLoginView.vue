@@ -86,6 +86,8 @@ const adminLogin = async () => {
         showConfirmButton: false,
         timer: 1800,
         timerProgressBar: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
           const timer = Swal.getPopup().querySelector('b');

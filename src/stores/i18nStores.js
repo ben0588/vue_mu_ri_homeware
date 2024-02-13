@@ -3,6 +3,7 @@ import {
   ref, onMounted, computed, watch,
 } from 'vue';
 import { changeLocale } from '@/languages/i18n';
+import { changeVeeValidateLocale } from '@/setupVeeValidate';
 
 const useI18nStore = defineStore('i18nStore', () => {
   const currentLocale = ref('zh-TW');
@@ -59,6 +60,7 @@ const useI18nStore = defineStore('i18nStore', () => {
     localStorage.setItem('iconCode', iconCode);
     // i18n 更改語言注入來自 i18n.js => i18n.global.locale.value = locale;
     changeLocale(code);
+    changeVeeValidateLocale();
   };
 
   watch(() => currentIcon.value, (newValue) => {

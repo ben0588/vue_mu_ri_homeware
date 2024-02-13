@@ -10,7 +10,11 @@
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
           <h5 id="productModalLabel" class="modal-title">
-            <span>{{ tempData[i18nStore.currentIcon]?.id ? '編輯' : '新增' }}</span>
+            <span>{{
+              tempData[i18nStore.currentIcon]?.id
+                ? '編輯'
+                : `新增 [商品語系：${i18nStore.currentLocale}]`
+            }}</span>
           </h5>
           <button
             type="button"
@@ -22,6 +26,7 @@
             X
           </button>
         </div>
+        ,
         <div class="mt-2">
           <ul class="nav nav-tabs">
             <li class="nav-item" v-for="language in i18nStore.languageList" :key="language.text">
@@ -30,352 +35,443 @@
                 :class="{ active: language.code === i18nStore.currentLocale }"
                 aria-current="page"
                 href="#"
-                @click.prevent="i18nStore.i18nChangeLocale(language.code, language.icon_code)"
+                @click.prevent="
+                  () => {
+                    // changeI18nAndResetErrorMessage(language.code, language.icon_code);
+                    i18nStore.i18nChangeLocale(language.code, language.icon_code);
+                  }
+                "
                 >{{ language.text }}<span :class="`fi fi-${language.icon_code}`"></span
               ></a>
             </li>
           </ul>
         </div>
         <div class="modal-body">
-          <div>
-            <span class="text-danger">*</span>需要設置其他語系產品，請選擇上述語系分頁進行新增
-          </div>
-          <hr />
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="mb-2">
-                <div class="mb-3">
-                  <label for="imageUrl" class="form-label"
-                    ><span class="text-danger">*</span>輸入主圖片網址
-                  </label>
-                  <input
+          <Form
+            @submit="onSubmit"
+            v-slot="{ validate, values, errors, isSubmitting, meta, handleReset }"
+            :validation-schema="schema"
+            @click="console.log('qweqwe')"
+          >
+            {{ errors }}
+            <div>
+              <span class="text-danger">*</span>需要設置其他語系產品，請選擇上述語系分頁進行新增
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-4">
+                <!-- <div class="mb-3">
+                    <label for="imageUrl" class="form-label"
+                      ><span class="text-danger">*</span>輸入主圖片網址
+                    </label>
+                    <input
+                      id="imageUrl"
+                      type="text"
+                      class="form-control"
+                      placeholder="請輸入主圖片連結"
+                      v-model="mainPicture"
+                      v-bind="mainPictureAttrs"
+                    />
+                    <div>{{ errors.imageUrl }}</div>
+                  </div> -->
+                <div>
+                  <label for="imageUrl" class="form-label fs-5">輸入主圖片網址</label>
+                  <Field
+                    name="imageUrl"
                     id="imageUrl"
-                    type="text"
                     class="form-control"
                     placeholder="請輸入主圖片連結"
-                    v-if="tempData[i18nStore.currentIcon].imageUrl"
-                    v-model="tempData[i18nStore.currentIcon].imageUrl"
+                    type="text"
+                  />
+                  <span>{{ errors.imageUrl }}</span>
+                </div>
+                <div class="input-group mb-3">
+                  <label for="imageUrlFile" class="form-label w-100">或 上傳主圖片</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    name="file-to-upload"
+                    ref="imgUpload"
+                    id="imageUrlFile"
+                  />
+
+                  <input
+                    class="input-group-text"
+                    type="button"
+                    value="上傳圖片"
+                    @click="uploadImg"
                   />
                 </div>
-              </div>
-              <div class="input-group mb-3">
-                <label for="imageUrlFile" class="form-label w-100">或 上傳主圖片</label>
-                <input
-                  class="form-control"
-                  type="file"
-                  name="file-to-upload"
-                  ref="imgUpload"
-                  id="imageUrlFile"
-                />
-
-                <input class="input-group-text" type="button" value="上傳圖片" @click="uploadImg" />
-              </div>
-              <div class="input-group mb-3">
-                <label class="form-label w-100">輸入其他圖片(共五張)</label>
-                <input
-                  type="text"
-                  class="form-control w-100"
-                  v-for="(item, index) in tempData[i18nStore.currentIcon].imagesUrl"
-                  :key="index"
-                  v-model="tempData[i18nStore.currentIcon].imagesUrl[index]"
-                  :placeholder="`【${index + 1}】 請輸入url格式`"
-                />
-              </div>
-              <!-- 主圖片預覽 -->
-              <div v-if="tempData[i18nStore.currentIcon].imageUrl">
-                <h5 class="mb-0 mt-2 fw-bolder">主圖片預覽：</h5>
-                <img
-                  class="img-fluid border border-2"
-                  :src="tempData[i18nStore.currentIcon].imageUrl"
-                  alt=""
-                />
-              </div>
-              <!-- 讓其他五張圖片依序可以預覽 -->
-              <div v-for="(img, index) in tempData[i18nStore.currentIcon].imagesUrl" :key="index">
-                <div v-if="tempData[i18nStore.currentIcon].imagesUrl[index]">
-                  <p class="mb-0 mt-2">其他圖片 {{ index + 1 }} 預覽：</p>
+                <div class="input-group mb-3">
+                  <label class="form-label w-100">輸入其他圖片(共五張)</label>
+                  <input
+                    type="text"
+                    class="form-control w-100"
+                    v-for="(item, index) in tempData[i18nStore.currentIcon].imagesUrl"
+                    :key="index"
+                    v-model="tempData[i18nStore.currentIcon].imagesUrl[index]"
+                    :placeholder="`【${index + 1}】 請輸入url格式`"
+                  />
+                </div>
+                <!-- 主圖片預覽 -->
+                <div v-if="tempData[i18nStore.currentIcon].imageUrl">
+                  <h5 class="mb-0 mt-2 fw-bolder">主圖片預覽：</h5>
                   <img
                     class="img-fluid border border-2"
-                    :src="tempData[i18nStore.currentIcon].imagesUrl[index]"
+                    :src="tempData[i18nStore.currentIcon].imageUrl"
                     alt=""
                   />
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-8">
-              <div class="mb-3">
-                <label for="title" class="form-label"
-                  ><span class="text-danger">*</span>商品名稱</label
-                >
-                <input
-                  id="title"
-                  type="text"
-                  class="form-control"
-                  placeholder="請輸入商品名稱"
-                  v-model="tempData[i18nStore.currentIcon].title"
-                />
-              </div>
-
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label"
-                    ><span class="text-danger">*</span>主類型</label
-                  >
-
-                  <select
-                    id="category"
-                    class="form-select form-select-sm"
-                    v-model="tempData[i18nStore.currentIcon].category"
-                  >
-                    <option value="" selected disabled>請選擇主類型</option>
-                    <option
-                      :value="category.text"
-                      v-for="category in categoryList"
-                      :key="category.id"
-                    >
-                      {{ category.text }}
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="subcategory" class="form-label"
-                    ><span class="text-danger">*</span>子類型</label
-                  >
-                  <select
-                    id="category"
-                    class="form-select form-select-sm"
-                    v-model="tempData[i18nStore.currentIcon].subcategory"
-                  >
-                    <option value="" selected disabled v-if="!tempData.subcategory">
-                      請選擇子類型
-                    </option>
-                    <option
-                      v-for="subcategory in filterCategory"
-                      :key="subcategory.id"
-                      :value="subcategory.text"
-                    >
-                      {{ subcategory.text }}
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="unit" class="form-label"
-                    ><span class="text-danger">*</span>單位</label
-                  >
-                  <input
-                    id="unit"
-                    type="text"
-                    class="form-control"
-                    placeholder="請輸入單位"
-                    v-model="tempData[i18nStore.currentIcon].unit"
-                  />
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="origin_price" class="form-label"
-                    ><span class="text-danger">*</span>原價</label
-                  >
-                  <input
-                    id="origin_price"
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入原價"
-                    v-model.number="tempData[i18nStore.currentIcon].origin_price"
-                  />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label"
-                    ><span class="text-danger">*</span>售價</label
-                  >
-                  <input
-                    id="price"
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入售價"
-                    v-model.number="tempData[i18nStore.currentIcon].price"
-                  />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="dimensions" class="form-label"
-                    ><span class="text-danger">*</span>產品規格 [長、寬、高] cm</label
-                  >
-                  <input
-                    id="dimensions"
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入商品長度+單位(cm)"
-                    v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
-                    v-model.number="tempData[i18nStore.currentIcon].dimensions.length"
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入商品寬+單位(cm)"
-                    v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
-                    v-model.number="tempData[i18nStore.currentIcon].dimensions.width"
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入商品高度+單位(cm)"
-                    v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
-                    v-model.number="tempData[i18nStore.currentIcon].dimensions.height"
-                  />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="colors" class="form-label"
-                    ><span class="text-danger">*</span>產品顏色 [中文名稱|色碼 #rrggbb|顏色預覽]
-                    <br />
-                    <span class="text-danger">*</span>最少設定一組，最多三組</label
-                  >
-                  <div
-                    class="input-group"
-                    v-for="(color, index) in tempData[i18nStore.currentIcon].colors"
-                    :key="index"
-                  >
-                    <input
-                      id="colors"
-                      type="text"
-                      class="form-control d-inline-block w-25"
-                      placeholder="顏色名稱(中文)"
-                      v-model="color.title"
+                <!-- 讓其他五張圖片依序可以預覽 -->
+                <div v-for="(img, index) in tempData[i18nStore.currentIcon].imagesUrl" :key="index">
+                  <div v-if="tempData[i18nStore.currentIcon].imagesUrl[index]">
+                    <p class="mb-0 mt-2">其他圖片 {{ index + 1 }} 預覽：</p>
+                    <img
+                      class="img-fluid border border-2"
+                      :src="tempData[i18nStore.currentIcon].imagesUrl[index]"
+                      alt=""
                     />
-                    <input
-                      type="text"
-                      class="form-control d-inline-block w-50"
-                      placeholder="顏色色碼 #rrggbb"
-                      v-model="color.code"
-                    />
-                    <div
-                      class="border border-2 w-25 p2"
-                      :style="{ backgroundColor: color.code ? color.code : '' }"
-                    ></div>
                   </div>
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="description" class="form-label"
-                  ><span class="text-danger">*</span>產品描述</label
-                >
-                <textarea
-                  id="description"
-                  type="text"
-                  class="form-control"
-                  placeholder="請輸入產品描述"
-                  v-model="tempData[i18nStore.currentIcon].description"
-                >
-                </textarea>
-              </div>
-              <div class="mb-3">
-                <label for="content" class="form-label"
-                  ><span class="text-danger">*</span>說明內容</label
-                >
-                <textarea
-                  id="content"
-                  type="text"
-                  class="form-control"
-                  placeholder="請輸入說明內容"
-                  v-model="tempData[i18nStore.currentIcon].content"
-                >
-                </textarea>
-              </div>
-              <div class="mb-3">
-                <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品標籤設定</h5>
-                <div class="form-check d-inline-block">
-                  <label class="form-check-label" for="isNew">新品(New)</label>
+              <div class="col-sm-8">
+                <div class="mb-3">
+                  <label for="title" class="form-label"
+                    ><span class="text-danger">*</span>商品名稱</label
+                  >
                   <input
-                    id="isNew"
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="tempData[i18nStore.currentIcon].isNew"
-                    :checked="tempData[i18nStore.currentIcon].isNew"
+                    id="title"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入商品名稱"
+                    v-model="tempData[i18nStore.currentIcon].title"
                   />
                 </div>
-                <div class="form-check d-inline-block ms-4">
-                  <label class="form-check-label" for="isOnHot">熱門(Hot)</label>
-                  <input
-                    id="isOnHot"
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="tempData[i18nStore.currentIcon].isOnHot"
-                    :checked="tempData[i18nStore.currentIcon].isOnHot"
-                  />
+
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label for="category" class="form-label"
+                      ><span class="text-danger">*</span>主類型</label
+                    >
+
+                    <select
+                      id="category"
+                      class="form-select form-select-sm"
+                      v-model="tempData[i18nStore.currentIcon].category"
+                    >
+                      <option value="" selected disabled>請選擇主類型</option>
+                      <option
+                        :value="category.text"
+                        v-for="category in categoryList"
+                        :key="category.id"
+                      >
+                        {{ category.text }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="subcategory" class="form-label"
+                      ><span class="text-danger">*</span>子類型</label
+                    >
+                    <select
+                      id="category"
+                      class="form-select form-select-sm"
+                      v-model="tempData[i18nStore.currentIcon].subcategory"
+                    >
+                      <option value="" selected disabled v-if="!tempData.subcategory">
+                        請選擇子類型
+                      </option>
+                      <option
+                        v-for="subcategory in filterCategory"
+                        :key="subcategory.id"
+                        :value="subcategory.text"
+                      >
+                        {{ subcategory.text }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="unit" class="form-label"
+                      ><span class="text-danger">*</span>單位</label
+                    >
+                    <input
+                      id="unit"
+                      type="text"
+                      class="form-control"
+                      placeholder="請輸入單位"
+                      v-model="tempData[i18nStore.currentIcon].unit"
+                    />
+                  </div>
                 </div>
-                <div class="form-check d-inline-block ms-4">
-                  <label class="form-check-label" for="isRecommended">推薦(Recommended)</label>
-                  <input
-                    id="isRecommended"
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="tempData[i18nStore.currentIcon].isRecommended"
-                    :checked="tempData[i18nStore.currentIcon].isRecommended"
-                  />
+
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label for="origin_price" class="form-label"
+                      ><span class="text-danger">*</span>原價</label
+                    >
+                    <input
+                      id="origin_price"
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      placeholder="請輸入原價"
+                      v-model.number="tempData[i18nStore.currentIcon].origin_price"
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="price" class="form-label"
+                      ><span class="text-danger">*</span>售價</label
+                    >
+                    <input
+                      id="price"
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      placeholder="請輸入售價"
+                      v-model.number="tempData[i18nStore.currentIcon].price"
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="dimensions" class="form-label"
+                      ><span class="text-danger">*</span>產品規格 [長、寬、高] cm</label
+                    >
+                    <input
+                      id="dimensions"
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      placeholder="請輸入商品長度+單位(cm)"
+                      v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
+                      v-model.number="tempData[i18nStore.currentIcon].dimensions.length"
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      placeholder="請輸入商品寬+單位(cm)"
+                      v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
+                      v-model.number="tempData[i18nStore.currentIcon].dimensions.width"
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      placeholder="請輸入商品高度+單位(cm)"
+                      v-if="tempData && tempData[i18nStore.currentIcon].dimensions"
+                      v-model.number="tempData[i18nStore.currentIcon].dimensions.height"
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="colors" class="form-label"
+                      ><span class="text-danger">*</span>產品顏色 [中文名稱|色碼 #rrggbb|顏色預覽]
+                      <br />
+                      <span class="text-danger">*</span>最少設定一組，最多三組</label
+                    >
+                    <div
+                      class="input-group"
+                      v-for="(color, index) in tempData[i18nStore.currentIcon].colors"
+                      :key="index"
+                    >
+                      <input
+                        id="colors"
+                        type="text"
+                        class="form-control d-inline-block w-25"
+                        placeholder="顏色名稱(中文)"
+                        v-model="color.title"
+                      />
+                      <input
+                        type="text"
+                        class="form-control d-inline-block w-50"
+                        placeholder="顏色色碼 #rrggbb"
+                        v-model="color.code"
+                      />
+                      <div
+                        class="border border-2 w-25 p2"
+                        :style="{ backgroundColor: color.code ? color.code : '' }"
+                      ></div>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-check d-inline-block ms-4">
-                  <label class="form-check-label" for="isOnSale">特價(Sale)</label>
-                  <input
-                    id="isOnSale"
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="tempData[i18nStore.currentIcon].isOnSale"
-                    :checked="tempData[i18nStore.currentIcon].isOnSale"
-                  />
+                <div class="mb-3">
+                  <label for="description" class="form-label"
+                    ><span class="text-danger">*</span>產品描述</label
+                  >
+                  <textarea
+                    id="description"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入產品描述"
+                    v-model="tempData[i18nStore.currentIcon].description"
+                  >
+                  </textarea>
                 </div>
-              </div>
-              <hr />
-              <div class="mb-3">
-                <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品開啟狀態</h5>
-                <div class="form-check">
-                  <input
-                    id="is_enabled"
-                    class="form-check-input"
-                    type="checkbox"
-                    :true-value="1"
-                    :false-value="0"
-                    v-model="tempData[i18nStore.currentIcon].is_enabled"
-                  />
-                  <label class="form-check-label" for="is_enabled">是否啟用</label>
+                <div class="mb-3">
+                  <label for="content" class="form-label"
+                    ><span class="text-danger">*</span>說明內容</label
+                  >
+                  <textarea
+                    id="content"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入說明內容"
+                    v-model="tempData[i18nStore.currentIcon].content"
+                  >
+                  </textarea>
+                </div>
+                <div class="mb-3">
+                  <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品標籤設定</h5>
+                  <div class="form-check d-inline-block">
+                    <label class="form-check-label" for="isNew">新品(New)</label>
+                    <input
+                      id="isNew"
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="tempData[i18nStore.currentIcon].isNew"
+                      :checked="tempData[i18nStore.currentIcon].isNew"
+                    />
+                  </div>
+                  <div class="form-check d-inline-block ms-4">
+                    <label class="form-check-label" for="isOnHot">熱門(Hot)</label>
+                    <input
+                      id="isOnHot"
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="tempData[i18nStore.currentIcon].isOnHot"
+                      :checked="tempData[i18nStore.currentIcon].isOnHot"
+                    />
+                  </div>
+                  <div class="form-check d-inline-block ms-4">
+                    <label class="form-check-label" for="isRecommended">推薦(Recommended)</label>
+                    <input
+                      id="isRecommended"
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="tempData[i18nStore.currentIcon].isRecommended"
+                      :checked="tempData[i18nStore.currentIcon].isRecommended"
+                    />
+                  </div>
+                  <div class="form-check d-inline-block ms-4">
+                    <label class="form-check-label" for="isOnSale">特價(Sale)</label>
+                    <input
+                      id="isOnSale"
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="tempData[i18nStore.currentIcon].isOnSale"
+                      :checked="tempData[i18nStore.currentIcon].isOnSale"
+                    />
+                  </div>
+                </div>
+                <hr />
+                <div class="mb-3">
+                  <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品開啟狀態</h5>
+                  <div class="form-check">
+                    <input
+                      id="is_enabled"
+                      class="form-check-input"
+                      type="checkbox"
+                      :true-value="1"
+                      :false-value="0"
+                      v-model="tempData[i18nStore.currentIcon].is_enabled"
+                    />
+                    <label class="form-check-label" for="is_enabled">是否啟用</label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" @click="closeModal">取消</button>
-          <button type="button" class="btn btn-primary text-white px-5" @click="addOrPutProduct()">
-            {{ tempData[i18nStore.currentIcon].id ? '儲存' : '新增' }}
-          </button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" @click="closeModal">
+                取消
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary text-white px-5"
+                :disabled="isSubmitting && meta.valid && meta.touched"
+              >
+                <!-- 新增 !meta.valid 當表單未驗證通過就無法送出請求 -->
+                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+              </button>
+            </div>
+          </Form>
         </div>
       </div>
     </div>
+    {{ props.tempData }}
   </div>
 </template>
 
 <script setup>
 // eslint-disable-next-line object-curly-newline
-import { ref, onMounted, onUnmounted, computed, watchEffect } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watchEffect, watch } from 'vue';
 import { Modal } from 'bootstrap';
 import { useI18n } from 'vue-i18n';
+import axios from 'axios';
+import { Form, Field, useForm } from 'vee-validate';
 
 import useLoadingStore from '@/stores/loadingStores';
 import useI18nStore from '@/stores/i18nStores';
-import axios from 'axios';
 
 const loadingStores = useLoadingStore();
 const bsModalRef = ref(null);
 const bsModalInstance = ref(null); // 實體存放區
 const i18nStore = useI18nStore();
+
+const schema = {
+  tw: {
+    imageUrl: { required: true },
+  },
+};
+const props = defineProps({
+  tempData: Object,
+});
+
+const { validate, values } = useForm({ validationSchema: schema, values: props.tempData });
+
 const { t } = useI18n();
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
+
+// 設定規則 (如果input沒有設置一樣就會無法送出 submit)
+// const schema = {
+//   imageUrl: 'required',
+// };
+
+// 處理表單送出的驗證
+// const onSubmit = handleSubmit(
+//   (values) =>
+//     // Simulates a 2 second delay
+//     new Promise((resolve) => {
+//       setTimeout(() => {
+//         console.log('Submitted', JSON.stringify(values, null, 2));
+//         resolve();
+//       }, 2000);
+//     }),
+// );
+async function onSubmit(values, actions) {
+  const { isValid } = await validate(); // 执行表单验证
+
+  if (isValid) {
+    console.log(values); // 这里是提交的表单数据
+    // 在这里执行表单提交的逻辑
+  } else {
+    console.log('Form validation failed');
+    // 可以根据需要处理验证失败的情况
+  }
+}
+// const changeI18nAndResetErrorMessage = async (code, iconCode) => {
+//   i18nStore.i18nChangeLocale(code, iconCode);
+
+//   // 首先清除错误消息
+//   errors.value.imageUrl = [];
+
+//   // 手动触发验证
+//   const isValid = await validate();
+
+//   if (isValid) {
+//     // 处理表单提交逻辑
+//     console.log('isValid', isValid);
+//   }
+// };
 
 const tempData = ref({
   // 因 api 格式要求，所以必須要有以下欄位，故不填寫任何資料

@@ -1,8 +1,16 @@
 import { defineRule, configure } from 'vee-validate';
 import * as AllRules from '@vee-validate/rules';
+import { ref } from 'vue';
 
 import { localize, setLocale } from '@vee-validate/i18n';
+// eslint-disable-next-line camelcase
 import zh_TW from '@vee-validate/i18n/dist/locale/zh_TW.json';
+import en from '@vee-validate/i18n/dist/locale/en.json';
+import ja from '@vee-validate/i18n/dist/locale/ja.json';
+import ko from '@vee-validate/i18n/dist/locale/ko.json';
+import th from '@vee-validate/i18n/dist/locale/th.json';
+import * as yup from 'yup';
+
 // 全域啟用 rules 規則
 Object.keys(AllRules).forEach((rule) => {
   defineRule(rule, AllRules[rule]);
@@ -55,15 +63,47 @@ defineRule('tw-address', (value) => {
 configure({
   // 設定加載語言
   generateMessage: localize({
+    // eslint-disable-next-line camelcase
     zh_TW,
+    en,
+    ja,
+    ko,
+    th,
   }),
   validateOnBlur: false, // 輸入框聚焦時驗證
   validateOnChange: false, // 輸入時進行驗證
   validateOnInput: true, // 輸入時進行驗證
   validateOnModelUpdate: false, // 控制 update:modelValue 觸發 change 時驗證
 });
-setLocale('zh_TW'); // 設定預設語言
 
+// 用來動態切換 vee-validate 的語言設定
+let local;
+function fetchLocal() {
+  const newLocal = localStorage.getItem('locale');
+  if (newLocal === 'zh-TW') {
+    local = 'zh_TW';
+  } else if (newLocal === 'jp') {
+    local = 'ja';
+  } else if (newLocal) {
+    local = newLocal;
+  } else {
+    local = 'zh_TW'; // 預設值
+  }
+}
+function setVeeValidateLocale(locale) {
+  localize(locale);
+}
+
+fetchLocal();
+console.log(';local', local);
+setLocale(local); // 設定預設語言
+
+export function changeVeeValidateLocale() {
+  fetchLocal();
+  setVeeValidateLocale(local); // 更新 vee-validate 的語言設定
+}
+
+// eslint-disable-next-line import/prefer-default-export
 export function setupVeeValidate(app) {
-  // 這裡可以註冊全局組件或進行其他配置
+  // 這裡可以進行進一步的設定或插件註冊
 }
