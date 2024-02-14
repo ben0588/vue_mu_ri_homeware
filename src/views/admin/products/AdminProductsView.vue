@@ -54,7 +54,7 @@
         </tr>
       </tbody>
     </table>
-    <AdminProductsModal ref="adminProductsModal"></AdminProductsModal>
+    <AdminProductsModal ref="adminProductsModal" :typeName="typeName"></AdminProductsModal>
   </div>
 </template>
 
@@ -79,9 +79,15 @@ const LoadingStore = useLoadingStore();
 
 const adminProducts = ref([]);
 const adminPagination = ref([]);
+const typeName = ref('新增');
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (type, data) => {
+  if (type === 'create') {
+    typeName.value = '新增';
+  } else {
+    typeName.value = '編輯';
+  }
   adminProductsModal.value.openModal(type, data);
 };
 
