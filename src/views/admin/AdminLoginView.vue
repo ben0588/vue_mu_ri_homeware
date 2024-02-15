@@ -61,10 +61,7 @@ const router = useRouter();
 
 const { t } = useI18n();
 
-const adminData = ref({
-  username: '',
-  password: '',
-});
+const adminData = ref({});
 
 const adminLogin = async () => {
   try {

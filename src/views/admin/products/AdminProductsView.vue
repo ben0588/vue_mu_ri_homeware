@@ -28,7 +28,7 @@
       <tbody>
         <tr v-for="product in adminProducts" :key="product.id">
           <th>{{ product.id }}</th>
-          <td>{{ product[i18nStore.currentIcon].crate_date }}</td>
+          <td>{{ product[i18nStore.currentIcon].title }}</td>
           <td>{{ product[i18nStore.currentIcon].category }}</td>
           <td>{{ product[i18nStore.currentIcon].category }}</td>
           <td>{{ product[i18nStore.currentIcon].price }}</td>
@@ -47,7 +47,12 @@
               {{ t('admin.products_edit_text') }}
             </button>
             <!-- 要注意 id 這邊是因為 api 規格最外層的 id，刪除產品是用這個 id -->
-            <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product.id)">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              @click="deleteProduct(product.id)"
+              :disabled="deleteLoading"
+            >
               {{ t('admin.products_delete_text') }}
             </button>
           </td>
@@ -68,6 +73,7 @@ import useLoadingStore from '@/stores/loadingStores';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import Swal from 'sweetalert2';
 
 import { useAlert } from '@/composables/useAlert';
 import AdminProductsModal from '@/components/admin/products/AdminProductsModal.vue';
@@ -84,6 +90,7 @@ const LoadingStore = useLoadingStore();
 const adminProducts = ref([]);
 const adminPagination = ref([]);
 const typeName = ref('新增');
+const deleteLoading = ref(false);
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (type, data) => {
@@ -125,14 +132,59 @@ const fetchAdminProducts = async () => {
 
 const deleteProduct = async (id) => {
   try {
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/product/${id}`;
-    const response = await axios.delete(api);
-    console.log('delete res', response);
-    if (response.data.success) {
-      fetchAdminProducts();
-    }
+    deleteLoading.value = true;
+    showAlert({
+      title: '刪除商品?',
+      text: '刪除時會將所有語系的資料清除 (無法復原)',
+      icon: 'question',
+      confirmButtonColor: '#111c30',
+      cancelButtonColor: '#b2bec3',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
+      showCancelButton: true,
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          const api = `${baseApiUrl}/v2/api/${apiPath}/admin/product/${id}`;
+          const response = await axios.delete(api);
+          return response;
+        } catch (error) {
+          return error;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result?.value?.data?.success) {
+        showAlert({
+          position: 'top-end',
+          title: `${result.value.data.message} | ${t('admin.message_success')}`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        setTimeout(() => {
+          fetchAdminProducts();
+        }, 1000);
+      } else if (!result?.value?.response?.data?.success) {
+        showAlert({
+          title: `${result?.value?.response?.data.message} | ${t('admin.message_error')}`,
+          icon: 'error',
+          confirmButtonText: `${t('admin.message_confirm_text')}`,
+          confirmButtonColor: '#000000',
+        });
+      }
+    });
   } catch (error) {
-    console.log('error', error);
+    showAlert({
+      title: `${error.response.data.message} | ${t('admin.message_error')}`,
+      icon: 'error',
+      confirmButtonText: `${t('admin.message_confirm_text')}`,
+      confirmButtonColor: '#000000',
+    });
+  } finally {
+    deleteLoading.value = false;
   }
 };
 
