@@ -32,6 +32,8 @@
   "admin.products_off_enabled": "未啟用",
   "admin.products_edit_text": "編輯",
   "admin.products_delete_text": "刪除",
+  "admin.products_delete_title": "刪除商品?",
+  "admin.products_delete_confirm_text": "刪除時會將所有語系的資料清除 (無法復原)",
   "admin.products_create_text": "新增商品",
   "admin.products_cancel_text": "取消",
   "admin.products_create_title": "新增",

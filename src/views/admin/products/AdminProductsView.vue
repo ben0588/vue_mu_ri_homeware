@@ -134,13 +134,13 @@ const deleteProduct = async (id) => {
   try {
     deleteLoading.value = true;
     showAlert({
-      title: '刪除商品?',
-      text: '刪除時會將所有語系的資料清除 (無法復原)',
+      title: t('admin.products_delete_title'),
+      text: t('admin.products_delete_confirm_text'),
       icon: 'question',
       confirmButtonColor: '#111c30',
       cancelButtonColor: '#b2bec3',
-      confirmButtonText: '確認',
-      cancelButtonText: '取消',
+      confirmButtonText: t('admin.message_confirm_text'),
+      cancelButtonText: t('admin.products_cancel_text'),
       showCancelButton: true,
       showCloseButton: true,
       showLoaderOnConfirm: true,

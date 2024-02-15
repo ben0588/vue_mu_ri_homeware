@@ -39,6 +39,8 @@
   "admin.products_adding_text": "กำลังเพิ่ม",
   "admin.products_keep_text": "บันทึก",
   "admin.products_keeping_text": "กำลังบันทึก",
+  "admin.products_delete_title": "ลบสินค้าหรือไม่?",
+  "admin.products_delete_confirm_text": "การลบจะล้างข้อมูลในทุกภาษา (ไม่สามารถย้อนกลับได้)",
   "admin.products_modal_current_language": "ภาษาสินค้า",
   "admin.products_modal_illustrate_message": "เพื่อตั้งค่าสินค้าในภาษาอื่น ๆ โปรดเลือกแท็บภาษาด้านบนสำหรับการเพิ่ม",
   "admin.products_modal_middle_url_img": "ป้อน URL รูปภาพหลัก",

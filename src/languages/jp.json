@@ -39,6 +39,8 @@
   "admin.products_adding_text": "追加中",
   "admin.products_keep_text": "保存",
   "admin.products_keeping_text": "保存中",
+  "admin.products_delete_title": "商品を削除しますか？",
+  "admin.products_delete_confirm_text": "削除すると、すべての言語のデータが消去されます（元に戻すことはできません）",
   "admin.products_modal_current_language": "商品言語",
   "admin.products_modal_illustrate_message": "他の言語の商品を設定するには、上記の言語タブを選択して追加してください。",
   "admin.products_modal_middle_url_img": "メイン画像のURLを入力",

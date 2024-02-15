@@ -39,6 +39,8 @@
   "admin.products_adding_text": "Adding",
   "admin.products_keep_text": "Save",
   "admin.products_keeping_text": "Saving",
+  "admin.products_delete_title": "Delete Product?",
+  "admin.products_delete_confirm_text": "Deleting will clear all data in all languages (cannot be undone)",
   "admin.products_modal_current_language": "Product Language",
   "admin.products_modal_illustrate_message": "To set products in other languages, please select the above language tabs for addition.",
   "admin.products_modal_middle_url_img": "Enter Main Image URL",
