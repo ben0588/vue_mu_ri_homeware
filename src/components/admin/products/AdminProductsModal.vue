@@ -1,3 +1,4 @@
+<!-- eslint-disable max-len -->
 <template>
   <div
     class="modal fade"
@@ -11,7 +12,7 @@
         <div class="modal-header bg-dark text-white">
           <h5 id="productModalLabel" class="modal-title">
             <span>{{
-              newTempData.id
+              newTempData?.id
                 ? // eslint-disable-next-line max-len
                   `${t('admin.products_delete_text')}
                   [${t('admin.products_modal_current_language')}：${i18nStore.currentLocale}]`
@@ -192,25 +193,26 @@
                   </div>
                   <div class="mb-3 col-md-6">
                     <label for="unit" class="form-label"
-                      ><span class="text-danger">*</span>單位</label
+                      ><span class="text-danger">*</span>{{ t('admin.products_modal_unit') }}</label
                     >
                     <input
                       id="unit"
                       type="text"
                       class="form-control"
-                      placeholder="請輸入單位"
+                      :placeholder="t('admin.products_modal_unit_placeholder')"
                       v-model="newTempData[i18nStore.currentIcon].unit"
                     />
                   </div>
                   <div class="mb-3 col-md-6">
                     <label for="stock" class="form-label"
-                      ><span class="text-danger">*</span>庫存數量</label
+                      ><span class="text-danger">*</span
+                      >{{ t('admin.products_modal_stock') }}</label
                     >
                     <input
                       id="stock"
                       type="text"
                       class="form-control"
-                      placeholder="請輸入庫存數量"
+                      :placeholder="t('admin.products_modal_stock_placeholder')"
                       v-model.number="newTempData[i18nStore.currentIcon].stock"
                     />
                   </div>
@@ -219,40 +221,43 @@
                 <div class="row">
                   <div class="mb-3 col-md-6">
                     <label for="origin_price" class="form-label"
-                      ><span class="text-danger">*</span>原價</label
+                      ><span class="text-danger">*</span
+                      >{{ t('admin.products_modal_origin_price') }}</label
                     >
                     <input
                       id="origin_price"
                       type="number"
                       min="0"
                       class="form-control"
-                      placeholder="請輸入原價"
+                      :placeholder="t('admin.products_modal_origin_price_placeholder')"
                       v-model.number="newTempData[i18nStore.currentIcon].origin_price"
                     />
                   </div>
                   <div class="mb-3 col-md-6">
                     <label for="price" class="form-label"
-                      ><span class="text-danger">*</span>售價</label
+                      ><span class="text-danger">*</span
+                      >{{ t('admin.products_modal_price') }}</label
                     >
                     <input
                       id="price"
                       type="number"
                       min="0"
                       class="form-control"
-                      placeholder="請輸入售價"
+                      :placeholder="t('admin.products_modal_price_placeholder')"
                       v-model.number="newTempData[i18nStore.currentIcon].price"
                     />
                   </div>
                   <div class="mb-3 col-md-6">
                     <label for="dimensions" class="form-label"
-                      ><span class="text-danger">*</span>產品規格 [長、寬、高] cm</label
+                      ><span class="text-danger">*</span
+                      >{{ t('admin.products_modal_dimensions') }}</label
                     >
                     <input
                       id="dimensions"
                       type="number"
                       min="0"
                       class="form-control"
-                      placeholder="請輸入商品長度+單位(cm)"
+                      :placeholder="t('admin.products_modal_dimensions_length')"
                       v-if="newTempData && newTempData[i18nStore.currentIcon].dimensions"
                       v-model.number="newTempData[i18nStore.currentIcon].dimensions.length"
                     />
@@ -260,7 +265,7 @@
                       type="number"
                       min="0"
                       class="form-control"
-                      placeholder="請輸入商品寬+單位(cm)"
+                      :placeholder="t('admin.products_modal_dimensions_width')"
                       v-if="newTempData && newTempData[i18nStore.currentIcon].dimensions"
                       v-model.number="newTempData[i18nStore.currentIcon].dimensions.width"
                     />
@@ -268,16 +273,17 @@
                       type="number"
                       min="0"
                       class="form-control"
-                      placeholder="請輸入商品高度+單位(cm)"
+                      :placeholder="t('admin.products_modal_dimensions_height')"
                       v-if="newTempData && newTempData[i18nStore.currentIcon].dimensions"
                       v-model.number="newTempData[i18nStore.currentIcon].dimensions.height"
                     />
                   </div>
                   <div class="mb-3 col-md-6">
                     <label for="colors" class="form-label"
-                      ><span class="text-danger">*</span>產品顏色 [中文名稱|色碼 #rrggbb|顏色預覽]
+                      ><span class="text-danger">*</span>{{ t('admin.products_modal_colors') }}
                       <br />
-                      <span class="text-danger">*</span>最少設定一組，最多三組</label
+                      <span class="text-danger">*</span
+                      >{{ t('admin.products_modal_colors_subtitle') }}</label
                     >
                     <div
                       class="input-group"
@@ -287,13 +293,13 @@
                       <input
                         type="text"
                         class="form-control d-inline-block w-25"
-                        placeholder="顏色名稱(中文)"
+                        :placeholder="t('admin.products_modal_color_name')"
                         v-model="color.title"
                       />
                       <input
                         type="text"
                         class="form-control d-inline-block w-50"
-                        placeholder="顏色色碼 #rrggbb"
+                        :placeholder="t('admin.products_modal_color_code')"
                         v-model="color.code"
                       />
                       <div
@@ -305,34 +311,40 @@
                 </div>
                 <div class="mb-3">
                   <label for="description" class="form-label"
-                    ><span class="text-danger">*</span>產品描述</label
+                    ><span class="text-danger">*</span
+                    >{{ t('admin.products_modal_description') }}</label
                   >
                   <textarea
                     id="description"
                     type="text"
                     class="form-control"
-                    placeholder="請輸入產品描述"
+                    :placeholder="t('admin.products_modal_description_placeholder')"
                     v-model="newTempData[i18nStore.currentIcon].description"
                   >
                   </textarea>
                 </div>
                 <div class="mb-3">
                   <label for="content" class="form-label"
-                    ><span class="text-danger">*</span>產品說明內容</label
+                    ><span class="text-danger">*</span
+                    >{{ t('admin.products_modal_content') }}</label
                   >
                   <textarea
                     id="content"
                     type="text"
                     class="form-control"
-                    placeholder="請輸入產品說明內容"
+                    :placeholder="t('admin.products_modal_content_placeholder')"
                     v-model="newTempData[i18nStore.currentIcon].content"
                   >
                   </textarea>
                 </div>
                 <div class="mb-3">
-                  <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品標籤設定</h5>
+                  <h5 class="fw-bolder fs-6">
+                    <span class="text-danger">*</span>{{ t('admin.products_modal_tag') }}
+                  </h5>
                   <div class="form-check d-inline-block">
-                    <label class="form-check-label" for="isNew">新品(New)</label>
+                    <label class="form-check-label" for="isNew">{{
+                      t('admin.products_modal_tag_new')
+                    }}</label>
                     <input
                       id="isNew"
                       class="form-check-input"
@@ -342,7 +354,9 @@
                     />
                   </div>
                   <div class="form-check d-inline-block ms-4">
-                    <label class="form-check-label" for="isOnHot">熱門(Hot)</label>
+                    <label class="form-check-label" for="isOnHot">{{
+                      t('admin.products_modal_tag_hot')
+                    }}</label>
                     <input
                       id="isOnHot"
                       class="form-check-input"
@@ -352,7 +366,9 @@
                     />
                   </div>
                   <div class="form-check d-inline-block ms-4">
-                    <label class="form-check-label" for="isRecommended">推薦(Recommended)</label>
+                    <label class="form-check-label" for="isRecommended">{{
+                      t('admin.products_modal_tag_recommended')
+                    }}</label>
                     <input
                       id="isRecommended"
                       class="form-check-input"
@@ -362,7 +378,9 @@
                     />
                   </div>
                   <div class="form-check d-inline-block ms-4">
-                    <label class="form-check-label" for="isOnSale">特價(Sale)</label>
+                    <label class="form-check-label" for="isOnSale">{{
+                      t('admin.products_modal_tag_sale')
+                    }}</label>
                     <input
                       id="isOnSale"
                       class="form-check-input"
@@ -374,7 +392,10 @@
                 </div>
                 <hr />
                 <div class="mb-3">
-                  <h5 class="fw-bolder fs-6"><span class="text-danger">*</span>商品開啟狀態</h5>
+                  <h5 class="fw-bolder fs-6">
+                    <span class="text-danger">*</span
+                    >{{ t('admin.products_modal_is_enabled_state') }}
+                  </h5>
                   <div class="form-check">
                     <input
                       id="is_enabled"
@@ -384,14 +405,16 @@
                       :false-value="0"
                       v-model="newTempData[i18nStore.currentIcon].is_enabled"
                     />
-                    <label class="form-check-label" for="is_enabled">是否啟用</label>
+                    <label class="form-check-label" for="is_enabled">{{
+                      t('admin.products_modal_is_enabled_checkbox')
+                    }}</label>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-secondary" @click="closeModal">
-                取消
+                {{ t('admin.products_cancel_text') }}
               </button>
               <button
                 type="submit"
@@ -422,6 +445,7 @@ import axios from 'axios';
 
 import useLoadingStore from '@/stores/loadingStores';
 import useI18nStore from '@/stores/i18nStores';
+import { useAlert } from '@/composables/useAlert';
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
@@ -430,10 +454,13 @@ const bsModalRef = ref(null);
 const bsModalInstance = ref(null); // 實體存放區
 const i18nStore = useI18nStore();
 const { t } = useI18n();
+const { showAlert } = useAlert();
 
 const props = defineProps({
   typeName: String,
 });
+
+const emits = defineEmits(['refetch-products']);
 
 const newLanguageData = {
   // (圖片、顏色、商品規格、標籤) 先共用同一組設定
@@ -591,15 +618,26 @@ watch(
   () => {
     // 當表單送出時更改指定樣式，加載結束後恢復預設值
     if (submitIsLoading.value) {
-      submitBtnText.value = `${submitBtnText.value}中`;
+      submitBtnText.value = `${submitBtnText.value} ing..`;
     } else {
       submitBtnText.value = props.typeName;
     }
   },
 );
 
+watch(
+  () => i18nStore.currentLocale,
+  // 控制新鄒或編輯按鈕文字 i18n
+  (newValue) => {
+    if (newValue === '新增' || 'Add' || '追加' || '추가' || 'เพิ่ม') {
+      submitBtnText.value = t('admin.products_add_text');
+    } else if (newValue === '儲存' || 'Save' || '保存' || '저장' || 'บันทึก') {
+      submitBtnText.value = t('admin.products_keep_text');
+    }
+  },
+);
+
 onMounted(() => {
-  console.log(props.typeName);
   if (newTempData.value.id) {
     submitBtnText.value = props.typeName;
   } else {
@@ -664,7 +702,6 @@ const openModal = (type, data) => {
     };
     bsModalInstance.value.show();
   } else if (type === 'edit') {
-    console.log('data', data);
     // 編輯就直接將點選資料帶入。
     newTempData.value = data;
     bsModalInstance.value.show();
@@ -696,35 +733,42 @@ const closeModal = () => {
 
 // 新增或者編輯商品
 const addOrPutProduct = async () => {
-  setTimeout(() => {
-    submitIsLoading.value = true; // 模拟加载中
-    setTimeout(() => {
-      submitIsLoading.value = false; // 模拟加载完成
-    }, 2000);
-  });
-  // try {
-  //   loadingStores.toggleLoading();
-  //   const type = newTempData.value.id ? '儲存' : '新增';
-  //   let api;
-  //   let response;
-  //   if (type === '新增') {
-  //     api = `${baseApiUrl}/v2/api/${apiPath}/admin/product`;
-  //     response = await axios.post(api, { data: newTempData.value });
-  //   } else if (type === '儲存') {
-  //     api = `${baseApiUrl}/v2/api/${apiPath}/admin/product/${newTempData.value.id}`;
-  //     response = await axios.put(api, { data: newTempData.value });
-  //   }
-  //   console.log('response', response);
-  // } catch (error) {
-  //   console.log(error);
-  // } finally {
-  //   loadingStores.toggleLoading();
-  // }
+  try {
+    submitIsLoading.value = true;
+    const type = newTempData.value.id ? '儲存' : '新增';
+    let api;
+    let response;
+    if (type === '新增') {
+      api = `${baseApiUrl}/v2/api/${apiPath}/admin/product`;
+      response = await axios.post(api, { data: newTempData.value });
+    } else if (type === '儲存') {
+      api = `${baseApiUrl}/v2/api/${apiPath}/admin/product/${newTempData.value.id}`;
+      response = await axios.put(api, { data: newTempData.value });
+    }
+    if (response.data.success) {
+      closeModal(); // 新增或更新成功後關閉模組
+      showAlert({
+        position: 'top-end',
+        title: `${response.data.message} | ${t('admin.message_success')}`,
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      setTimeout(() => {
+        emits('refetch-products', true); // 呼叫父層 = 重新取得產品資料
+      }, 1000);
+    }
+  } catch (error) {
+    showAlert({
+      title: `${error.response.data.message} | ${t('admin.message_error')}`,
+      icon: 'error',
+      confirmButtonText: `${t('admin.message_confirm_text')}`,
+      confirmButtonColor: '#000000',
+    });
+  } finally {
+    submitIsLoading.value = false;
+  }
 };
-
-watchEffect(() => {
-  console.log('newTempData.value', newTempData.value);
-});
 
 // 將方法傳遞給父層
 defineExpose({

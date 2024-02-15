@@ -54,7 +54,11 @@
         </tr>
       </tbody>
     </table>
-    <AdminProductsModal ref="adminProductsModal" :typeName="typeName"></AdminProductsModal>
+    <AdminProductsModal
+      ref="adminProductsModal"
+      :typeName="typeName"
+      @refetch-products="fetchAdminProducts"
+    ></AdminProductsModal>
   </div>
 </template>
 
@@ -84,9 +88,9 @@ const typeName = ref('新增');
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (type, data) => {
   if (type === 'create') {
-    typeName.value = '新增';
+    typeName.value = t('admin.products_add_text');
   } else {
-    typeName.value = '編輯';
+    typeName.value = t('admin.products_keep_text');
   }
   adminProductsModal.value.openModal(type, data);
 };
