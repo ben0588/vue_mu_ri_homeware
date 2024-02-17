@@ -28,6 +28,7 @@
     "i18next": "^23.8.2",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.5",
+    "swiper": "^11.0.6",
     "vee-validate": "^4.12.5",
     "vue": "^3.3.11",
     "vue-axios": "^3.5.2",

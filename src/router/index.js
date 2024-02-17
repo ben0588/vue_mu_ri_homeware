@@ -1,14 +1,31 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import axios from 'axios';
-import HomeView from '../views/home/HomeView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'front',
+      component: () => import('../views/front/home/FrontView.vue'),
+      children: [
+        {
+          path: '',
+          name: 'front_home',
+          component: () => import('../views/front/home/HomeView.vue'),
+        },
+        {
+          path: 'products',
+          name: 'front_products',
+          component: () => import('../views/front/products/ProductListView.vue'),
+        },
+        {
+          path: 'carts',
+          name: 'front_carts',
+          component: () => import('../views/front/shoppingCart/ShoppingCartView.vue'),
+        },
+
+      ],
     },
     {
       path: '/admin',

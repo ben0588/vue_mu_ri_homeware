@@ -1,8 +1,9 @@
-import './assets/sass/all.scss';
+// import './assets/sass/all.scss';
 import 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import 'vue-loading-overlay/dist/css/index.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { register } from 'swiper/element/bundle';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -22,6 +23,7 @@ import i18n from './languages/i18n';
 
 const app = createApp(App);
 
+register(); // 全域註冊 swiper
 library.add(fas, far, fab); // 新增對應風格類型的 icon
 app.component('font-awesome-icon', FontAwesomeIcon); // 全域開啟 icon
 app.use(createPinia());

@@ -12,4 +12,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 全域使用 bootstrap5 $xxx 自訂義變數
+        additionalData: '@import "@/assets/sass/all.scss";',
+      },
+    },
+  },
 });
