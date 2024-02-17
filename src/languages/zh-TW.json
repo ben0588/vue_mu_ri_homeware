@@ -23,7 +23,7 @@
   "admin.products_title": "產品列表",
   "admin.products_id": "編碼",
   "admin.products_name": "名稱",
-  "admin.products_category": "類型",
+  "admin.products_category": "主類型",
   "admin.products_subcategory": "子類型",
   "admin.products_price": "單價",
   "admin.products_state": "狀態",
@@ -140,5 +140,7 @@
   "admin.products_modal_tag_recommended": "推薦(Recommended)",
   "admin.products_modal_tag_sale": "特價(Sale)",
   "admin.products_modal_is_enabled_state": "商品開啟狀態",
-  "admin.products_modal_is_enabled_checkbox": "是否啟用"
+  "admin.products_modal_is_enabled_checkbox": "是否啟用",
+  "admin.coupon_modal_title_text": "優惠卷標題名稱",
+  "admin.coupon_modal_title_placeholder": "優惠卷標題名稱"
 }

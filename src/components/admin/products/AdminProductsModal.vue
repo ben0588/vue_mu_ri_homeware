@@ -14,7 +14,7 @@
             <span>{{
               newTempData?.id
                 ? // eslint-disable-next-line max-len
-                  `${t('admin.products_delete_text')}
+                  `${t('admin.products_edit_text')}：${newTempData.id}
                   [${t('admin.products_modal_current_language')}：${i18nStore.currentLocale}]`
                 : // eslint-disable-next-line max-len
                   `${t('admin.products_create_title')}
@@ -438,18 +438,16 @@
 
 <script setup>
 // eslint-disable-next-line object-curly-newline
-import { ref, onMounted, onUnmounted, computed, watchEffect, watch } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 import { Modal } from 'bootstrap';
 import { useI18n } from 'vue-i18n';
 import axios from 'axios';
 
-import useLoadingStore from '@/stores/loadingStores';
 import useI18nStore from '@/stores/i18nStores';
 import { useAlert } from '@/composables/useAlert';
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
-const loadingStores = useLoadingStore();
 const bsModalRef = ref(null);
 const bsModalInstance = ref(null); // 實體存放區
 const i18nStore = useI18nStore();
@@ -629,8 +627,10 @@ watch(
   () => i18nStore.currentLocale,
   // 控制新鄒或編輯按鈕文字 i18n
   (newValue) => {
+    // eslint-disable-next-line no-constant-condition
     if (newValue === '新增' || 'Add' || '追加' || '추가' || 'เพิ่ม') {
       submitBtnText.value = t('admin.products_add_text');
+      // eslint-disable-next-line no-constant-condition
     } else if (newValue === '儲存' || 'Save' || '保存' || '저장' || 'บันทึก') {
       submitBtnText.value = t('admin.products_keep_text');
     }
@@ -731,6 +731,14 @@ const closeModal = () => {
   bsModalInstance.value.hide();
 }; // 關閉模組
 
+watch(
+  () => newTempData.value.tw.category,
+  () => {
+    // 當繁體中文商品主類型有修改，那麼就改主類型的紀錄
+    newTempData.value.category = newTempData.value.tw.category;
+  },
+);
+
 // 新增或者編輯商品
 const addOrPutProduct = async () => {
   try {
@@ -748,7 +756,7 @@ const addOrPutProduct = async () => {
     if (response.data.success) {
       closeModal(); // 新增或更新成功後關閉模組
       showAlert({
-        position: 'top-end',
+        position: 'top-start',
         title: `${response.data.message} | ${t('admin.message_success')}`,
         icon: 'success',
         showConfirmButton: false,

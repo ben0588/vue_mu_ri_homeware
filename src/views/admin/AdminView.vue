@@ -40,8 +40,6 @@
           </li>
         </ul>
       </div>
-
-      <div class="text-white">{{ isOpen }} | {{ i18nStore.currentIcon }}</div>
     </nav>
   </header>
   <router-view></router-view>

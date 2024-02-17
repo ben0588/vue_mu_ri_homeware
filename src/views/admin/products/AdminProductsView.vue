@@ -12,6 +12,32 @@
         </div>
       </span>
     </div>
+    <span class="row border-top border-bottom border-2 my-2 py-3">
+      <div class="col-5">
+        <button
+          type="button"
+          class="btn border border-1 d-inline reset-btn me-2"
+          :style="{ marginTop: '-0.10rem', marginBottom: '0.10rem' }"
+          title="重置選擇"
+          @click="handleResetCategory"
+        >
+          <font-awesome-icon :icon="['fas', 'rotate']" class="" />
+        </button>
+        <select
+          class="form-select d-inline w-50"
+          aria-label="Default select example"
+          v-model="targetCategory"
+          @change="handleChangCategory"
+        >
+          <option value="" selected disabled>
+            {{ t('admin.products_modal_category_placeholder') }}
+          </option>
+          <option :value="category.text" v-for="category in categoryList" :key="category.id">
+            {{ category.text }}
+          </option>
+        </select>
+      </div>
+    </span>
     <table class="table align-middle table-responsive">
       <thead>
         <tr>
@@ -21,7 +47,7 @@
           <th scope="col">{{ t('admin.products_subcategory') }}</th>
           <th scope="col">{{ t('admin.products_price') }}</th>
           <th scope="col">{{ t('admin.products_state') }}</th>
-          <th scope="col">{{ t('admin.products_operate') }}</th>
+          <th scope="col" class="text-center">{{ t('admin.products_operate') }}</th>
         </tr>
       </thead>
 
@@ -38,7 +64,7 @@
             }}</span>
             <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
           </td>
-          <td>
+          <td class="d-flex justify-content-center">
             <button
               type="button"
               class="btn btn-dark me-1"
@@ -51,14 +77,19 @@
               type="button"
               class="btn btn-outline-danger"
               @click="deleteProduct(product.id)"
-              :disabled="deleteLoading"
+              :disabled="deleteTargetId === product.id"
             >
+              <span v-if="deleteTargetId === product.id">
+                <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
+                <span role="status"></span>
+              </span>
               {{ t('admin.products_delete_text') }}
             </button>
           </td>
         </tr>
       </tbody>
     </table>
+    <Pagination :pagination="adminPagination" @updated:page="fetchAdminProducts"></Pagination>
     <AdminProductsModal
       ref="adminProductsModal"
       :typeName="typeName"
@@ -68,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import useLoadingStore from '@/stores/loadingStores';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -78,6 +109,7 @@ import Swal from 'sweetalert2';
 import { useAlert } from '@/composables/useAlert';
 import AdminProductsModal from '@/components/admin/products/AdminProductsModal.vue';
 import useI18nStore from '@/stores/i18nStores';
+import Pagination from '@/components/common/Pagination.vue';
 
 const adminProductsModal = ref(null);
 const i18nStore = useI18nStore();
@@ -91,6 +123,8 @@ const adminProducts = ref([]);
 const adminPagination = ref([]);
 const typeName = ref('新增');
 const deleteLoading = ref(false);
+const deleteTargetId = ref('');
+const targetCategory = ref('');
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (type, data) => {
@@ -105,12 +139,11 @@ const handleOpenModal = (type, data) => {
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
 
-const fetchAdminProducts = async () => {
+const fetchAdminProducts = async (page = 1, category = '') => {
   try {
     LoadingStore.toggleLoading(); // 全頁加載
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/products`;
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/products?page=${page}&category=${category}`;
     const response = await axios.get(api);
-    console.log('products', response);
     adminProducts.value = response.data.products;
     adminPagination.value = response.data.pagination;
   } catch (error) {
@@ -132,7 +165,8 @@ const fetchAdminProducts = async () => {
 
 const deleteProduct = async (id) => {
   try {
-    deleteLoading.value = true;
+    deleteTargetId.value = id; // 紀錄刪除商品 id
+    deleteLoading.value = true; // 單獨加載
     showAlert({
       title: t('admin.products_delete_title'),
       text: t('admin.products_delete_confirm_text'),
@@ -158,7 +192,7 @@ const deleteProduct = async (id) => {
     }).then((result) => {
       if (result?.value?.data?.success) {
         showAlert({
-          position: 'top-end',
+          position: 'top-start',
           title: `${result.value.data.message} | ${t('admin.message_success')}`,
           icon: 'success',
           showConfirmButton: false,
@@ -167,7 +201,7 @@ const deleteProduct = async (id) => {
         setTimeout(() => {
           fetchAdminProducts();
         }, 1000);
-      } else if (!result?.value?.response?.data?.success) {
+      } else if (result?.value?.response?.data?.success === false) {
         showAlert({
           title: `${result?.value?.response?.data.message} | ${t('admin.message_error')}`,
           icon: 'error',
@@ -175,6 +209,7 @@ const deleteProduct = async (id) => {
           confirmButtonColor: '#000000',
         });
       }
+      deleteTargetId.value = ''; // 清空商品紀錄 id
     });
   } catch (error) {
     showAlert({
@@ -188,7 +223,40 @@ const deleteProduct = async (id) => {
   }
 };
 
+const categoryList = computed(() => [
+  { id: '1', text: t('admin.products_modal_category_furniture') }, // 家具
+  { id: '2', text: t('admin.products_modal_category_home_decor') }, // 家飾
+  { id: '3', text: t('admin.products_modal_category_lighting') }, // 燈具
+  { id: '4', text: t('admin.products_modal_category_kitchenware') }, // 廚房用品
+  { id: '5', text: t('admin.products_modal_category_bathroom_accessories') }, // 浴室用品
+  { id: '6', text: t('admin.products_modal_category_bedding') }, // 寢具
+  { id: '7', text: t('admin.products_modal_category_storage') }, // 收納
+  { id: '8', text: t('admin.products_modal_category_outdoor_and_garden') }, // 戶外與園藝
+  { id: '9', text: t('admin.products_modal_category_office_supplies') }, // 辦公室用品
+  { id: '10', text: t('admin.products_modal_category_children_furniture') }, // 孩童家居
+]);
+
+// 改變主類型項目
+const handleChangCategory = () => {
+  fetchAdminProducts(adminPagination.value.current_page, targetCategory.value);
+};
+
+// 重置類型選擇
+const handleResetCategory = () => {
+  targetCategory.value = '';
+  fetchAdminProducts();
+};
+
 onMounted(() => {
   fetchAdminProducts();
 });
 </script>
+
+<style lang="scss">
+.reset-btn {
+  &:hover {
+    color: #fff;
+    background-color: #000;
+  }
+}
+</style>
