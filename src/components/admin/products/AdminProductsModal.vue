@@ -81,15 +81,18 @@
                     class="form-control"
                     type="file"
                     name="file-to-upload"
-                    ref="imgUpload"
                     id="imageUrlFile"
+                    ref="fileRef"
+                    @change="handleFileUpload"
                   />
-
                   <input
                     class="input-group-text"
                     type="button"
                     :value="`${t('admin.products_modal_middle_file_img_button')}`"
-                    @click="uploadImg"
+                    @click="handleUploadImg"
+                    :class="{ 'bg-secondary': uploadLoading, 'text-white': uploadLoading }"
+                    :disabled="!fileSelected || uploadLoading"
+                    :title="!fileSelected ? '請先選擇檔案' : '上傳檔案'"
                   />
                 </div>
                 <div class="input-group mb-3">
@@ -680,6 +683,61 @@ onUnmounted(() => {
   }
 });
 
+const fileRef = ref(null);
+const uploadLoading = ref(false);
+const fileUploadMessage = ref('');
+const fileSelected = ref(false);
+const handleFileUpload = (event) => {
+  fileSelected.value = true;
+  const { files } = event.target;
+  fileRef.value = files; // 儲存檔案位置
+  if (fileRef.value[0]?.name) {
+    const regex = /\.(jpg|png|jpeg)$/;
+    const isJpgOrPng = regex.test(fileRef.value[0].name); // 判斷是不是指定檔案格式
+    const maxSizeInBytes = 3 * 1024 * 1024; // 3MB 換算數值
+    if (isJpgOrPng) {
+      fileUploadMessage.value = '';
+      if (fileRef.value[0].size > maxSizeInBytes) {
+        fileUploadMessage.value = '檔案大小限制為 3MB 以下，請重新選擇';
+      }
+    } else if (!isJpgOrPng) {
+      fileSelected.value = false;
+      fileUploadMessage.value = '限制只能上傳 .jpg、.jpeg  或 .png 格式圖片';
+    }
+  }
+};
+const handleUploadImg = async () => {
+  try {
+    uploadLoading.value = true;
+    const formData = new FormData();
+    formData.append('file-to-upload', fileRef.value.files[0]);
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/upload`;
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    const response = await axios.post(api, formData, { headers });
+    if (response.data.success) {
+      newTempData.value[i18nStore.currentIcon].imageUrl = response.data.imageUrl; // 依照各語系資料儲存
+      showAlert({
+        position: 'top-start',
+        title: `成功 | ${t('admin.message_success')}`,
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+  } catch (error) {
+    showAlert({
+      title: `${error.response.data.message} | ${t('admin.message_error')}`,
+      icon: 'error',
+      confirmButtonText: `${t('admin.message_confirm_text')}`,
+      confirmButtonColor: '#000000',
+    });
+  } finally {
+    uploadLoading.value = false;
+  }
+};
+
 const openModal = (type, data) => {
   if (type === 'create') {
     newTempData.value = {
@@ -700,10 +758,12 @@ const openModal = (type, data) => {
       kr: { ...newLanguageData },
       th: { ...newLanguageData },
     };
+    fileRef.value.value = null; // 清空 file 檔案
     bsModalInstance.value.show();
   } else if (type === 'edit') {
     // 編輯就直接將點選資料帶入。
     newTempData.value = data;
+    fileRef.value.value = null; // 清空 file 檔案
     bsModalInstance.value.show();
   }
 };
@@ -728,6 +788,9 @@ const closeModal = () => {
     kr: { ...newLanguageData },
     th: { ...newLanguageData },
   };
+  uploadLoading.value = false;
+  fileUploadMessage.value = '';
+  fileSelected.value = false;
   bsModalInstance.value.hide();
 }; // 關閉模組
 

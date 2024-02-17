@@ -63,6 +63,8 @@
         </tr>
       </tbody>
     </table>
+    <Pagination :pagination="adminPagination" @updated:page="fetchAdminCoupons"></Pagination>
+
     <AdminCouponModal
       ref="adminCouponModal"
       :typeName="typeName"
@@ -82,6 +84,7 @@ import Swal from 'sweetalert2';
 import { useAlert } from '@/composables/useAlert';
 import useI18nStore from '@/stores/i18nStores';
 import AdminCouponModal from '@/components/admin/coupon/AdminCouponModal.vue';
+import Pagination from '@/components/common/Pagination.vue';
 
 const adminCouponModal = ref(null);
 const i18nStore = useI18nStore();
@@ -106,18 +109,16 @@ const handleOpenModal = (type, data) => {
   }
   adminCouponModal.value.openModal(type, data);
 };
-
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
 
-const fetchAdminCoupons = async () => {
+const fetchAdminCoupons = async (page = 1) => {
   try {
     LoadingStore.toggleLoading(); // 全頁加載
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/coupons`;
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/coupons?page=${page}`;
     const response = await axios.get(api);
     adminCoupons.value = response.data.coupons;
     adminPagination.value = response.data.pagination;
-    console.log('response', response.data);
   } catch (error) {
     showAlert({
       title: `${error.response.data.message} | ${t('admin.message_error')}`,
