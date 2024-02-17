@@ -24,6 +24,16 @@ const router = createRouter({
           name: 'front_carts',
           component: () => import('../views/front/shoppingCart/ShoppingCartView.vue'),
         },
+        {
+          path: 'wishlist',
+          name: 'front_wishlist',
+          component: () => import('../views/front/wishlist/FrontWishlistView.vue'),
+        },
+        {
+          path: 'member',
+          name: 'front_member',
+          component: () => import('../views/front/member/FrontMemberView.vue'),
+        },
 
       ],
     },

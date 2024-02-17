@@ -13,6 +13,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'flag-icons/css/flag-icons.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { setupVeeValidate } from '@/setupVeeValidate';
 import axios from 'axios';
 import VueAxios from 'vue-axios';

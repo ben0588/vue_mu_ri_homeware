@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <HeaderComponent></HeaderComponent>
   <div>
     <router-link to="/">首頁 |</router-link>
     <router-link to="/products">全部商品 |</router-link>
@@ -10,5 +10,5 @@
 </template>
 
 <script setup>
-import Header from '@/components/layout/Header.vue';
+import HeaderComponent from '@/components/layout/HeaderComponent.vue';
 </script>

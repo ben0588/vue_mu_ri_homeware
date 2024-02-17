@@ -8,104 +8,14 @@
 // $font-variant: normal;
 // $font-family: 'PingFang TC', 'SF Pro Text';
 
-.md-icon {
-  padding-right: 3px;
-  width: 20px;
-  height: 20px;
+// 套用字型設定
+@font-face {
+  font-family: 'import Noto Sans CT';
+  src: url('/fonts/NotoSansTC-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
 
-.fs-40 {
-  font-size: 2.5rem;
-
-  @media (max-width: 375px) {
-    font-size: 2rem;
-  }
-}
-
-.mt-60 {
-  margin-top: 3.75rem; // 60px
-
-  @media (max-width: 375px) {
-    margin-top: 2.5rem;
-  }
-}
-$spacer: 1rem;
-$spacers: (
-  0: 0,
-  1: $spacer * 0.25,
-  //4
-  2: $spacer * 0.5,
-  //8
-  25: $spacer * 0.75,
-  //12
-  3: $spacer,
-  //16
-  35: $spacer * 1.25,
-  //20
-  4: $spacer * 1.5,
-  //24
-  5: $spacer * 2,
-  //32
-  6: $spacer * 2.5,
-  //40
-  7: $spacer * 3,
-  //48
-  60: $spacer * 3.75,
-  //60
-  80: $spacer * 5,
-  // 80
-);
-
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1110px,
-  xxl: 1320px,
-);
-
-.nav-link {
-  &:hover {
-    color: $primary !important;
-  }
-}
-
-.nav-link-dark {
-  color: rgb(33, 37, 41) !important;
-  &:hover {
-    // color: #fff !important;
-    background: #e9f1f5cc;
-  }
-}
-
-.admin-nav-active {
-  color: #fff !important;
-  background: rgb(33, 37, 41) !important;
-}
-
-.text-color {
-  color: #fff !important;
-}
-
-.router-link-active {
-  text-decoration: none !important;
-  font-weight: bolder;
-}
-
-.btn-primary-hover-dark {
-  transition: 0.2s ease-in;
-
-  &:hover {
-    border: 2px solid #42361e;
-    color: #473b22;
-  }
-}
-
-.card-img-hover {
-  transition: 0.2s ease-in;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.85;
-  }
+body {
+  font-family: 'import Noto Sans CT';
 }
