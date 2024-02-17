@@ -66,24 +66,73 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line object-curly-newline
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { Modal } from 'bootstrap';
+import { useI18n } from 'vue-i18n';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { format, parseISO, getUnixTime } from 'date-fns';
+import axios from 'axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as yup from 'yup';
+import { useForm } from 'vee-validate';
 
-import useLoadingStore from '@/stores/loadingStores';
 import useI18nStore from '@/stores/i18nStores';
-
-const loadingStores = useLoadingStore();
-const bsModalRef = ref(null);
-const bsModalInstance = ref(null); // 實體存放區
-const i18nStore = useI18nStore();
-
-const props = defineProps({
-  tempData: Object,
-});
-
-const { t } = useI18n();
+import { useAlert } from '@/composables/useAlert';
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
+const bsCouponModalRef = ref(null);
+const bsCouponModalInstance = ref(null); // 實體存放區
+const i18nStore = useI18nStore();
+const { t } = useI18n();
+const { showAlert } = useAlert();
+
+const props = defineProps({
+  typeName: String,
+});
+
+const emits = defineEmits(['refetch-coupon']);
+
+// eslint-disable-next-line object-curly-newline
+const { values, errors, meta, handleSubmit, defineField, resetForm } = useForm({
+  initialValues: {
+    title: '',
+    is_enabled: 1,
+    percent: 0,
+    due_date: format(new Date().setMonth(new Date().getMonth() + 3), 'yyyy-MM-dd'),
+    code: '',
+    tw: { title: '' },
+    us: { title: '' },
+    jp: { title: '' },
+    kr: { title: '' },
+    th: { title: '' },
+  },
+  validationSchema: yup.object().cast({
+    title: yup.string().required('此欄位必填'),
+    code: yup.string().required('此欄位必填'),
+    percent: yup
+      .number()
+      .typeError('格式錯誤，請輸入數值')
+      .min(1)
+      .moreThan(1, '數值不能小於1')
+      .max(99)
+      .lessThan(100, '數值不能超過100')
+      .required('此欄位必填'),
+    due_date: yup
+      .date()
+      .nullable()
+      .typeError('格式錯誤，請輸入有效的日期')
+      .min(new Date(1900, 0, 1))
+      .required('此欄位必填'),
+  }),
+});
+
+const [veeTitle, veeTitleAttrs] = defineField('title');
+const [veeCode, veeCodeAttrs] = defineField('code');
+const [veePercent, veePercentAttrs] = defineField('percent');
+const [veeDueDate, veeDueDateAttrs] = defineField('due_date');
+
 
 // 使用 yup 設定 Vee Validate規則
 const schema = yup.object().shape({

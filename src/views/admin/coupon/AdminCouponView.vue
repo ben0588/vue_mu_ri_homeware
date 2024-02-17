@@ -31,8 +31,9 @@
           <td>{{ coupon.code }}</td>
           <td>{{ coupon.percent }}</td>
           <td>
-            <div v-if="!new Date().getTime() >= coupon.due_date" class="text-success">
-              {{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }}
+            <!-- 增加時間判斷顯示是否已失效 -->
+            <div v-if="new Date().getTime() / 1000 <= coupon.due_date" class="text-success">
+              {{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }} [有效]
             </div>
             <div v-else class="text-danger">
               {{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }} [已到期]
