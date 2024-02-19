@@ -34,6 +34,21 @@ const router = createRouter({
           name: 'front_member',
           component: () => import('../views/front/member/FrontMemberView.vue'),
         },
+        {
+          path: 'inspiration',
+          name: 'front_inspiration',
+          component: () => import('../views/front/Inspiration/InspirationView.vue'),
+        },
+        {
+          path: 'newProducts',
+          name: 'front_newProducts',
+          component: () => import('../views/front/newProducts/NewProductsView.vue'),
+        },
+        {
+          path: 'newEvents',
+          name: 'front_newEvents',
+          component: () => import('../views/front/newEvents/NewEventsView.vue'),
+        },
 
       ],
     },

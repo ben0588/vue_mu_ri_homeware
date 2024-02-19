@@ -9,7 +9,7 @@
     <div class="bg-white py-2">
       <div class="container">
         <nav class="navbar navbar-expand-lg">
-          <div class="container-fluid">
+          <div class="container-fluid px-0">
             <!-- 左側 Logo 或品牌名稱 -->
             <router-link to="/" class="navbar-brand" title="回首頁" role="button"
               ><img
@@ -69,10 +69,18 @@
         </nav>
         <nav class="w-100 h-100 py-2 pt-4">
           <ul class="list-unstyled d-flex align-items-center justify-content-start m-0">
-            <li class="ms-4 me-5"><router-link to="/" aria-label="carts">全部商品</router-link></li>
-            <li class="me-5"><router-link to="/" aria-label="carts">佈置靈感</router-link></li>
-            <li class="me-5"><router-link to="/" aria-label="carts">新品專區</router-link></li>
-            <li class="me-5"><router-link to="/" aria-label="carts">最新活動</router-link></li>
+            <li class="me-5">
+              <router-link to="products" aria-label="products">全部商品</router-link>
+            </li>
+            <li class="me-5">
+              <router-link to="inspiration" aria-label="inspiration">佈置靈感</router-link>
+            </li>
+            <li class="me-5">
+              <router-link to="newProducts" aria-label="newProducts">新品專區</router-link>
+            </li>
+            <li class="me-5">
+              <router-link to="newEvents" aria-label="newEvents">最新活動</router-link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -117,11 +125,6 @@ watchEffect(() => {
 .header-icons {
   font-size: 25px !important;
   font-weight: bolder !important;
-  /* font-size: 2rem; // 40px
-  transform: scale(1.5); */
-  /* width: 2.5rem !important; */
-  /* height: 2.5rem !important; */
-
   color: rgb(33, 37, 41) !important;
   &:hover {
     opacity: 0.7;
