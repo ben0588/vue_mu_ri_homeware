@@ -3,7 +3,7 @@
     <div class="col-2 border-end vh-100 p-0">
       <nav class="d-flex flex-column">
         <router-link
-          class="nav-link-dark fs-5 fw-bolder border-bottom p-3"
+          class="admin-nav-link-dark fs-5 fw-bolder border-bottom p-3"
           :exact-active-class="'admin-nav-active'"
           :to="`/admin/dashboard/${item.path}`"
           v-for="item in navbarList"
@@ -51,3 +51,18 @@ const navbarList = computed(() => [
   },
 ]);
 </script>
+
+<style lang="scss">
+.admin-nav-link-dark {
+  text-decoration: none;
+  color: rgb(33, 37, 41) !important;
+  &:hover {
+    background: #e9f1f5cc;
+  }
+}
+
+.admin-nav-active {
+  color: #fff !important;
+  background: rgb(33, 37, 41) !important;
+}
+</style>

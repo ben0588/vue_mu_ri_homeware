@@ -85,15 +85,18 @@
                     ref="fileRef"
                     @change="handleFileUpload"
                   />
-                  <input
-                    class="input-group-text"
+
+                  <button
+                    class="input-group-text d-block w-100"
                     type="button"
                     :value="`${t('admin.products_modal_middle_file_img_button')}`"
                     @click="handleUploadImg"
                     :class="{ 'bg-secondary': uploadLoading, 'text-white': uploadLoading }"
                     :disabled="!fileSelected || uploadLoading"
                     :title="!fileSelected ? '請先選擇檔案' : '上傳檔案'"
-                  />
+                  >
+                    {{ t('admin.products_modal_middle_file_img_button') }}
+                  </button>
                 </div>
                 <div class="input-group mb-3">
                   <label class="form-label w-100">{{ t('admin.products_modal_url_images') }}</label>
@@ -807,6 +810,16 @@ const addOrPutProduct = async () => {
   try {
     submitIsLoading.value = true;
     const type = newTempData.value.id ? '儲存' : '新增';
+    if (!newTempData.value.tw.title) {
+      showAlert({
+        title: `失敗 | ${t('admin.message_error')}`,
+        text: '請填寫必填欄後重新後提交',
+        icon: 'error',
+        confirmButtonText: `${t('admin.message_confirm_text')}`,
+        confirmButtonColor: '#000000',
+      });
+      return;
+    }
     let api;
     let response;
     if (type === '新增') {

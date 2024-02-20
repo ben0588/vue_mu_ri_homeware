@@ -19,3 +19,28 @@
 body {
   font-family: 'import Noto Sans CT';
 }
+
+// .nav-link {
+//   &:hover {
+//     color: #916019 !important;
+//     color: $primary !important;
+//   }
+// }
+
+// .nav-link-dark {
+//   text-decoration: none;
+//   color: rgb(33, 37, 41) !important;
+//   &:hover {
+//     color: #ac8a46 !important;
+//     background: #e9f1f5cc;
+//   }
+// }
+
+.text-color {
+  color: #fff !important;
+}
+
+.router-link-active {
+  text-decoration: none !important;
+  font-weight: bolder;
+}
