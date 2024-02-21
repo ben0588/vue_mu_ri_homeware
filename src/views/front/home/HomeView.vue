@@ -1,12 +1,12 @@
 <template>
   <div>
-    <BannerComponent></BannerComponent>
+    <!-- <BannerComponent></BannerComponent> -->
+    <CategorySection></CategorySection>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
   </div>
 </template>
 
 <script setup>
 import BannerComponent from '@/components/layout/BannerComponent.vue';
-
-console.log('123123');
+import CategorySection from '@/components/front/home/CategorySection.vue';
 </script>

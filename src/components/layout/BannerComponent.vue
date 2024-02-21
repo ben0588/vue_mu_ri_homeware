@@ -26,10 +26,6 @@
         clickable: true,
       }"
       :scrollbar="{ draggable: true }"
-      @swiper="onSwiper"
-      @slideChange="onSlideChange"
-      @slideChangeTransitionStart="onSlideChangeStart"
-      @slideChangeTransitionEnd="onSlideChangeEnd"
       :breakpoints="{
         // 大於等於
         '320': {
@@ -80,9 +76,13 @@
             >
               {{ item.subtitle }}
             </h3>
-            <button type="button" class="btn btn-primary btn-lg fs-6 text-white py-3 mt-5">
+            <router-link
+              to="products"
+              role="button"
+              class="btn btn-primary btn-lg fs-6 text-white py-3 mt-5"
+            >
               {{ item.buttonText }}
-            </button>
+            </router-link>
           </div>
         </div>
       </SwiperSlide>
@@ -92,7 +92,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Navigation, Autoplay, Pagination, EffectCoverflow } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -156,23 +156,6 @@ onMounted(() => {
 
 // 控制當桌機板與手機板 banner 圖片切換
 const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'imgMobileUrl'));
-
-const onSwiper = (swiper) => {
-  console.log(swiper);
-};
-const onSlideChange = () => {
-  console.log('slide change');
-};
-
-const onSlideChangeStart = () => {
-  // 幻燈片轉換開始時的處理邏輯
-  console.log('Slide change started');
-};
-
-const onSlideChangeEnd = () => {
-  // 幻燈片轉換結束時的處理邏輯
-  console.log('Slide change ended');
-};
 </script>
 <style lang="scss">
 // 客製化左右按鈕的樣式

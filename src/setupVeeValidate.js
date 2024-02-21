@@ -95,7 +95,6 @@ function setVeeValidateLocale(locale) {
 }
 
 fetchLocal();
-console.log(';local', local);
 setLocale(local); // 設定預設語言
 
 export function changeVeeValidateLocale() {
