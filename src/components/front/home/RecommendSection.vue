@@ -5,7 +5,7 @@
 
     <div class="container mt-64 p-0">
       <div
-        class="recommend-container flex-nowrap overflow-auto row row-cols-1 row-cols-sm-3 row-cols-lg-5 justify-content-start align-items-stretch m-0"
+        class="overflow-x-nowrap-375 flex-nowrap overflow-auto row row-cols-1 row-cols-sm-3 row-cols-lg-5 justify-content-start align-items-stretch m-0"
       >
         <div
           class="col col-1-2 px-3"
@@ -343,20 +343,12 @@ const productsRatings = computed(
 const test = () => {};
 </script>
 <style lang="scss">
-.recommend-container {
+/* .recommend-container {
   @media (max-width: 375px) {
     overflow-x: auto;
     flex-wrap: nowrap !important;
   }
-}
-
-.col-1-2 {
-  @media (max-width: 375px) {
-    flex: 0 0 auto;
-    /* 讓右側顯示區塊 */
-    width: 86% !important; /* 100% / (1 + 1/2) */
-  }
-}
+} */
 
 .recommend-card {
   @media (max-width: 375px) {
