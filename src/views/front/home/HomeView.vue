@@ -2,7 +2,7 @@
   <div>
     <!-- <BannerComponent></BannerComponent> -->
     <!-- <CategorySection></CategorySection> -->
-    <!-- <RecommendSection></RecommendSection> -->
+    <RecommendSection></RecommendSection>
     <!-- <NewEventSection></NewEventSection> -->
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
   </div>
