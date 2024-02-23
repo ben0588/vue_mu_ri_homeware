@@ -63,11 +63,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-import {
-  calculateAverageRating,
-  getStarSymbols,
-  calculateProductsRatings,
-} from '@/composables/ratingUtils';
+import { calculateProductsRatings } from '@/composables/ratingUtils';
 
 const productsList = ref([
   {
@@ -307,13 +303,5 @@ const productsRatings = computed(() => calculateProductsRatings(productsList.val
     max-width: 300px !important;
     max-height: 210px;
   }
-}
-
-.star-icon {
-  font-size: 19px !important;
-}
-
-.heart-icon {
-  font-size: 24px !important;
 }
 </style>

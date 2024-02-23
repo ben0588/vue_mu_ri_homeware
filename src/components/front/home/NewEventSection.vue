@@ -88,7 +88,7 @@ const eventList = [
 </script>
 <style lang="scss">
 .event-img {
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
   height: auto;
   max-width: 380px;
