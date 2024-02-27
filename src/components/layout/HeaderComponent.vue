@@ -1,10 +1,16 @@
 <!-- eslint-disable max-len -->
 <template>
-  <header class="border-bottom border-2 sticky-top">
+  <header class="border-bottom border-2 sticky-top vw-100">
     <div class="bg-dark text-center d-flex align-items-center justify-content-center py-3">
       <div class="container">
-        <span class="text-white">【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送</span>
-        <button type="button" class="btn btn-outline-light btn-sm ms-3 ms-md-1">了解更多</button>
+        <div class="d-flex justify-content-center align-items-center text-center">
+          <span class="text-white text-sm-truncate pe-2">
+            【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送
+          </span>
+          <span class="header-top-btn-container">
+            <button type="button" class="btn btn-outline-light px-3 py-2">了解更多</button>
+          </span>
+        </div>
       </div>
     </div>
 
@@ -54,10 +60,10 @@
                   <NavbarSearch v-if="!isTable"></NavbarSearch>
                 </div>
 
-                <div class="col-12 col-sm-5 pe-0 p-0">
+                <div class="col-12 col-lg-5 pe-0 p-0">
                   <nav class="d-flex justify-content-end w-100 h-100">
                     <ul
-                      class="header-navbar-container list-unstyled d-flex flex-column flex-sm-row align-items-center justify-content-end text-center m-0"
+                      class="header-navbar-container list-unstyled d-flex flex-column flex-lg-row align-items-center justify-content-end text-center m-0"
                     >
                       <li
                         class="ms-4 header-navbar-items"
@@ -112,7 +118,7 @@
   </header>
 </template>
 <script setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import NavbarSearch from '@/components/common/NavbarSearch.vue';
 
 const screenWidth = ref(window.innerWidth);
@@ -154,7 +160,7 @@ watchEffect(() => {
     screenWidth.value = window.innerWidth;
   };
 
-  if (screenWidth.value <= 992) {
+  if (screenWidth.value <= 991) {
     isTable.value = true;
   } else {
     isTable.value = false;
@@ -196,37 +202,41 @@ watchEffect(() => {
   }
 }
 
-/* .header-top-container {
-  @media (max-width: 500px) {
-    padding-left: 15px;
-    padding-right: 15px;
-
-    span {
-      width: 73%;
-      text-align: left;
-      padding-right: 15px;
-    }
-    button {
-      width: 27%;
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
+.header-top-btn-container {
+  @media (max-width: 1920px) {
+    width: 10%;
   }
-} */
-
-.navbar-collapse {
-  /* background-color: red !important; */
+  @media (max-width: 1600px) {
+    width: 10%;
+  }
+  @media (max-width: 1200px) {
+    width: 10%;
+  }
+  @media (max-width: 992px) {
+    width: 13%;
+  }
+  @media (max-width: 768px) {
+    width: 19%;
+  }
+  @media (max-width: 576px) {
+    width: 26%;
+  }
+  @media (max-width: 375px) {
+    width: 50%;
+  }
 }
 
 .header-navbar-container {
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     width: 100%;
+  }
+  @media (max-width: 375px) {
     padding: 40px;
   }
 }
 
 .header-navbar-items {
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     &:nth-of-type(1) {
       padding-top: 0;
     }

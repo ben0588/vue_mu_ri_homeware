@@ -1,11 +1,11 @@
 <template>
-  <main class="flex-grow-1 overflow-x-hidden" :style="{ maxWidth: `100%`, width: `100%` }">
+  <main class="flex-grow-1" :style="{ maxWidth: `100%`, width: `100%` }">
     <!-- <BannerComponent></BannerComponent> -->
     <!-- <CategorySection></CategorySection> -->
     <!-- <RecommendSection></RecommendSection> -->
     <!-- <NewEventSection></NewEventSection> -->
     <!-- <NewProductSection></NewProductSection> -->
-    <InspirationSection></InspirationSection>
+    <!-- <InspirationSection></InspirationSection> -->
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
   </main>
 </template>

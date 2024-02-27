@@ -133,6 +133,19 @@ body {
   }
 }
 
+.text-sm-truncate {
+  @media (min-width: 376px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (min-width: 992px) {
+    overflow: auto;
+    text-overflow: ellipsis;
+    white-space: wrap;
+  }
+}
+
 .truncate-2-lines {
   @media (max-width: 992px) {
     overflow: hidden;
