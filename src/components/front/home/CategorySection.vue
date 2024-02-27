@@ -75,7 +75,7 @@
   </section>
 </template>
 <script setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 const screenWidth = ref(window.innerWidth);
 const isTable = ref(false);
@@ -160,27 +160,6 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
-.home-title {
-  font-size: 2.5rem; // 40px
-  font-weight: 900;
-  position: relative;
-  width: 166px;
-  margin: 0 auto;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -35px;
-    right: 0;
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708320860518.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=JwQtPHkJ%2FHuebYrdy6vjBowoy1vhU0F%2BJv%2Bk%2FA7DF%2BnBqwJty8l7a8XOg%2Bl817uXfAJLWnQRSnwFjz47HLj23o2wpIxbfz6UV5cAo%2BbFMi9pM9Bw9vL%2B4VNKF%2Bxux4xnHfuiH3QfOy05hJlNj5lGpfQuUlDCP5e75aziwYrt94N5L%2BkgSfznLq59dKiAnxpdO2VAkNyUSjPrJHQyGAUbzixZhk8lA%2FIxmP58rrPL19sswyICB%2Bea5vRRaTG3Geo4VrikqrJPeno0g41UfBroVgNlt2ejr6k4KYV0r3wE%2Fi7Lzn3UC4NxaSes6VlDDvobrG5AF2L5LGR86RWe74%2BD7Q%3D%3D');
-    background-repeat: no-repeat;
-    background-position: center;
-    object-fit: contain;
-    width: 100px;
-    height: 100%;
-  }
-}
-
 .category-sale-img {
   img {
     height: auto;

@@ -307,27 +307,4 @@ const filteredProducts = computed(() => calculateProductsRatings(productsList.va
   max-width: 306px;
   max-height: 210px;
 }
-
-.border-md-end {
-  border-right: none;
-
-  @media (min-width: 768px) {
-    border-right: 2px solid $primary;
-  }
-}
-
-.truncate-2-lines {
-  @media (max-width: 992px) {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-  }
-  @media (max-width: 768px) {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-}
 </style>

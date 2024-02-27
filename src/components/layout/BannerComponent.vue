@@ -1,93 +1,83 @@
 <template>
-  <div>
-    <Swiper
-      :modules="modules"
-      :centered-slides="true"
-      :slides-per-view="1.1"
-      :space-between="30"
-      :initial-slide="1"
-      :loop="true"
-      :speed="400"
-      :autoplay="{
-        delay: 5000,
-        pauseOnMouseEnter: true,
-        disableOnInteraction: false,
-      }"
-      :navigation="{
-        el: '.swiper-pagination',
-        dynamicBullets: true,
-        dynamicMainBullets: 3,
-        clickable: true,
-        type: 'bullets',
-      }"
-      :pagination="{
-        nextEl: '.swiper-new-prev',
-        prevEl: '.swiper-new-next',
-        clickable: true,
-      }"
-      :scrollbar="{ draggable: true }"
-      :breakpoints="{
-        // 大於等於
-        '320': {
-          slidesPerView: 1,
-          spaceBetween: 0,
-        },
-        '500': {
-          slidesPerView: 1.1,
-          spaceBetween: 30,
-        },
-        '1600': {
-          slidesPerView: 1.2,
-          spaceBetween: 50,
-        },
-        '1920': {
-          slidesPerView: 1.5,
-          spaceBetween: 57,
-        },
-      }"
-      class="position-relative"
-      :style="{
-        width: `100%`,
-        height: `750px`,
-        // '--swiper-navigation-color': '#ffffff0',
-        '--swiper-navigation-size': '20px',
-        '--swiper-pagination-color': '#0089a7',
-        '--swiper-pagination-bullet-inactive-color': '#fff',
-        '--swiper-pagination-bullet-inactive-opacity': '1',
-        '--swiper-pagination-bullet-size': '10px',
-      }"
-      ref="swiperRef"
-    >
-      <SwiperSlide v-for="item in bannerList" :key="item.id">
-        <div
-          class="container d-flex justify-content-center align-items-center position-relative px-0"
-        >
-          <img :src="item[`${currentImage}`]" :alt="item.title" className="home-swiper-img" />
+  <Swiper
+    :modules="modules"
+    :centered-slides="true"
+    :initial-slide="1"
+    :loop="true"
+    :speed="400"
+    :autoplay="{
+      delay: 5000,
+      pauseOnMouseEnter: true,
+      disableOnInteraction: false,
+    }"
+    :navigation="{
+      clickable: true,
+    }"
+    :pagination="{
+      dynamicBullets: true,
+      dynamicMainBullets: 3,
+      clickable: true,
+      type: 'bullets',
+    }"
+    :scrollbar="{ draggable: true }"
+    :breakpoints="{
+      // 大於等於
+      '320': {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      },
+      '576': {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      },
+      '1600': {
+        slidesPerView: 1.225,
+        spaceBetween: 64,
+      },
+      '1920': {
+        slidesPerView: 1.46,
+        spaceBetween: 64,
+      },
+    }"
+    class="position-relative"
+    :style="{
+      width: `100%`,
+      height: `750px`,
+      '--swiper-navigation-size': '20px',
+      '--swiper-pagination-color': '#0089a7',
+      '--swiper-pagination-bullet-inactive-color': '#fff',
+      '--swiper-pagination-bullet-inactive-opacity': '1',
+      '--swiper-pagination-bullet-size': '10px',
+    }"
+    ref="swiperRef"
+  >
+    <SwiperSlide v-for="item in bannerList" :key="item.id">
+      <div class="justify-content-center align-items-center position-relative">
+        <img :src="item[`${currentImage}`]" :alt="item.title" className="home-swiper-img" />
 
-          <div class="banner-title-container">
-            <h2 class="fw-bolder banner-title-text">
-              {{ item.title }}
-            </h2>
-            <h3
-              class="fs-2"
-              :style="{
-                'font-weight': `700`,
-              }"
-            >
-              {{ item.subtitle }}
-            </h3>
-            <router-link
-              to="products"
-              role="button"
-              class="btn btn-primary btn-lg fs-6 text-white py-3 mt-5"
-            >
-              {{ item.buttonText }}
-            </router-link>
-          </div>
+        <div class="banner-title-container">
+          <h2 class="fw-bolder banner-title-text">
+            {{ item.title }}
+          </h2>
+          <h3
+            class="fs-2"
+            :style="{
+              'font-weight': `700`,
+            }"
+          >
+            {{ item.subtitle }}
+          </h3>
+          <router-link
+            to="products"
+            role="button"
+            class="btn btn-primary btn-lg fs-6 text-white py-3 mt-5"
+          >
+            {{ item.buttonText }}
+          </router-link>
         </div>
-      </SwiperSlide>
-    </Swiper>
-  </div>
+      </div>
+    </SwiperSlide>
+  </Swiper>
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue';
@@ -168,17 +158,20 @@ const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'img
   background-color: $primary;
   /* z-index: -1; */
 
-  // 小於等於 375px 隱藏
-  @media (max-width: 375px) {
+  // 小於等於 576px 隱藏
+  @media (max-width: 576px) {
     opacity: 0;
   }
 
   // 大於等於 1290px 調整位置
-  @media (min-width: 1920px) {
-    left: 14.6%;
+  @media (min-width: 768px) {
+    left: 4.7%;
   }
   @media (min-width: 1600px) {
-    left: 5.8%; // 筆電展示範圍
+    left: 6.4%; // 筆電展示範圍
+  }
+  @media (min-width: 1920px) {
+    left: 13.53%;
   }
 
   &:hover {
@@ -194,17 +187,20 @@ const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'img
   background-color: $primary;
   /* z-index: -1; */
 
-  // 小於等於 375px 隱藏
-  @media (max-width: 375px) {
+  // 小於等於 576px 隱藏
+  @media (max-width: 576px) {
     opacity: 0;
   }
 
   // 大於等於 1290px 調整位置
-  @media (min-width: 1920px) {
-    right: 14.6%;
+  @media (min-width: 768px) {
+    right: 4.7%;
   }
   @media (min-width: 1600px) {
-    right: 5.8%;
+    right: 6.4%;
+  }
+  @media (min-width: 1920px) {
+    right: 13.53%;
   }
 
   &:hover {
@@ -215,7 +211,8 @@ const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'img
 /* 設定下方分頁樣式 */
 .swiper-pagination {
   margin-bottom: 48%;
-  @media (min-width: 376px) {
+  @media (min-width: 768px) {
+    margin-bottom: 12%;
     opacity: 0;
   }
 }
