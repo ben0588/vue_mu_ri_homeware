@@ -99,13 +99,20 @@ body {
   }
 }
 
+.nav-link-line-hover {
+  decoration: underline !important;
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
 .text-color {
   color: #fff !important;
 }
 
 .router-link-active {
   text-decoration: none !important;
-  font-weight: bolder;
+  font-weight: 800;
 }
 
 //
