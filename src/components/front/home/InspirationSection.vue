@@ -55,13 +55,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, computed } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Pagination } from 'swiper/modules';
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 const inspirationList = [
   {

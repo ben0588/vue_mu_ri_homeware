@@ -1,16 +1,49 @@
 <!-- eslint-disable max-len -->
 <template>
   <header class="border-bottom border-2 sticky-top">
-    <div class="bg-dark text-center d-flex align-items-center justify-content-center py-3">
-      <div class="container">
-        <div class="d-flex justify-content-center align-items-center text-center">
+    <div class="bg-dark text-center d-flex align-items-center justify-content-center">
+      <div class="container pt-3 pb-2">
+        <Swiper
+          :loop="true"
+          :speed="400"
+          :space-between="20"
+          :autoplay="{
+            delay: 10000,
+            pauseOnMouseEnter: true,
+            disableOnInteraction: false,
+          }"
+          :direction="'vertical'"
+          :scrollbar="{ draggable: true }"
+          class=""
+          :style="{
+            width: `100%`,
+            height: `40px`,
+          }"
+        >
+          <SwiperSlide v-for="item in advertiseList" :key="item.id">
+            <div class="container px-0">
+              <div class="d-flex justify-content-center align-items-center text-center">
+                <span class="text-white text-sm-truncate pe-2">
+                  {{ item.center }}
+                </span>
+                <span class="header-top-btn-container">
+                  <router-link :to="item.path" class="btn btn-outline-light px-3 py-1 fw-500"
+                    >了解更多</router-link
+                  >
+                </span>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+
+        <!-- <div class="d-flex justify-content-center align-items-center text-center">
           <span class="text-white text-sm-truncate pe-2">
             【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送
           </span>
           <span class="header-top-btn-container">
             <button type="button" class="btn btn-outline-light px-3 py-2">了解更多</button>
           </span>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -119,6 +152,8 @@
 </template>
 <script setup>
 import { ref, watchEffect } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
 import NavbarSearch from '@/components/common/NavbarSearch.vue';
 
 const screenWidth = ref(window.innerWidth);
@@ -148,6 +183,25 @@ const navbarList = ref([
     icon: ['far', 'user'],
   },
 ]);
+
+const advertiseList = [
+  // path 可以用來連結對應的活動頁面/或者商品資訊
+  {
+    id: 1,
+    path: '',
+    center: '【獨家優惠】所有時尚家飾及大型傢俱滿千即享免運費 + 會員專屬：指定品項點數翻倍送',
+  },
+  {
+    id: 2,
+    path: '',
+    center: '【特別驚喜】精選家居擺飾及豪華傢俱滿千即享免運 + 會員獨享：指定商品積分雙倍贈送',
+  },
+  {
+    id: 3,
+    path: '',
+    center: '【限時特惠】選購精緻家飾或奢華大型傢俱滿千即免運費 + 會員尊享：指定品項點數加倍回饋',
+  },
+];
 
 // 按下選單內容時關閉選單
 const toggleMenuOpen = () => {
@@ -203,6 +257,9 @@ watchEffect(() => {
 }
 
 .header-top-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media (max-width: 1920px) {
     width: 10%;
   }
