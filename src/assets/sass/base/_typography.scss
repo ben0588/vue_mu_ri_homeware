@@ -20,12 +20,20 @@ body {
   font-family: 'import Noto Sans CT';
 }
 
+.fw-400 {
+  font-weight: 400 !important;
+}
+
 .fw-500 {
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 .fw-700 {
-  font-weight: 700;
+  font-weight: 700 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 //
@@ -83,14 +91,13 @@ body {
 //   }
 // }
 
-// .nav-link-dark {
-//   text-decoration: none;
-//   color: rgb(33, 37, 41) !important;
-//   &:hover {
-//     color: #ac8a46 !important;
-//     background: #e9f1f5cc;
-//   }
-// }
+.nav-link-white {
+  text-decoration: none;
+  color: white !important;
+  &:hover {
+    opacity: 0.85;
+  }
+}
 
 .text-color {
   color: #fff !important;
@@ -159,4 +166,10 @@ body {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

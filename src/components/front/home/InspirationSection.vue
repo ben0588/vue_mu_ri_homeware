@@ -39,7 +39,7 @@
         <SwiperSlide v-for="item in inspirationList" :key="item.id">
           <div class="container px-0">
             <img :src="item.imgUrl" :alt="item.title" className="inspiration-img" />
-            <div class="fs-2 fw-500 text-truncate" :style="{ maxWidth: `100%` }">
+            <div class="fs-4 fw-500 text-truncate" :style="{ maxWidth: `100%` }">
               {{ item.title }}
             </div>
           </div>
