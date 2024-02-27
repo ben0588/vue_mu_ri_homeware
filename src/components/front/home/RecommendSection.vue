@@ -5,7 +5,7 @@
 
     <div class="container mt-64 p-0">
       <div
-        class="overflow-x-nowrap-375 flex-nowrap overflow-auto row row-cols-1 row-cols-sm-3 row-cols-lg-5 justify-content-start align-items-stretch m-0"
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
       >
         <div
           class="col col-1-2 px-3"
@@ -14,47 +14,7 @@
           :class="{ 'ps-2': index === 0, 'pe-2': index === 4 }"
         >
           <!--  :class="{ 'ps-2': index === 0 }" -->
-          <router-link :to="`products/${product.id}`" class="hover-img-opacity">
-            <div class="card recommend-card h-100 border-0" :style="{ backgroundColor: '#FBF9F9' }">
-              <img :src="product.imageUrl" class="card-img-top recommend-card-img" alt="..." />
-              <div class="card-body pt-3 px-0">
-                <h5 class="card-title fs-4 text-start">{{ product.title }}</h5>
-                <div>
-                  <span
-                    v-for="(fullStar, fullStarIndex) in product.starSymbols.fullStars"
-                    :key="fullStarIndex"
-                    class="me-2"
-                  >
-                    <!-- 顯示整星數量 -->
-                    <font-awesome-icon
-                      :icon="['fas', 'star']"
-                      v-if="fullStar"
-                      class="star-icon text-primary"
-                    />
-                  </span>
-                  <!-- 判斷是否顯示半星 -->
-                  <span class="me-2" v-if="product.starSymbols.halfStar">
-                    <font-awesome-icon
-                      :icon="['fas', 'star-half-stroke']"
-                      class="star-icon text-primary"
-                    />
-                  </span>
-
-                  <span class="me-2" v-if="product.starSymbols.emptyStars">
-                    <!-- 判斷是否要顯示空星 -->
-                    <font-awesome-icon :icon="['far', 'star']" class="star-icon text-primary" />
-                  </span>
-                  <span class="">({{ product.totalRatings }})</span>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="fs-3 fw-500">$ {{ product.price }}</span>
-                  <span class="me-2"
-                    ><font-awesome-icon :icon="['far', 'heart']" class="text-danger heart-icon"
-                  /></span>
-                </div>
-              </div>
-            </div>
-          </router-link>
+          <HomeCard :product="product" img-class="recommend-card-img" />
         </div>
       </div>
     </div>
@@ -64,6 +24,7 @@
 import { ref, computed } from 'vue';
 
 import { calculateProductsRatings } from '@/composables/ratingUtils';
+import HomeCard from '@/components/common/HomeCard.vue';
 
 const productsList = ref([
   {

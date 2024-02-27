@@ -43,6 +43,13 @@ body {
   }
 }
 
+.overflow-x-nowrap-lg {
+  @media (max-width: 992px) {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+  }
+}
+
 // 控制首頁手機板多顯示下一個區塊方式
 .col-1-2 {
   @media (max-width: 375px) {
@@ -93,5 +100,3 @@ body {
   text-decoration: none !important;
   font-weight: bolder;
 }
-
-// 大標題樣式

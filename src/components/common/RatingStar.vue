@@ -1,18 +1,22 @@
 <template>
-  <div>
+  <span>
     <!-- 顯示整星圖標 -->
     <span v-for="starIndex in fullStars" :key="starIndex" class="me-2">
-      <font-awesome-icon :icon="['fas', 'star']" class="star-icon text-primary" />
+      <font-awesome-icon :icon="['fas', 'star']" class="text-primary" :class="classSize" />
     </span>
     <!-- 判斷是否顯示半星 -->
     <span class="me-2" v-if="halfStar">
-      <font-awesome-icon :icon="['fas', 'star-half-stroke']" class="star-icon text-primary" />
+      <font-awesome-icon
+        :icon="['fas', 'star-half-stroke']"
+        class="text-primary"
+        :class="classSize"
+      />
     </span>
     <!-- 顯示空星圖標 -->
     <span v-for="starIndex in emptyStars" :key="starIndex" class="me-2">
-      <font-awesome-icon :icon="['far', 'star']" class="star-icon text-primary" />
+      <font-awesome-icon :icon="['far', 'star']" class="text-primary" :class="classSize" />
     </span>
-  </div>
+  </span>
 </template>
 <script setup>
 import { computed } from 'vue';
@@ -23,11 +27,15 @@ import { calculateProductsRatings } from '@/composables/ratingUtils';
 const props = defineProps({
   averageRating: {
     type: Number,
-    required: true,
+    required: false,
   },
   totalRatings: {
     type: Number,
-    required: true,
+    required: false,
+  },
+  classSize: {
+    type: String,
+    default: 'star-icon',
   },
 });
 

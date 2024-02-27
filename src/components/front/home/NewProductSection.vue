@@ -1,57 +1,50 @@
+<!-- eslint-disable max-len -->
 <template>
-  <div class="mt-80">
+  <div class="mt-64 py-80" :style="{ backgroundColor: '#FBF9F9' }">
     <h3 class="home-title">最新商品</h3>
-    <div class="container">
-      <div class="row" v-for="(product, index) in productsRatings" :key="product.id">
-        <div class="col-md-12" v-if="index === 0">
-          <div class="row gx-32">
-            <div class="col-md-7">
-              <img :src="product.imageUrl" alt="" class="new-products-img" />
+    <div class="container mt-64 px-2 w-100">
+      <div
+        class="row px-3 px-sm-0 w-100 mx-auto"
+        v-for="(product, index) in productsRatings"
+        :key="product.id"
+      >
+        <div class="col-md-12 px-1 px-sm-3" v-if="index === 0">
+          <div class="row border border-2 border-primary">
+            <div class="col-md-7 px-0">
+              <img :src="product.imageUrl" alt="" class="new-products-mid-img border-md-end" />
             </div>
-            <div class="col-md-5">
-              <div class="p-2">
-                <p class="m-0">{{ product.title }}</p>
-                <RatingStar
-                  :averageRating="product.averageRating"
-                  :totalRatings="product.totalRatings"
-                />
-                <p>{{ product.center }}</p>
-                <div>
-                  <span
-                    v-for="(fullStar, fullStarIndex) in product.starSymbols.fullStars"
-                    :key="fullStarIndex"
-                    class="me-2"
-                  >
-                    <!-- 顯示整星數量 -->
-                    <font-awesome-icon
-                      :icon="['fas', 'star']"
-                      v-if="fullStar"
-                      class="star-icon text-primary"
-                    />
-                  </span>
-                  <!-- 判斷是否顯示半星 -->
-                  <span class="me-2" v-if="product.starSymbols.halfStar">
-                    <font-awesome-icon
-                      :icon="['fas', 'star-half-stroke']"
-                      class="star-icon text-primary"
-                    />
-                  </span>
-
-                  <span class="me-2" v-if="product.starSymbols.emptyStars">
-                    <!-- 判斷是否要顯示空星 -->
-                    <font-awesome-icon :icon="['far', 'star']" class="star-icon text-primary" />
-                  </span>
-                  <span class="">({{ product.totalRatings }})</span>
+            <div class="col-md-5 px-0">
+              <div
+                class="d-flex justify-content-center flex-column h-100 px-3 px-lg-64 py-4 py-lg-32"
+              >
+                <p class="fs-4 fw-700 m-0 mb-12">{{ product.title }}</p>
+                <div class="mb-32">
+                  <RatingStar
+                    :averageRating="product.averageRating"
+                    :totalRatings="product.totalRatings"
+                    :classSize="'fs-3'"
+                  />
+                  <span> ({{ product.totalRatings }}) </span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="fs-3 fw-500">$ {{ product.price }}</span>
+                <p class="truncate-2-lines" :style="{ maxWidth: `100%` }">{{ product.center }}</p>
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <span class="fs-2 fw-700">$ {{ product.price }}</span>
                   <span class="me-2"
-                    ><font-awesome-icon :icon="['far', 'heart']" class="text-danger heart-icon"
+                    ><font-awesome-icon :icon="['far', 'heart']" class="text-danger fs-2"
                   /></span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="container px-2">
+      <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-between align-items-center overflow-x-nowrap-lg mt-32"
+      >
+        <div class="col col-1-2 px-3 px-sm-3" v-for="product in filteredProducts" :key="product.id">
+          <HomeCard :product="product" img-class="new-products-img" />
         </div>
       </div>
     </div>
@@ -63,6 +56,7 @@ import { ref, computed } from 'vue';
 import { calculateProductsRatings } from '@/composables/ratingUtils';
 
 import RatingStar from '@/components/common/RatingStar.vue';
+import HomeCard from '@/components/common/HomeCard.vue';
 
 const productsList = ref([
   {
@@ -284,20 +278,56 @@ const productsList = ref([
   },
 ]);
 
-// 計算屬性：為產品列表中的每個產品計算星星符號
-const productsRatings = computed(() => calculateProductsRatings(productsList.value));
+// 計算屬性：為產品列表中的每個產品計算星星符號 (只顯示五筆)
+const productsRatings = computed(() => calculateProductsRatings(productsList.value).slice(0, 5));
+
+// 只顯示後四筆
+const filteredProducts = computed(() => calculateProductsRatings(productsList.value).slice(1));
 </script>
 <style lang="scss">
-.new-products-img {
+.new-products-mid-img {
+  display: block;
   object-fit: cover;
-  width: 100%;
-  height: auto;
   max-width: 746px;
   max-height: 380px;
+  width: 100%;
+  height: auto;
 
   /* @media (max-width: 375px) {
     max-width: 300px;
     max-height: 199px;
   } */
+}
+
+.new-products-img {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-width: 306px;
+  max-height: 210px;
+}
+
+.border-md-end {
+  border-right: none;
+
+  @media (min-width: 768px) {
+    border-right: 2px solid $primary;
+  }
+}
+
+.truncate-2-lines {
+  @media (max-width: 992px) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+  @media (max-width: 768px) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 }
 </style>

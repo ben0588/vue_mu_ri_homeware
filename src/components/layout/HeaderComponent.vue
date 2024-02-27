@@ -1,11 +1,11 @@
 <!-- eslint-disable max-len -->
 <template>
   <header class="border-bottom border-2 sticky-top">
-    <div
-      class="header-top-container bg-dark text-center d-flex align-items-center justify-content-center py-3"
-    >
-      <span class="text-white">【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送</span>
-      <button type="button" class="btn btn-outline-light btn-sm ms-3">了解更多</button>
+    <div class="bg-dark text-center d-flex align-items-center justify-content-center py-3">
+      <div class="container">
+        <span class="text-white">【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送</span>
+        <button type="button" class="btn btn-outline-light btn-sm ms-3 ms-md-1">了解更多</button>
+      </div>
     </div>
 
     <div class="bg-white py-2">
@@ -196,7 +196,7 @@ watchEffect(() => {
   }
 }
 
-.header-top-container {
+/* .header-top-container {
   @media (max-width: 500px) {
     padding-left: 15px;
     padding-right: 15px;
@@ -212,7 +212,7 @@ watchEffect(() => {
       padding-bottom: 10px;
     }
   }
-}
+} */
 
 .navbar-collapse {
   /* background-color: red !important; */

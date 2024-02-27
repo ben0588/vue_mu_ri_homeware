@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <main class="flex-grow-1 overflow-x-hidden" :style="{ maxWidth: `100%`, width: `100%` }">
     <!-- <BannerComponent></BannerComponent> -->
     <!-- <CategorySection></CategorySection> -->
-    <!-- <RecommendSection></RecommendSection> -->
+    <RecommendSection></RecommendSection>
     <!-- <NewEventSection></NewEventSection> -->
     <NewProductSection></NewProductSection>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-  </div>
+  </main>
 </template>
 
 <script setup>
