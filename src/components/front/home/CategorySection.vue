@@ -138,7 +138,7 @@ watchEffect(() => {
     screenWidth.value = window.innerWidth;
   };
 
-  if (screenWidth.value <= 768) {
+  if (screenWidth.value <= 992) {
     isTable.value = true;
   } else {
     isTable.value = false;
@@ -166,6 +166,16 @@ watchEffect(() => {
     max-width: 416px;
     max-height: 472px;
     object-fit: cover;
+
+    @media (max-width: 1200px) {
+      width: 350px;
+      height: 413px;
+    }
+
+    @media (max-width: 992px) {
+      width: 135.98px;
+      height: 135.98px;
+    }
 
     @media (max-width: 768px) {
       width: 156px;

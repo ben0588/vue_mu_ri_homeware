@@ -21,8 +21,6 @@
 <script setup>
 import { computed } from 'vue';
 
-import { calculateProductsRatings } from '@/composables/ratingUtils';
-
 // 定義 props
 const props = defineProps({
   averageRating: {
@@ -44,4 +42,9 @@ const fullStars = computed(() => Math.floor(props.averageRating));
 const halfStar = computed(() => props.averageRating % 1 >= 0.5);
 const emptyStars = computed(() => 5 - fullStars.value - (halfStar.value ? 1 : 0));
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+// 首頁用的 icon
+.star-icon {
+  font-size: 19px !important;
+}
+</style>

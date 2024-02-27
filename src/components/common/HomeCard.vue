@@ -8,9 +8,9 @@
           <RatingStar
             :averageRating="product.averageRating || 0"
             :totalRatings="product.totalRatings || 0"
-            :classSize="'fs-3'"
+            :classSize="'fs-6'"
           />
-          <span> ({{ product.totalRatings }}) </span>
+          <span class="fw-500"> ({{ product.totalRatings }}) </span>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fs-3 fw-700">$ {{ product.price }}</span>
@@ -23,12 +23,9 @@
   </router-link>
 </template>
 <script setup>
-import { onMounted } from 'vue';
-import { calculateProductsRatings } from '@/composables/ratingUtils';
-
 import RatingStar from '@/components/common/RatingStar.vue';
 
-const porps = defineProps({
+defineProps({
   product: {
     type: Object,
     required: false,
@@ -37,10 +34,6 @@ const porps = defineProps({
     type: String,
     required: false,
   },
-});
-
-onMounted(() => {
-  console.log('porps', porps.product);
 });
 </script>
 <style lang="scss"></style>

@@ -58,12 +58,12 @@ body {
   }
 }
 
-// 控制首頁手機板多顯示下一個區塊方式
-.col-1-2 {
-  @media (max-width: 375px) {
+.col-4-3 {
+  @media (max-width: 992px) {
     flex: 0 0 auto;
     /* 讓右側顯示區塊 */
-    width: 86% !important; /* 100% / (1 + 1/2) */
+    width: calc((100% - 16px) / 4.5);
+    /* 減去間隔後，分成4.5份，以顯示兩個完整和半個欄位 */
   }
 }
 
@@ -76,9 +76,21 @@ body {
   }
 }
 
-// 首頁用的 icon
-.star-icon {
-  font-size: 19px !important;
+// 控制首頁手機板多顯示下一個區塊方式
+.col-1-2 {
+  @media (max-width: 375px) {
+    flex: 0 0 auto;
+    /* 讓右側顯示區塊 */
+    width: 86% !important; /* 100% / (1 + 1/2) */
+  }
+}
+
+.col-1-2-event {
+  @media (max-width: 375px) {
+    flex: 0 0 auto;
+    /* 讓右側顯示區塊 */
+    width: 78% !important; /* 100% / (1 + 1/2) */
+  }
 }
 
 .heart-icon {

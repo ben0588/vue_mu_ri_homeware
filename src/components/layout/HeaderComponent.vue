@@ -2,7 +2,7 @@
 <template>
   <header class="border-bottom border-2 sticky-top">
     <div class="bg-dark text-center d-flex align-items-center justify-content-center">
-      <div class="container pt-3 pb-2">
+      <div class="container pt-3 pb-3 pt-lg-3 pb-sm-2">
         <Swiper
           :loop="true"
           :speed="400"
@@ -17,13 +17,13 @@
           class=""
           :style="{
             width: `100%`,
-            height: `40px`,
+            height: `45px`,
           }"
         >
           <SwiperSlide v-for="item in advertiseList" :key="item.id">
             <div class="container px-0">
               <div class="d-flex justify-content-center align-items-center text-center">
-                <span class="text-white text-sm-truncate pe-2">
+                <span class="text-white text-sm-truncate truncate-2-lines pe-2">
                   {{ item.center }}
                 </span>
                 <span class="header-top-btn-container">
@@ -276,10 +276,10 @@ watchEffect(() => {
     width: 19%;
   }
   @media (max-width: 576px) {
-    width: 26%;
+    width: 32%;
   }
   @media (max-width: 375px) {
-    width: 50%;
+    width: 85%;
   }
 }
 

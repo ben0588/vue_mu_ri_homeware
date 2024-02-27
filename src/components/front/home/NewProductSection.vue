@@ -11,28 +11,36 @@
         <div class="col-md-12 px-1 px-sm-3" v-if="index === 0">
           <div class="row border border-2 border-primary">
             <div class="col-md-7 px-0">
-              <img :src="product.imageUrl" alt="" class="new-products-mid-img border-md-end" />
+              <router-link :to="`/products/${product.id}`">
+                <img
+                  :src="product.imageUrl"
+                  :alt="product.title"
+                  class="new-products-mid-img border-md-end"
+                />
+              </router-link>
             </div>
             <div class="col-md-5 px-0">
               <div
                 class="d-flex justify-content-center flex-column h-100 px-3 px-lg-64 py-4 py-lg-32"
               >
-                <p class="fs-4 fw-700 m-0 mb-12">{{ product.title }}</p>
-                <div class="mb-32">
-                  <RatingStar
-                    :averageRating="product.averageRating"
-                    :totalRatings="product.totalRatings"
-                    :classSize="'fs-3'"
-                  />
-                  <span> ({{ product.totalRatings }}) </span>
-                </div>
-                <p class="truncate-2-lines" :style="{ maxWidth: `100%` }">{{ product.center }}</p>
-                <div class="d-flex justify-content-between align-items-center w-100">
-                  <span class="fs-2 fw-700">$ {{ product.price }}</span>
-                  <span class="me-2"
-                    ><font-awesome-icon :icon="['far', 'heart']" class="text-danger fs-2"
-                  /></span>
-                </div>
+                <router-link :to="`/products/${product.id}`" class="text-dark">
+                  <p class="fs-4 fw-700 m-0 mb-12">{{ product.title }}</p>
+                  <div class="mb-32">
+                    <RatingStar
+                      :averageRating="product.averageRating"
+                      :totalRatings="product.totalRatings"
+                      :classSize="'fs-4'"
+                    />
+                    <span class="fw-500"> ({{ product.totalRatings }}) </span>
+                  </div>
+                  <p class="truncate-2-lines" :style="{ maxWidth: `100%` }">{{ product.center }}</p>
+                  <div class="d-flex justify-content-between align-items-center w-100">
+                    <span class="fs-2 fw-700">$ {{ product.price }}</span>
+                    <span class="me-2"
+                      ><font-awesome-icon :icon="['far', 'heart']" class="text-danger fs-2"
+                    /></span>
+                  </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -43,7 +51,11 @@
       <div
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-between align-items-center overflow-x-nowrap-lg mt-32"
       >
-        <div class="col col-1-2 px-3 px-sm-3" v-for="product in filteredProducts" :key="product.id">
+        <div
+          class="col col-1-2 col-2-2 px-3 px-sm-3"
+          v-for="product in filteredProducts"
+          :key="product.id"
+        >
           <HomeCard :product="product" img-class="new-products-img" />
         </div>
       </div>

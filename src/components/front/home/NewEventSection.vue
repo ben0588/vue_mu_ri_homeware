@@ -23,7 +23,7 @@
       </div>
       <!-- 季節區塊 -->
       <div class="row gx-32 overflow-x-nowrap-375 overflow-x-nowrap-768 px-2 mt-64">
-        <div class="col-md-6 col-1-2 col-2-2" v-for="event in eventList" :key="event.title">
+        <div class="col-md-6 col-1-2-event col-2-2" v-for="event in eventList" :key="event.title">
           <div class="row">
             <div class="col-lg-7 px-0 mb-32">
               <img :src="event.imageUrl" :alt="event.title" class="event-img" />
