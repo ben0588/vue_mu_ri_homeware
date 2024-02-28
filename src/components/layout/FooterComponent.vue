@@ -27,20 +27,21 @@
         </nav>
       </div>
       <div class="mt-60 mt-sm-32">
-        <div class="row">
-          <div class="col-lg-5 pe-lg-60 flex-center">
+        <div class="row m-0">
+          <div class="col-12 col-lg-5 pe-lg-60 flex-center">
             <router-link to="/">
               <img
                 src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708320848240.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=OeFT3F9jZT2diAq%2BueJUc3ZCRMaFmfXw6AbGuqNftX9r8XE6sLFuTu3F%2B1QHtE7%2B095ly8QRvwbLAji3WpKs1RyFpVSuNqJDquhDWEcp3qNO915c%2B3e9DRG7FIwbh0zt4B7c7vGHQwAsKPKWijFUC9%2FeSldfkT0celgsGKlgiQXrRT%2FlVlodUk7fNbtVGKOL6Jxc6VIq06Qn4RtfIH%2FtcANSjKE2t8ROwgRfVsQkSK5lZTWKHwbBo6wU7XN3kladME7ioWTcolACMikHrx5vFaQ1UVfde6k4w5KivHCvmRsg4vHxGhDERYHwyRgQC2OsBHGXPAZ%2Fb9mbFhGYEamviw%3D%3D"
                 alt="日沐家居"
                 :style="{
-                  width: `175px`,
+                  width: `100%`,
+                  maxWidth: `175px`,
                   height: `56px`,
                 }"
               />
             </router-link>
           </div>
-          <div class="col-lg-7 mt-32 mt-lg-0">
+          <div class="col-12 col-lg-7 mt-32 mt-lg-0">
             <nav class="flex-center h-100">
               <ul class="list-unstyled flex-center mb-0">
                 <li v-for="community in communityList" :key="community.id" class="px-3">
