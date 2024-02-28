@@ -216,7 +216,8 @@
                     >
                     <input
                       id="stock"
-                      type="text"
+                      type="number"
+                      min="1"
                       class="form-control"
                       :placeholder="t('admin.products_modal_stock_placeholder')"
                       v-model.number="newTempData[i18nStore.currentIcon].stock"
@@ -253,7 +254,7 @@
                       v-model.number="newTempData[i18nStore.currentIcon].price"
                     />
                   </div>
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-md-6 mt-4">
                     <label for="dimensions" class="form-label"
                       ><span class="text-danger">*</span
                       >{{ t('admin.products_modal_dimensions') }}</label
@@ -315,7 +316,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb3">
+                  <label for="colors" class="form-label"
+                    ><span class="text-danger">*</span>{{ t('admin.products_modal_star') }}
+                  </label>
+                  <div
+                    v-for="(star, index) in newTempData[i18nStore.currentIcon].ratings"
+                    :key="index"
+                    class="mt-1"
+                  >
+                    <label :for="index" class="form-label me-2">{{ index }}</label>
+                    <input
+                      type="number"
+                      class="form-control d-inline-block w-25"
+                      :id="index"
+                      v-model.number="star.count"
+                    />
+                  </div>
+                </div>
+                <div class="my-3">
                   <label for="description" class="form-label"
                     ><span class="text-danger">*</span
                     >{{ t('admin.products_modal_description') }}</label
@@ -481,7 +500,42 @@ const newLanguageData = {
   description: '',
   content: '',
   is_enabled: 1,
-  rating: 0,
+  ratings: {
+    star_1: {
+      count: 0,
+      reviews: [
+        {
+          user: '評論名稱',
+          comment: '產品描述',
+          reviewId: '頻論會員id',
+        },
+      ],
+    },
+    star_2: {
+      count: 0,
+    },
+    star_3: {
+      count: 0,
+    },
+    star_4: {
+      count: 0,
+    },
+    star_5: {
+      count: 9,
+      reviews: [
+        {
+          user: 'Alex',
+          comment: '商品品質再棒了!很喜歡',
+          reviewId: 'r1',
+        },
+        {
+          user: 'Ben',
+          comment: '躺起來非常舒服~~',
+          reviewId: 'r2',
+        },
+      ],
+    },
+  },
   crate_date: new Date().getTime(),
   sales_num: 0,
   isNew: true, // 新品專區用
@@ -712,9 +766,9 @@ onUnmounted(() => {
   }
 });
 
-onMounted(() => {
-  console.log('newTempData', newTempData);
-});
+// onMounted(() => {
+//   console.log('newTempData', newTempData);
+// });
 
 const fileRef = ref(null);
 const uploadLoading = ref(false);
@@ -775,21 +829,22 @@ const openModal = (type, data) => {
   if (type === 'create') {
     newTempData.value = {
       // 因 api 格式要求，所以必須要有以下欄位，故不填寫任何資料
-      title: 'title',
-      category: 'category',
-      origin_price: 999,
-      price: 999,
-      unit: 'unit',
-      description: 'description',
-      content: 'content',
+      title: '',
+      category: '',
+      origin_price: 0,
+      price: 0,
+      unit: '',
+      description: '',
+      content: '',
       is_enabled: 1,
-      imageUrl: '主圖網址',
+      imageUrl: '',
       imagesUrl: ['1', '2', '3', '4', '5'],
-      tw: { ...newLanguageData },
-      us: { ...newLanguageData },
-      jp: { ...newLanguageData },
-      kr: { ...newLanguageData },
-      th: { ...newLanguageData },
+      // 防止深層拷貝
+      tw: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+      us: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+      jp: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+      kr: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+      th: { ...JSON.parse(JSON.stringify(newLanguageData)) },
     };
     fileRef.value.value = null; // 清空 file 檔案
     bsModalInstance.value.show();
@@ -805,21 +860,22 @@ const closeModal = () => {
   // formRef.value.reset(); // 清除表單內容 (若使用表單清除會把預設值清除，所以用以下方式)
   newTempData.value = {
     // 因 api 格式要求，所以必須要有以下欄位，故不填寫任何資料
-    title: 'title',
-    category: 'category',
+    title: '',
+    category: '',
     origin_price: 999,
     price: 999,
-    unit: 'unit',
-    description: 'description',
-    content: 'content',
+    unit: '',
+    description: '',
+    content: '',
     is_enabled: 1,
-    imageUrl: '主圖網址',
+    imageUrl: '',
     imagesUrl: ['1', '2', '3', '4', '5'],
-    tw: { ...newLanguageData },
-    us: { ...newLanguageData },
-    jp: { ...newLanguageData },
-    kr: { ...newLanguageData },
-    th: { ...newLanguageData },
+    // 防止深層拷貝
+    tw: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+    us: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+    jp: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+    kr: { ...JSON.parse(JSON.stringify(newLanguageData)) },
+    th: { ...JSON.parse(JSON.stringify(newLanguageData)) },
   };
   uploadLoading.value = false;
   fileUploadMessage.value = '';
@@ -847,7 +903,7 @@ watchEffect(() => {
   newTempData.value.is_enabled = newTempData.value.tw.is_enabled;
   newTempData.value.imageUrl = newTempData.value.tw.imageUrl;
   newTempData.value.imagesUrl = newTempData.value.tw.imagesUrl;
-  newTempData.value.rating = newTempData.value.tw.rating;
+  newTempData.value.ratings = newTempData.value.tw.ratings;
   newTempData.value.crate_date = newTempData.value.tw.crate_date;
   newTempData.value.sales_num = newTempData.value.tw.sales_num;
   newTempData.value.isNew = newTempData.value.tw.isNew;

@@ -65,7 +65,8 @@
               }}</span>
               <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
             </td>
-            <td class="d-flex justify-content-center">
+
+            <td class="flex-center">
               <button
                 type="button"
                 class="btn btn-dark me-1"

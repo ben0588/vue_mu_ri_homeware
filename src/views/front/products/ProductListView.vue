@@ -37,7 +37,7 @@
     </span>
 
     <div class="row">
-      <div class="col-lg-4" v-for="product in productsList" :key="product.id">
+      <div class="col-lg-4" v-for="product in productsRatings" :key="product.id">
         <HomeCard :product="product" img-class="new-products-img" />
       </div>
     </div>
@@ -57,6 +57,9 @@ import useLoadingStore from '@/stores/loadingStores';
 import { useAlert } from '@/composables/useAlert';
 import Pagination from '@/components/common/Pagination.vue';
 import HomeCard from '@/components/common/HomeCard.vue';
+
+// 計算屬性：為產品列表中的每個產品計算星星符號
+import { calculateProductsRatings } from '@/composables/ratingUtils';
 
 const loadingStore = useLoadingStore();
 const { showAlert } = useAlert();
@@ -93,6 +96,7 @@ const fetchAdminProducts = async (page = 1, category = '') => {
     LoadingStore.toggleLoading();
   }
 };
+const productsRatings = computed(() => calculateProductsRatings(productsList.value));
 
 const categoryList = computed(() => [
   { id: '1', text: '家具' }, // 家具
