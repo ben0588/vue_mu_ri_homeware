@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 const useAdminStore = defineStore('adminStore', () => {
-  const isCheck = ref(false);
-  function checkToken() {
-    isCheck.value = !isCheck.value;
+  const isLogin = ref(false);
+  function toggleAdminState() {
+    isLogin.value = !isLogin.value;
   }
 
-  return { isCheck, checkToken };
+  return { isLogin, toggleAdminState };
 });
 
 export default useAdminStore;

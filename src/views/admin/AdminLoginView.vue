@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center align-items-center vh-100 pt-5">
+  <div class="container d-flex justify-content-center align-items-center h-100 py-60">
     <div class="admin-form-container border border-2 shadow rounded p-5">
       <h2 class="text-center fw-bolder fs-1">{{ t('admin.loginTitle') }}</h2>
       <form @submit.prevent="adminLogin" class="mt-5">
@@ -53,8 +53,10 @@ import { useI18n } from 'vue-i18n';
 
 import { useAlert } from '@/composables/useAlert';
 import useLoadingStore from '@/stores/loadingStores';
+import useAdminStore from '@/stores/adminStores';
 
 const LoadingStore = useLoadingStore();
+const adminStore = useAdminStore();
 const { showAlert } = useAlert();
 
 const router = useRouter();
@@ -68,7 +70,6 @@ const adminData = ref({
 
 const adminLogin = async () => {
   try {
-    LoadingStore.toggleLoading();
     const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/admin/signin`;
     const response = await axios.post(api, { ...adminData.value });
     const { success, token, expired } = response.data;
@@ -76,6 +77,7 @@ const adminLogin = async () => {
     document.cookie = `AdminToken=${token}; expires=${new Date(expired)};`;
     axios.defaults.headers.common.Authorization = token;
     localStorage.setItem('s72241', token); // 增加在管理官重新整理不重新登入
+    adminStore.isLogin = true;
     if (success) {
       adminData.value.username = '';
       adminData.value.password = '';
@@ -115,9 +117,7 @@ const adminLogin = async () => {
       allowEscapeKey: false,
       allowOutsideClick: false,
     });
-  } finally {
-    // 不館成功或失敗都將讀取效果替換
-    LoadingStore.toggleLoading();
+    adminStore.isLogin = false;
   }
 };
 </script>

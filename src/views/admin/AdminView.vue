@@ -4,7 +4,7 @@
       <div class="container-fluid bg-dark py-1">
         <a class="navbar-brand text-white ps-2">{{ t('admin.dashboardName') }}</a>
         <ul class="list-unstyled d-flex justify-content-center align-items-center m-0">
-          <li class="me-2">
+          <li class="me-2" v-if="adminStore.isLogin">
             <button
               type="button"
               class="btn btn-light bg-dark text-white"
@@ -47,26 +47,31 @@
       </div>
     </nav>
   </header>
-  <VueLoading :active="isLogoutLoading" :can-cancel="false" :color="'#d63031'"></VueLoading>
+  <VueLoading :active="adminIsLogin" :can-cancel="false" :color="'#d63031'"></VueLoading>
   <router-view></router-view>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 // import { changeLocale } from '@/languages/i18n';
 import { Dropdown } from 'bootstrap';
 import VueLoading from 'vue-loading-overlay';
 import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
 
 import useI18nStore from '@/stores/i18nStores';
 import { useAlert } from '@/composables/useAlert';
-import axios from 'axios';
+import useAdminStore from '@/stores/adminStores';
+
+const adminStore = useAdminStore();
 
 const { showAlert } = useAlert();
 const isLogoutLoading = ref(false);
+const route = useRoute();
 const router = useRouter();
+const adminIsLogin = ref(false);
 
 const toggleLogout = () => {
   isLogoutLoading.value = !isLogoutLoading.value;
@@ -104,7 +109,7 @@ const handleAdminLogout = async () => {
       reverseButtons: true,
       preConfirm: async () => {
         try {
-          isLogoutLoading.value = true;
+          adminIsLogin.value = true;
           return await axios.post(api);
         } catch (error) {
           showAlert({
@@ -117,12 +122,13 @@ const handleAdminLogout = async () => {
             allowOutsideClick: false,
           });
           localStorage.setItem('s72241', '');
-          isLogoutLoading.value = false;
+          adminIsLogin.value = false;
           return false;
         }
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
+      adminIsLogin.value = false;
       if (result?.value?.data?.success) {
         localStorage.setItem('s72241', '');
         showAlert({
@@ -130,9 +136,10 @@ const handleAdminLogout = async () => {
           title: '成功',
           text: `${result?.value?.data?.message} | 即將返回登入頁`,
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1000,
         }).then((res) => {
           if (res.dismiss === Swal.DismissReason.timer) {
+            adminStore.isLogin = false; // 清除登入狀態
             router.push({ path: '/admin' });
           }
         });
@@ -148,15 +155,22 @@ const handleAdminLogout = async () => {
       allowEscapeKey: false,
       allowOutsideClick: false,
     });
-    isLogoutLoading.value = false;
+    adminStore.isLogin = false; // 清除登入狀態
+    router.push({ path: '/admin' });
   } finally {
-    isLogoutLoading.value = false;
+    adminIsLogin.value = false;
   }
 };
 
 onMounted(() => {
   // 初始化下拉菜單
   Dropdown.getOrCreateInstance(dropdownMenuButton.value);
+});
+
+onMounted(() => {
+  if (route.path.includes('dashboard')) {
+    adminStore.isLogin = true; // 防止重新整理後 pinia 狀態消失
+  }
 });
 </script>
 
