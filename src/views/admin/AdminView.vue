@@ -4,14 +4,19 @@
       <div class="container-fluid bg-dark py-1">
         <a class="navbar-brand text-white ps-2">{{ t('admin.dashboardName') }}</a>
         <ul class="list-unstyled d-flex justify-content-center align-items-center m-0">
-          <li><router-link class="text-white p-2" to="/admin">後臺-首頁 |</router-link></li>
-          <li><router-link class="text-white p-2" to="/admin/dashboard"> 儀板表 |</router-link></li>
-          <li><router-link class="text-white p-2" to="/"> 回到前台 |</router-link></li>
-
+          <li class="me-2">
+            <button
+              type="button"
+              class="btn btn-light bg-dark text-white"
+              @click="handleAdminLogout"
+            >
+              管理者登出
+            </button>
+          </li>
           <li>
-            <div class="dropdown me-3">
+            <div class="dropdown me-4">
               <button
-                class="btn btn-secondary dropdown-toggle"
+                class="btn btn-secondary dropdown-toggle bg-dark text-white"
                 type="button"
                 id="dropdownMenuButton"
                 data-bs-toggle="dropdown"
@@ -42,6 +47,7 @@
       </div>
     </nav>
   </header>
+  <VueLoading :active="isLogoutLoading" :can-cancel="false" :color="'#d63031'"></VueLoading>
   <router-view></router-view>
 </template>
 
@@ -50,8 +56,21 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 // import { changeLocale } from '@/languages/i18n';
 import { Dropdown } from 'bootstrap';
+import VueLoading from 'vue-loading-overlay';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
 
 import useI18nStore from '@/stores/i18nStores';
+import { useAlert } from '@/composables/useAlert';
+import axios from 'axios';
+
+const { showAlert } = useAlert();
+const isLogoutLoading = ref(false);
+const router = useRouter();
+
+const toggleLogout = () => {
+  isLogoutLoading.value = !isLogoutLoading.value;
+};
 
 const i18nStore = useI18nStore();
 const { i18nChangeLocale } = i18nStore;
@@ -67,6 +86,72 @@ const handleChangI18nFn = (code, iconCode) => {
   // 紀錄選擇語系與icon代碼，並且保存至 localStorage 中。
   i18nChangeLocale(code, iconCode);
   isOpen.value = false; // 確認之後要把開啟狀態關閉
+};
+
+const handleAdminLogout = async () => {
+  try {
+    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/logout`;
+    showAlert({
+      title: '管理者登出?',
+      text: '確定登出請按下確認按鈕',
+      icon: 'question',
+      confirmButtonColor: '#111c30',
+      cancelButtonColor: '#b2bec3',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
+      showCancelButton: true,
+      showCloseButton: true,
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          isLogoutLoading.value = true;
+          return await axios.post(api);
+        } catch (error) {
+          showAlert({
+            title: `${error.response.data.message} | ${t('admin.message_error')}`,
+            text: '登出失敗，請關閉頁面重新嘗試登出',
+            icon: 'error',
+            confirmButtonText: `${t('admin.message_confirm_text')}`,
+            confirmButtonColor: '#000000',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+          });
+          localStorage.setItem('s72241', '');
+          isLogoutLoading.value = false;
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result?.value?.data?.success) {
+        localStorage.setItem('s72241', '');
+        showAlert({
+          icon: 'success',
+          title: '成功',
+          text: `${result?.value?.data?.message} | 即將返回登入頁`,
+          showConfirmButton: false,
+          timer: 1500,
+        }).then((res) => {
+          if (res.dismiss === Swal.DismissReason.timer) {
+            router.push({ path: '/admin' });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    showAlert({
+      title: `${error.response.data.message} | ${t('admin.message_error')}`,
+      text: '登出失敗，請關閉頁面重新開啟',
+      icon: 'error',
+      confirmButtonText: `${t('admin.message_confirm_text')}`,
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+    });
+    isLogoutLoading.value = false;
+  } finally {
+    isLogoutLoading.value = false;
+  }
 };
 
 onMounted(() => {

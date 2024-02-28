@@ -444,7 +444,7 @@
 
 <script setup>
 // eslint-disable-next-line object-curly-newline
-import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watch, watchEffect } from 'vue';
 import { Modal } from 'bootstrap';
 import { useI18n } from 'vue-i18n';
 import axios from 'axios';
@@ -521,6 +521,32 @@ const newTempData = ref({
   is_enabled: 1,
   imageUrl: '主圖網址',
   imagesUrl: ['1', '2', '3', '4', '5'],
+  rating: 0,
+  crate_date: new Date().getTime(),
+  sales_num: 0,
+  isNew: true, // 新品專區用
+  isOnHot: false, // 首頁展示商品用
+  isRecommended: false, // 前台預設排序用
+  isOnSale: false, // 全部商品篩選用
+  dimensions: {
+    length: '',
+    width: '',
+    height: '',
+  },
+  colors: [
+    {
+      title: '',
+      code: '',
+    },
+    {
+      title: '',
+      code: '',
+    },
+    {
+      title: '',
+      code: '',
+    },
+  ],
   tw: { ...newLanguageData },
   us: { ...newLanguageData },
   jp: { ...newLanguageData },
@@ -686,6 +712,10 @@ onUnmounted(() => {
   }
 });
 
+onMounted(() => {
+  console.log('newTempData', newTempData);
+});
+
 const fileRef = ref(null);
 const uploadLoading = ref(false);
 const fileUploadMessage = ref('');
@@ -798,12 +828,35 @@ const closeModal = () => {
 }; // 關閉模組
 
 watch(
-  () => newTempData.value.tw.category,
+  () => newTempData.value.tw,
   () => {
     // 當繁體中文商品主類型有修改，那麼就改主類型的紀錄
     newTempData.value.category = newTempData.value.tw.category;
   },
 );
+
+watchEffect(() => {
+  // 因為未來想要將 i18n 做完，所以先用此方式更修改統一呈現的商品資訊
+  newTempData.value.title = newTempData.value.tw.title;
+  newTempData.value.category = newTempData.value.tw.category;
+  newTempData.value.origin_price = newTempData.value.tw.origin_price;
+  newTempData.value.price = newTempData.value.tw.price;
+  newTempData.value.unit = newTempData.value.tw.unit;
+  newTempData.value.description = newTempData.value.tw.description;
+  newTempData.value.content = newTempData.value.tw.content;
+  newTempData.value.is_enabled = newTempData.value.tw.is_enabled;
+  newTempData.value.imageUrl = newTempData.value.tw.imageUrl;
+  newTempData.value.imagesUrl = newTempData.value.tw.imagesUrl;
+  newTempData.value.rating = newTempData.value.tw.rating;
+  newTempData.value.crate_date = newTempData.value.tw.crate_date;
+  newTempData.value.sales_num = newTempData.value.tw.sales_num;
+  newTempData.value.isNew = newTempData.value.tw.isNew;
+  newTempData.value.isOnHot = newTempData.value.tw.isOnHot;
+  newTempData.value.isRecommended = newTempData.value.tw.isRecommended;
+  newTempData.value.isOnSale = newTempData.value.tw.isOnSale;
+  newTempData.value.dimensions = newTempData.value.tw.dimensions;
+  newTempData.value.colors = newTempData.value.tw.colors;
+});
 
 // 新增或者編輯商品
 const addOrPutProduct = async () => {

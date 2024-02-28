@@ -3,7 +3,7 @@
     <div class="col-2 border-end vh-100 p-0">
       <nav class="d-flex flex-column">
         <router-link
-          class="admin-nav-link-dark fs-5 fw-bolder border-bottom p-3"
+          class="admin-nav-link-dark fw-500 border-bottom px-3 py-2"
           :exact-active-class="'admin-nav-active'"
           :to="`/admin/dashboard/${item.path}`"
           v-for="item in navbarList"
@@ -25,9 +25,10 @@
 <script setup>
 import VueLoading from 'vue-loading-overlay';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 import useLoadingStore from '@/stores/loadingStores';
+import axios from 'axios';
 
 const { t } = useI18n();
 const loadingStore = useLoadingStore();

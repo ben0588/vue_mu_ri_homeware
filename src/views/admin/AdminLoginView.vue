@@ -75,6 +75,7 @@ const adminLogin = async () => {
     // 紀錄 Token And Axios defaults headers setting
     document.cookie = `AdminToken=${token}; expires=${new Date(expired)};`;
     axios.defaults.headers.common.Authorization = token;
+    localStorage.setItem('s72241', token); // 增加在管理官重新整理不重新登入
     if (success) {
       adminData.value.username = '';
       adminData.value.password = '';
@@ -111,6 +112,8 @@ const adminLogin = async () => {
       icon: 'error',
       confirmButtonText: `${t('admin.message_confirm_text')}`,
       confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
     });
   } finally {
     // 不館成功或失敗都將讀取效果替換

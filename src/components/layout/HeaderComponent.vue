@@ -35,15 +35,6 @@
             </div>
           </SwiperSlide>
         </Swiper>
-
-        <!-- <div class="d-flex justify-content-center align-items-center text-center">
-          <span class="text-white text-sm-truncate pe-2">
-            【官網獨享】一般&大型家飾滿千免運+指定品會員點數2倍送
-          </span>
-          <span class="header-top-btn-container">
-            <button type="button" class="btn btn-outline-light px-3 py-2">了解更多</button>
-          </span>
-        </div> -->
       </div>
     </div>
 
@@ -110,7 +101,11 @@
                           @click="toggleMenuOpen"
                         >
                           <span v-if="isTable">{{ item.center }}</span>
-                          <font-awesome-icon :icon="item.icon" class="header-icons" v-else />
+                          <font-awesome-icon
+                            :icon="item.icon"
+                            class="header-icons"
+                            v-else-if="item.icon !== 'none'"
+                          />
                         </router-link>
                       </li>
                       <li class="ms-4 header-navbar-items" v-if="isTable">
@@ -161,6 +156,13 @@ const isTable = ref(false);
 const isOpenMenu = ref(false);
 
 const navbarList = ref([
+  {
+    title: '前往全部商品',
+    center: '全部商品',
+    path: '/products',
+    label: 'products',
+    icon: 'none',
+  },
   {
     title: '前往購物車',
     center: '購物車',

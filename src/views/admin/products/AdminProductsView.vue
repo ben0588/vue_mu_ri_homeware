@@ -2,7 +2,7 @@
   <div class="pt-3">
     <div class="row">
       <span class="col-6">
-        <h3 class="fw-bolder">{{ t('admin.products_title') }}</h3>
+        <h3 class="fw-500">{{ t('admin.products_title') }}</h3>
       </span>
       <span class="col-6">
         <div class="float-end pe-5">
@@ -38,57 +38,60 @@
         </select>
       </div>
     </span>
-    <table class="table align-middle table-responsive">
-      <thead>
-        <tr>
-          <th scope="col">{{ t('admin.products_id') }}</th>
-          <th scope="col">{{ t('admin.products_name') }}</th>
-          <th scope="col">{{ t('admin.products_category') }}</th>
-          <th scope="col">{{ t('admin.products_subcategory') }}</th>
-          <th scope="col">{{ t('admin.products_price') }}</th>
-          <th scope="col">{{ t('admin.products_state') }}</th>
-          <th scope="col" class="text-center">{{ t('admin.products_operate') }}</th>
-        </tr>
-      </thead>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th class="fw-400" scope="col">{{ t('admin.products_id') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_name') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_category') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_subcategory') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_price') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_state') }}</th>
+            <th class="fw-400 text-center" scope="col">{{ t('admin.products_operate') }}</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="product in adminProducts" :key="product.id">
-          <th>{{ product.id }}</th>
-          <td>{{ product[i18nStore.currentIcon].title }}</td>
-          <td>{{ product[i18nStore.currentIcon].category }}</td>
-          <td>{{ product[i18nStore.currentIcon].category }}</td>
-          <td>{{ product[i18nStore.currentIcon].price }}</td>
-          <td>
-            <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{
-              t('admin.products_on_enabled')
-            }}</span>
-            <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
-          </td>
-          <td class="d-flex justify-content-center">
-            <button
-              type="button"
-              class="btn btn-dark me-1"
-              @click="handleOpenModal('edit', product)"
-            >
-              {{ t('admin.products_edit_text') }}
-            </button>
-            <!-- 要注意 id 這邊是因為 api 規格最外層的 id，刪除產品是用這個 id -->
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              @click="deleteProduct(product.id)"
-              :disabled="deleteTargetId === product.id"
-            >
-              <span v-if="deleteTargetId === product.id">
-                <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
-                <span role="status"></span>
-              </span>
-              {{ t('admin.products_delete_text') }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="product in adminProducts" :key="product.id">
+            <td>{{ product.id }}</td>
+            <td>{{ product[i18nStore.currentIcon].title }}</td>
+            <td>{{ product[i18nStore.currentIcon].category }}</td>
+            <td>{{ product[i18nStore.currentIcon].category }}</td>
+            <td>{{ product[i18nStore.currentIcon].price }}</td>
+            <td>
+              <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{
+                t('admin.products_on_enabled')
+              }}</span>
+              <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
+            </td>
+            <td class="d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-dark me-1"
+                @click="handleOpenModal('edit', product)"
+              >
+                {{ t('admin.products_edit_text') }}
+              </button>
+              <!-- 要注意 id 這邊是因為 api 規格最外層的 id，刪除產品是用這個 id -->
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                @click="deleteProduct(product.id)"
+                :disabled="deleteTargetId === product.id"
+              >
+                <span v-if="deleteTargetId === product.id">
+                  <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
+                  <span role="status"></span>
+                </span>
+                {{ t('admin.products_delete_text') }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <Pagination :pagination="adminPagination" @updated:page="fetchAdminProducts"></Pagination>
     <AdminProductsModal
       ref="adminProductsModal"
@@ -142,6 +145,8 @@ const apiPath = import.meta.env.VITE_APP_API_PATH;
 const fetchAdminProducts = async (page = 1, category = '') => {
   try {
     LoadingStore.toggleLoading(); // 全頁加載
+    const token = localStorage.getItem('s72241'); // 防止重新整理後要重新登入
+    axios.defaults.headers.common.Authorization = token;
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/products?page=${page}&category=${category}`;
     const response = await axios.get(api);
     adminProducts.value = response.data.products;
@@ -152,6 +157,8 @@ const fetchAdminProducts = async (page = 1, category = '') => {
       icon: 'error',
       confirmButtonText: `${t('admin.message_confirm_text')}`,
       confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) {
         // 按下確認後回到管理者登入頁

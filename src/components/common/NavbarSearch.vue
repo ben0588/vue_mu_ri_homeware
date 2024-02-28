@@ -7,18 +7,32 @@
         type="button"
         id="headerDropdownMenuButton"
         data-bs-toggle="dropdown"
-        aria-expanded="false"
+        :aria-expanded="isOpen"
         :style="{ width: '128px', height: '48px' }"
+        @click.prevent="toggleOpen"
       >
         {{ categoryTarget }}
-        &nbsp;
+
+        <font-awesome-icon
+          :icon="isOpen ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
+          class="ms-2"
+        />
       </button>
-      <ul class="dropdown-menu" aria-labelledby="headerDropdownMenuButton">
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="headerDropdownMenuButton"
+        :class="{ show: isOpen }"
+      >
         <li v-for="category in categoryList" :key="category.id">
           <router-link
             to="/products"
-            class="dropdown-item"
-            @click="handleChangeCategory(category.text)"
+            class="dropdown-item fw-500"
+            @click="
+              () => {
+                handleChangeCategory(category.text);
+                toggleOpen();
+              }
+            "
             :class="{ active: category.text === categoryTarget }"
             >{{ category.text }}</router-link
           >
@@ -50,6 +64,11 @@ import { ref, watch } from 'vue';
 
 const categoryTarget = ref('全部商品');
 const searchText = ref('');
+const isOpen = ref(false);
+
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value;
+};
 
 const handleChangeCategory = (target) => {
   console.log('選擇主類型，準備換頁', target);
@@ -96,6 +115,10 @@ const categoryList = [
 .dropdown-item.active {
   background-color: $primary-sup-light !important;
   color: $dark !important;
+}
+
+.dropdown-toggle::after {
+  content: none !important; /* 隱藏預設箭頭 */
 }
 
 .search-icon {

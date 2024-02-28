@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import axios from 'axios';
 
+import { useAlert } from '@/composables/useAlert';
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -103,7 +105,7 @@ const router = createRouter({
           path: 'dashboard',
           name: 'admin_dashboard',
           component: () => import('@/views/admin/dashboard/AdminDashboardView.vue'),
-          meta: { requiresAuth: false }, // 需要驗證權限
+          meta: { requiresAuth: true }, // 需要驗證權限
           children: [
             {
               path: 'products',
@@ -134,7 +136,6 @@ const router = createRouter({
               meta: { requiresAuth: false },
 
             },
-
           ],
         },
       ],
@@ -145,6 +146,7 @@ const router = createRouter({
     },
   ],
 });
+const { showAlert } = useAlert();
 
 const checkAuth = async () => {
   try {
@@ -159,6 +161,15 @@ const checkAuth = async () => {
     const response = await axios.post(api, {});
     return response?.data?.success;
   } catch (error) {
+    showAlert({
+      title: `${error.response.data.message} `,
+      text: '非法操作，請照常規操作進行登入。',
+      icon: 'error',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+    });
     return false;
   }
 };
