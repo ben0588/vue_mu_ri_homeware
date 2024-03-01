@@ -11,7 +11,7 @@
         :style="{ width: '128px', height: '48px' }"
         @click.prevent="toggleOpen"
       >
-        {{ categoryTarget }}
+        {{ categoryStore.categoryTarget }}
 
         <font-awesome-icon
           :icon="isOpen ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
@@ -25,7 +25,7 @@
       >
         <li v-for="category in categoryList" :key="category.id">
           <router-link
-            to="/products"
+            :to="`/products`"
             class="dropdown-item fw-500"
             @click="
               () => {
@@ -33,7 +33,7 @@
                 toggleOpen();
               }
             "
-            :class="{ active: category.text === categoryTarget }"
+            :class="{ active: category.text === categoryStore.categoryTarget }"
             >{{ category.text }}</router-link
           >
         </li>
@@ -60,20 +60,33 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+import useCategoryStore from '@/stores/categoryStores';
+
+const categoryStore = useCategoryStore();
 
 const categoryTarget = ref('全部商品');
 const searchText = ref('');
 const isOpen = ref(false);
+const router = useRouter();
+const route = useRoute();
 
 const toggleOpen = () => {
   isOpen.value = !isOpen.value;
 };
 
 const handleChangeCategory = (target) => {
-  console.log('選擇主類型，準備換頁', target);
-  categoryTarget.value = target;
+  categoryStore.categoryTarget = target;
+  // categoryTarget.value = target;
+  // router.push({ path: '/products' });
 };
+
+// onMounted(() => {
+//   const { path } = route;
+//   router.replace(path);
+// });
 
 watch(
   () => searchText.value,
@@ -87,7 +100,7 @@ const handleSearch = () => {
 };
 
 const categoryList = [
-  { id: '0', text: '全部商品' }, // 全部商品
+  { id: '0', text: '全部商品', command: '' }, // 全部商品, command 未來紀錄多國語系商品可以統一用英文名稱紀錄
   { id: '1', text: '特價中' }, // 特價中
   { id: '2', text: '家具' }, // 家具
   { id: '3', text: '家飾' }, // 家飾

@@ -14,12 +14,15 @@
         <select
           class="products-select-rwd form-select d-inline"
           aria-label="Default select example"
-          v-model="targetCategory"
-          @change="handleChangCategory"
+          v-model="categoryStore.categoryTarget"
         >
+          <!-- @change="handleChangCategory" -->
           <option value="" selected disabled>請選擇主類型</option>
           <option :value="category.text" v-for="category in categoryList" :key="category.id">
-            {{ category.text }}
+            <span v-if="category.text === '特價中'">全部商品(特價)</span>
+            <span v-else>
+              {{ category.text }}
+            </span>
           </option>
         </select>
         <select
@@ -39,20 +42,21 @@
       </div>
     </span>
 
-    <div class="row">
+    <div class="row mt-4">
       <div class="col-sm-6 col-md-4 col-lg-3" v-for="product in newSortProducts" :key="product.id">
-        <HomeCard :product="product" img-class="new-products-img" />
+        <HomeCard :product="product" :img-class="'products-card-img'" />
       </div>
     </div>
 
     <div class="flex-center mt-3 py-3">
-      <Pagination :pagination="ProductsPagination" @updated:page="fetchAdminProducts"></Pagination>
+      <Pagination :pagination="ProductsPagination" @updated:page="fetchProducts"></Pagination>
     </div>
   </div>
   <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 
@@ -63,11 +67,13 @@ import HomeCard from '@/components/common/HomeCard.vue';
 
 // 計算屬性：為產品列表中的每個產品計算星星符號
 import { calculateProductsRatings } from '@/composables/ratingUtils';
+import useCategoryStore from '@/stores/categoryStores';
+
+const categoryStore = useCategoryStore();
 
 const loadingStore = useLoadingStore();
 const { showAlert } = useAlert();
-
-const LoadingStore = useLoadingStore();
+const route = useRoute();
 
 const productsList = ref([]);
 const ProductsPagination = ref([]);
@@ -77,9 +83,9 @@ const targetSort = ref('default');
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
 
-const fetchAdminProducts = async (page = 1, category = '') => {
+const fetchProducts = async (page = 1, category = '') => {
   try {
-    LoadingStore.toggleLoading(); // 全頁加載
+    loadingStore.toggleLoading(); // 全頁加載
     const api = `${baseApiUrl}/v2/api/${apiPath}/products?page=${page}&category=${category}`;
     const response = await axios.get(api);
     console.log('response', response.data);
@@ -97,22 +103,24 @@ const fetchAdminProducts = async (page = 1, category = '') => {
       console.log('result', result);
     });
   } finally {
-    LoadingStore.toggleLoading();
+    loadingStore.toggleLoading();
   }
 };
 const productsRatings = computed(() => calculateProductsRatings(productsList.value));
 
 const categoryList = computed(() => [
-  { id: '1', text: '家具' }, // 家具
-  { id: '2', text: '家飾' }, // 家飾
-  { id: '3', text: '燈具' }, // 燈具
-  { id: '4', text: '廚房用品' }, // 廚房用品
-  { id: '5', text: '浴室用品' }, // 浴室用品
-  { id: '6', text: '寢具' }, // 寢具
-  { id: '7', text: '收納' }, // 收納
-  { id: '8', text: '戶外與園藝' }, // 戶外與園藝
-  { id: '9', text: '辦公室用品' }, // 辦公室用品
-  { id: '10', text: '孩童家居' }, // 孩童家居
+  { id: '0', text: '全部商品' }, // 全部商品
+  { id: '1', text: '特價中' }, // 全部商品
+  { id: '2', text: '家具' }, // 家具
+  { id: '3', text: '家飾' }, // 家飾
+  { id: '4', text: '燈具' }, // 燈具
+  { id: '5', text: '廚房用品' }, // 廚房用品
+  { id: '6', text: '浴室用品' }, // 浴室用品
+  { id: '7', text: '寢具' }, // 寢具
+  { id: '8', text: '收納' }, // 收納
+  { id: '9', text: '戶外與園藝' }, // 戶外與園藝
+  { id: '10', text: '辦公室用品' }, // 辦公室用品
+  { id: '11', text: '孩童家居' }, // 孩童家居
 ]);
 
 const sortList = ref([
@@ -126,11 +134,6 @@ const sortList = ref([
   { id: 7, title: '排序：建立產品舊到新', command: 'create_date_old' }, // 產品建立時間
 ]);
 
-// 改變主類型項目
-const handleChangCategory = () => {
-  fetchAdminProducts(ProductsPagination.value.current_page, targetCategory.value);
-};
-
 // 改變當前排序順序
 const newSortProducts = computed(() => {
   let sortedProducts = productsRatings.value.slice();
@@ -143,13 +146,12 @@ const newSortProducts = computed(() => {
       // 推薦標籤+評價星級+數量
       sortedProducts.sort((a, b) => {
         // 首先根據是否推薦進行排序
-        if (targetSort.value === 'recommend') {
-          if (a.isRecommended && !b.isRecommended) {
-            return -1;
-          }
-          if (!a.isRecommended && b.isRecommended) {
-            return 1;
-          }
+
+        if (a.isRecommended && !b.isRecommended) {
+          return -1;
+        }
+        if (!a.isRecommended && b.isRecommended) {
+          return 1;
         }
 
         // 接著根據星級評價（假設是fullStars）降序排序
@@ -182,10 +184,10 @@ const newSortProducts = computed(() => {
       break;
     case 'sale':
       sortedProducts.sort((a, b) => {
-        if (a.sale && !b.sale) {
+        if (a.isOnSale && !b.isOnSale) {
           return -1;
         }
-        if (!a.sale && b.sale) {
+        if (!a.isOnSale && b.isOnSale) {
           return 1;
         }
         return new Date(b.create_date) - new Date(a.create_date);
@@ -209,14 +211,32 @@ const newSortProducts = computed(() => {
   }
   return sortedProducts;
 });
+
 // 重置類型選擇
 const handleResetCategory = () => {
   targetCategory.value = '';
-  fetchAdminProducts();
+  fetchProducts();
 };
 
+watch(
+  () => categoryStore.categoryTarget,
+  () => {
+    if (categoryStore.categoryTarget === '全部商品') {
+      targetSort.value = 'default';
+      fetchProducts(1, '');
+    } else if (categoryStore.categoryTarget === '特價中') {
+      targetSort.value = 'sale';
+      fetchProducts(1, '');
+    } else {
+      targetSort.value = 'default';
+      fetchProducts(1, categoryStore.categoryTarget);
+    }
+  },
+);
+
 onMounted(() => {
-  fetchAdminProducts();
+  console.log(categoryStore.categoryTarget);
+  fetchProducts();
 });
 </script>
 <style lang="scss">
@@ -236,5 +256,15 @@ onMounted(() => {
   @media (min-width: 1200px) {
     width: 16.8% !important;
   }
+}
+
+.products-card-img {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  /* max-width: 306px; */
+  /* max-height: 210px; */
+  height: 300px;
 }
 </style>

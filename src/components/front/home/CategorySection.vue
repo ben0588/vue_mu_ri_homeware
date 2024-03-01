@@ -208,10 +208,4 @@ watchEffect(() => {
     }
   }
 }
-
-.hover-img-opacity {
-  &:hover {
-    opacity: 0.85;
-  }
-}
 </style>

@@ -13,7 +13,6 @@
           :key="index"
           :class="{ 'ps-2': index === 0, 'pe-2': index === 4 }"
         >
-          <!--  :class="{ 'ps-2': index === 0 }" -->
           <HomeCard
             :product="product"
             :card-class="'recommend-card'"
