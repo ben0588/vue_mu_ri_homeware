@@ -35,7 +35,7 @@
                   </div>
                   <p class="truncate-2-lines" :style="{ maxWidth: `100%` }">{{ product.center }}</p>
                   <div class="d-flex justify-content-between align-items-center w-100">
-                    <span class="fs-2 fw-700">$ {{ product.price }}</span>
+                    <span class="fs-2 fw-700">{{ usePriceToTw(product.price) }}</span>
                     <span class="me-2"
                       ><font-awesome-icon :icon="['far', 'heart']" class="text-danger fs-2"
                     /></span>
@@ -56,7 +56,7 @@
           v-for="product in filteredProducts"
           :key="product.id"
         >
-          <HomeCard :product="product" img-class="new-products-img" />
+          <HomeCard :product="product" :img-class="'new-products-img'" :card-bg-color="'#FBF9F9'" />
         </div>
       </div>
     </div>
@@ -69,6 +69,7 @@ import { calculateProductsRatings } from '@/composables/ratingUtils';
 
 import RatingStar from '@/components/common/RatingStar.vue';
 import HomeCard from '@/components/common/HomeCard.vue';
+import usePriceToTw from '@/composables/usePriceToTw';
 
 const productsList = ref([
   {

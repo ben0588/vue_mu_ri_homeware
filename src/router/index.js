@@ -145,6 +145,10 @@ const router = createRouter({
       component: () => import('@/views/ErrorView.vue'),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // 返回滾動位置
+    return { top: 0 };
+  },
 });
 const { showAlert } = useAlert();
 

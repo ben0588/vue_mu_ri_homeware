@@ -57,7 +57,7 @@
             <td>{{ product.id }}</td>
             <td>{{ product[i18nStore.currentIcon].title }}</td>
             <td>{{ product[i18nStore.currentIcon].category }}</td>
-            <td>{{ product[i18nStore.currentIcon].category }}</td>
+            <td>{{ product[i18nStore.currentIcon].subcategory }}</td>
             <td>{{ product[i18nStore.currentIcon].price }}</td>
             <td>
               <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{

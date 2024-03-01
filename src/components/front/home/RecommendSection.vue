@@ -14,7 +14,12 @@
           :class="{ 'ps-2': index === 0, 'pe-2': index === 4 }"
         >
           <!--  :class="{ 'ps-2': index === 0 }" -->
-          <HomeCard :product="product" img-class="recommend-card-img" />
+          <HomeCard
+            :product="product"
+            :card-class="'recommend-card'"
+            :img-class="'recommend-card-img'"
+            :card-bg-color="'#FBF9F9'"
+          />
         </div>
       </div>
     </div>

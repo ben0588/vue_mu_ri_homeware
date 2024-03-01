@@ -32,7 +32,6 @@
             X
           </button>
         </div>
-        ,
         <div class="mt-2">
           <ul class="nav nav-tabs">
             <li class="nav-item" v-for="language in i18nStore.languageList" :key="language.text">
@@ -53,6 +52,7 @@
           </ul>
         </div>
         <div class="modal-body">
+          {{ newTempData.create_date }}
           <form>
             <div>
               <span class="text-danger">*</span>{{ t('admin.products_modal_illustrate_message') }}
@@ -536,7 +536,7 @@ const newLanguageData = {
       ],
     },
   },
-  crate_date: new Date().getTime(),
+  create_date: new Date().getTime(),
   sales_num: 0,
   isNew: true, // 新品專區用
   isOnHot: false, // 首頁展示商品用
@@ -576,7 +576,7 @@ const newTempData = ref({
   imageUrl: '主圖網址',
   imagesUrl: ['1', '2', '3', '4', '5'],
   rating: 0,
-  crate_date: new Date().getTime(),
+  create_date: new Date().getTime(),
   sales_num: 0,
   isNew: true, // 新品專區用
   isOnHot: false, // 首頁展示商品用
@@ -839,6 +839,7 @@ const openModal = (type, data) => {
       is_enabled: 1,
       imageUrl: '',
       imagesUrl: ['1', '2', '3', '4', '5'],
+      create_date: new Date().getTime(),
       // 防止深層拷貝
       tw: { ...JSON.parse(JSON.stringify(newLanguageData)) },
       us: { ...JSON.parse(JSON.stringify(newLanguageData)) },
@@ -904,7 +905,6 @@ watchEffect(() => {
   newTempData.value.imageUrl = newTempData.value.tw.imageUrl;
   newTempData.value.imagesUrl = newTempData.value.tw.imagesUrl;
   newTempData.value.ratings = newTempData.value.tw.ratings;
-  newTempData.value.crate_date = newTempData.value.tw.crate_date;
   newTempData.value.sales_num = newTempData.value.tw.sales_num;
   newTempData.value.isNew = newTempData.value.tw.isNew;
   newTempData.value.isOnHot = newTempData.value.tw.isOnHot;
