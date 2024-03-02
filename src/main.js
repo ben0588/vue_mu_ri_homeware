@@ -14,6 +14,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'flag-icons/css/flag-icons.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'vue3-toastify/dist/index.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';

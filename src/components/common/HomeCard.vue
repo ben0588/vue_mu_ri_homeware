@@ -5,7 +5,9 @@
       :style="{ backgroundColor: cardBgColor }"
       :class="cardClass"
     >
-      <span v-if="product.isOnSale" class="sale-tag"> 已折扣</span>
+      <span v-if="product.isOnSale" class="sale-tag">
+        折扣 {{ useComputedDiscount(product.origin_price, product.price) }}</span
+      >
       <span v-if="product.isRecommended" class="recommend-tag"> 推薦</span>
       <img :src="product.imageUrl" class="card-img-top" :alt="product.title" :class="imgClass" />
       <div class="card-body pt-3 px-0">
@@ -54,6 +56,7 @@ import { ref, onMounted, watch, watchEffect, computed } from 'vue';
 import RatingStar from '@/components/common/RatingStar.vue';
 import usePriceToTw from '@/composables/usePriceToTw';
 import useWishStore from '@/stores/wishStores';
+import useComputedDiscount from '@/composables/useComputedDiscount';
 
 const wishStore = useWishStore();
 

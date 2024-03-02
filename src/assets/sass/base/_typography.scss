@@ -18,6 +18,11 @@
 
 body {
   font-family: 'import Noto Sans CT';
+
+  ::selection {
+    color: #fff;
+    background-color: $primary-light;
+  }
 }
 
 .fw-400 {
@@ -191,4 +196,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.image-hover {
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// 防止 table 內容被壓縮
+.table td,
+.table th {
+  min-width: 140px;
 }
