@@ -25,9 +25,10 @@
             >
           </span>
           <span class="fs-3 fw-700" v-else>{{ usePriceToTw(product.price) }}</span>
-          <span class="me-2" @click.prevent="wishStore.addWishList(product)"
+
+          <span class="cursor-pointer me-2" @click.prevent="addWishList(product)"
             ><font-awesome-icon
-              :icon="[wishStore.isWishListed(product) ? 'fas' : 'far', 'heart']"
+              :icon="[isWishListed(product) ? 'fas' : 'far', 'heart']"
               class="text-danger heart-icon"
           /></span>
 
@@ -54,6 +55,9 @@ import usePriceToTw from '@/composables/usePriceToTw';
 import useWishStore from '@/stores/wishStores';
 import useComputedDiscount from '@/composables/useComputedDiscount';
 
+const wishStore = useWishStore();
+const { addWishList, isWishListed } = wishStore;
+
 defineProps({
   product: {
     type: Object,
@@ -72,8 +76,6 @@ defineProps({
     required: false,
   },
 });
-
-const wishStore = useWishStore();
 </script>
 <style lang="scss">
 .hover-img-opacity {

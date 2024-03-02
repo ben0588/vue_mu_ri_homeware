@@ -316,24 +316,40 @@
                     </div>
                   </div>
                 </div>
-                <div class="mb3">
-                  <label for="colors" class="form-label"
-                    ><span class="text-danger">*</span>{{ t('admin.products_modal_star') }}
-                  </label>
-                  <div
-                    v-for="(star, index) in newTempData[i18nStore.currentIcon].ratings"
-                    :key="index"
-                    class="mt-1"
-                  >
-                    <label :for="index" class="form-label me-2">{{ index }}</label>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="material" class="form-label"
+                      ><span class="text-danger">*</span
+                      >{{ t('admin.products_modal_material') }}</label
+                    >
                     <input
-                      type="number"
-                      class="form-control d-inline-block w-25"
-                      :id="index"
-                      v-model.number="star.count"
+                      id="material"
+                      type="text"
+                      class="form-control"
+                      :placeholder="t('admin.products_modal_material_placeholder')"
+                      v-model="newTempData[i18nStore.currentIcon].material"
                     />
                   </div>
+                  <div class="col-md-6 mb-3 mt-2">
+                    <label class="form-label"
+                      ><span class="text-danger">*</span>{{ t('admin.products_modal_star') }}
+                    </label>
+                    <div
+                      v-for="(star, index) in newTempData[i18nStore.currentIcon].ratings"
+                      :key="index"
+                      class="mt-1"
+                    >
+                      <label :for="index" class="form-label me-2">{{ index }}</label>
+                      <input
+                        type="number"
+                        class="form-control d-inline-block w-50"
+                        :id="index"
+                        v-model.number="star.count"
+                      />
+                    </div>
+                  </div>
                 </div>
+
                 <div class="my-3">
                   <label for="description" class="form-label"
                     ><span class="text-danger">*</span
@@ -542,6 +558,7 @@ const newLanguageData = {
   isOnHot: false, // 首頁展示商品用
   isRecommended: false, // 前台預設排序用
   isOnSale: false, // 全部商品篩選用
+  material: '',
   dimensions: {
     length: '',
     width: '',
@@ -582,6 +599,7 @@ const newTempData = ref({
   isOnHot: false, // 首頁展示商品用
   isRecommended: false, // 前台預設排序用
   isOnSale: false, // 全部商品篩選用
+  material: '',
   dimensions: {
     length: '',
     width: '',
@@ -899,6 +917,7 @@ watchEffect(() => {
   newTempData.value.origin_price = newTempData.value.tw.origin_price;
   newTempData.value.price = newTempData.value.tw.price;
   newTempData.value.unit = newTempData.value.tw.unit;
+  newTempData.value.material = newTempData.value.tw.material;
   newTempData.value.description = newTempData.value.tw.description;
   newTempData.value.content = newTempData.value.tw.content;
   newTempData.value.is_enabled = newTempData.value.tw.is_enabled;

@@ -26,6 +26,8 @@ import router from './router';
 
 import i18n from './languages/i18n';
 
+import '@websitebeaver/vue-magnifier/styles.css';
+
 const app = createApp(App);
 
 register(); // 全域註冊 swiper

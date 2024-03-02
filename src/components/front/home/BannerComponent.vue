@@ -1,8 +1,8 @@
 <template>
   <Swiper
     :modules="modules"
-    :centered-slides="true"
-    :initial-slide="1"
+    :centeredSlides="true"
+    :initialSlide="1"
     :loop="true"
     :speed="400"
     :autoplay="{

@@ -177,6 +177,14 @@ body {
   }
 }
 
+.text-ellipsis {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .truncate-2-lines {
   @media (max-width: 992px) {
     overflow: hidden;

@@ -123,6 +123,8 @@
   "admin.products_modal_origin_price_placeholder": "請輸入原價",
   "admin.products_modal_price": "售價",
   "admin.products_modal_price_placeholder": "請輸入售價",
+  "admin.products_modal_material": "材質",
+  "admin.products_modal_material_placeholder": "請輸入材質",
   "admin.products_modal_dimensions": "產品規格 [長、寬、高] cm",
   "admin.products_modal_dimensions_length": "請輸入商品長度+單位(cm)",
   "admin.products_modal_dimensions_width": "請輸入商品寬+單位(cm)",
