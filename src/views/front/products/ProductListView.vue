@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container pb-32">
     <span class="row border-bottom border-2 my-2 py-2">
       <div class="col-12 col-lg-10">
         <button
@@ -10,6 +10,16 @@
           @click="handleResetCategory"
         >
           <font-awesome-icon :icon="['fas', 'rotate']" class="" />
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning border border-1 d-inline reset-btn me-2"
+          :style="{ marginTop: '-0.10rem', marginBottom: '0.10rem' }"
+          title="重置關鍵字搜尋"
+          @click="handleResetCategory"
+          v-if="searchStore.isSearch"
+        >
+          重置關鍵字搜尋
         </button>
         <select
           class="products-select-rwd form-select d-inline"
@@ -48,7 +58,7 @@
       </div>
     </div>
 
-    <div class="flex-center mt-3 py-3">
+    <div class="flex-center mt-3 pt-3" v-if="!searchStore.isSearch">
       <Pagination :pagination="ProductsPagination" @updated:page="fetchProducts"></Pagination>
     </div>
   </div>
@@ -60,18 +70,20 @@ import { useRoute } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 
-import useLoadingStore from '@/stores/loadingStores';
 import { useAlert } from '@/composables/useAlert';
 import Pagination from '@/components/common/Pagination.vue';
 import HomeCard from '@/components/common/HomeCard.vue';
 
 // 計算屬性：為產品列表中的每個產品計算星星符號
 import { calculateProductsRatings } from '@/composables/ratingUtils';
+import useLoadingStore from '@/stores/loadingStores';
 import useCategoryStore from '@/stores/categoryStores';
+import useSearchStore from '@/stores/searchStores';
 
 const categoryStore = useCategoryStore();
-
 const loadingStore = useLoadingStore();
+const searchStore = useSearchStore();
+
 const { showAlert } = useAlert();
 const route = useRoute();
 
@@ -88,24 +100,24 @@ const fetchProducts = async (page = 1, category = '') => {
     loadingStore.toggleLoading(); // 全頁加載
     const api = `${baseApiUrl}/v2/api/${apiPath}/products?page=${page}&category=${category}`;
     const response = await axios.get(api);
-    console.log('response', response.data);
     productsList.value = response.data.products;
     ProductsPagination.value = response.data.pagination;
   } catch (error) {
     showAlert({
       title: `${error}`,
+      text: '取得商品資料失敗，請聯繫網站提供者',
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
       allowEscapeKey: false,
       allowOutsideClick: false,
-    }).then((result) => {
-      console.log('result', result);
     });
   } finally {
     loadingStore.toggleLoading();
   }
 };
+
+// 取得星星資訊
 const productsRatings = computed(() => calculateProductsRatings(productsList.value));
 
 const categoryList = computed(() => [
@@ -215,6 +227,8 @@ const newSortProducts = computed(() => {
 // 重置類型選擇
 const handleResetCategory = () => {
   targetCategory.value = '';
+  searchStore.isSearch = false; // 清楚搜尋狀態
+  searchStore.searchText = '';
   fetchProducts();
 };
 
@@ -235,9 +249,17 @@ watch(
 );
 
 onMounted(() => {
-  console.log(categoryStore.categoryTarget);
   fetchProducts();
 });
+
+// 更新搜尋商品至當前
+watch(
+  () => searchStore.productsList,
+  () => {
+    const newArray = searchStore.productsList.map((proxyObj) => proxyObj.item);
+    productsList.value = newArray;
+  },
+);
 </script>
 <style lang="scss">
 .products-select-rwd {

@@ -46,8 +46,9 @@
         :style="{ borderLeft: 'none' }"
         placeholder="輸入商品"
         aria-label="default input example"
-        v-model="searchText"
-        @keyup.enter="handleSearch"
+        v-model="searchStore.searchText"
+        @keydown.enter="handleSearch"
+        @input="handleInput"
       />
       <font-awesome-icon
         :icon="['fas', 'magnifying-glass']"
@@ -60,18 +61,16 @@
   </div>
 </template>
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue';
 
 import useCategoryStore from '@/stores/categoryStores';
+import useSearchStore from '@/stores/searchStores';
 
+const isOpen = ref(false);
 const categoryStore = useCategoryStore();
 
-const categoryTarget = ref('全部商品');
-const searchText = ref('');
-const isOpen = ref(false);
-const router = useRouter();
-const route = useRoute();
+const searchStore = useSearchStore();
+const { handleSearch, handleInput } = searchStore;
 
 const toggleOpen = () => {
   isOpen.value = !isOpen.value;
@@ -79,24 +78,6 @@ const toggleOpen = () => {
 
 const handleChangeCategory = (target) => {
   categoryStore.categoryTarget = target;
-  // categoryTarget.value = target;
-  // router.push({ path: '/products' });
-};
-
-// onMounted(() => {
-//   const { path } = route;
-//   router.replace(path);
-// });
-
-watch(
-  () => searchText.value,
-  () => {
-    console.log('searchText', searchText.value);
-  },
-);
-
-const handleSearch = () => {
-  console.log('改變搜尋目標中', searchText.value);
 };
 
 const categoryList = [
