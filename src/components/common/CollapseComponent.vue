@@ -21,6 +21,7 @@
   </p>
   <div class="collapse" :id="`collapseExample-${list.id}`" :class="{ show: index === 0 }">
     <div class="card card-body ps-0">
+      <slot></slot>
       <ul class="list-disc">
         <li v-for="(textItem, textIndex) in list.center" :key="textIndex">{{ textItem }}</li>
       </ul>
@@ -28,11 +29,11 @@
   </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 const isOpen = ref(false);
 
-defineProps({
+const props = defineProps({
   list: Object,
   index: Number,
 });
@@ -40,6 +41,12 @@ defineProps({
 const toggleOpen = () => {
   isOpen.value = !isOpen.value;
 };
+
+onMounted(() => {
+  if (props.index === 0) {
+    isOpen.value = true;
+  }
+});
 
 const isOpenFn = computed(() => isOpen.value);
 </script>

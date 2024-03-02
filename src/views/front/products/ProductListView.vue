@@ -85,7 +85,6 @@ const loadingStore = useLoadingStore();
 const searchStore = useSearchStore();
 
 const { showAlert } = useAlert();
-const route = useRoute();
 
 const productsList = ref([]);
 const ProductsPagination = ref([]);
@@ -226,8 +225,10 @@ const newSortProducts = computed(() => {
 
 // 重置類型選擇
 const handleResetCategory = () => {
+  categoryStore.categoryTarget = '全部商品';
   targetCategory.value = '';
-  searchStore.isSearch = false; // 清楚搜尋狀態
+  targetSort.value = 'default';
+  searchStore.isSearch = false; // 清除搜尋狀態
   searchStore.searchText = '';
   fetchProducts();
 };
@@ -249,7 +250,12 @@ watch(
 );
 
 onMounted(() => {
-  fetchProducts();
+  // 當初次加載重新取得所有商品，防止換頁丟失資訊
+  if (categoryStore.categoryTarget === '全部商品') {
+    fetchProducts();
+  } else {
+    fetchProducts(1, categoryStore.categoryTarget);
+  }
 });
 
 // 更新搜尋商品至當前
