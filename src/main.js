@@ -18,6 +18,7 @@ import 'vue3-toastify/dist/index.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import '@websitebeaver/vue-magnifier/styles.css';
 import { setupVeeValidate } from '@/setupVeeValidate';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -25,8 +26,6 @@ import App from './App.vue';
 import router from './router';
 
 import i18n from './languages/i18n';
-
-import '@websitebeaver/vue-magnifier/styles.css';
 
 const app = createApp(App);
 

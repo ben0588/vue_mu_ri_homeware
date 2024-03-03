@@ -28,7 +28,6 @@
             X
           </button>
         </div>
-        ,
         <div class="mt-2">
           <ul class="nav nav-tabs">
             <li class="nav-item" v-for="language in i18nStore.languageList" :key="language.text">

@@ -90,6 +90,7 @@
                     :mgHeight="200"
                     :mgShape="'square'"
                     :zoomFactor="1"
+                    @click="() => zoomInImage(item, productsRatings.title)"
                   />
                   <!-- <img :src="item" :alt="productsRatings.title" class="swiper-img" /> -->
                 </SwiperSlide>
@@ -254,6 +255,7 @@
     </div>
   </div>
   <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <ImageModal ref="imageModal"></ImageModal>
 </template>
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
@@ -272,7 +274,9 @@ import usePriceToTw from '@/composables/usePriceToTw';
 import RatingStar from '@/components/common/RatingStar.vue';
 import CollapseComponent from '@/components/common/CollapseComponent.vue';
 import useComputedDiscount from '@/composables/useComputedDiscount';
+import ImageModal from '@/components/front/products/ImageModal.vue';
 
+const imageModal = ref(null);
 const route = useRoute();
 
 const { showAlert } = useAlert();
@@ -364,6 +368,11 @@ const handleChangQuantity = (type) => {
       quantity.value -= 1;
     }
   }
+};
+
+// 放大圖片
+const zoomInImage = (imgUrl, imgAlt) => {
+  imageModal.value.openModal(imgUrl, imgAlt);
 };
 
 watch(
