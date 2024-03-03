@@ -1,25 +1,23 @@
 <template>
-  <p class="d-inline-flex border-bottom-2 gap-1 w-100 mb-2" :class="{ 'border-dark': isOpenFn }">
+  <p class="d-inline-flex border-bottom-2 gap-1 w-100 mb-2" :class="{ 'border-dark': isOpenState }">
     <a
       class="d-flex justify-content-between align-items-center text-dark w-100 fs-4 py-3"
       :href="`#collapseExample-${list.id}`"
       role="button"
-      aria-expanded="false"
+      :aria-expanded="isOpenState"
       aria-controls="collapseExample"
       @click.prevent="toggleOpen"
-      data-bs-toggle="collapse"
+      :data-bs-toggle="`#collapseExample-${list.id}`"
     >
-      <span>
-        {{ list.title }}
-      </span>
+      <span>{{ list.title }}</span>
       <span>
         <font-awesome-icon
-          :icon="isOpenFn ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
+          :icon="isOpenState ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"
         />
       </span>
     </a>
   </p>
-  <div class="collapse" :id="`collapseExample-${list.id}`" :class="{ show: index === 0 }">
+  <div class="collapse" :id="`collapseExample-${list.id}`" ref="bsCollapseModalRef">
     <div class="card card-body ps-0">
       <slot></slot>
       <ul class="list-disc">
@@ -29,26 +27,47 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-
-const isOpen = ref(false);
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { Collapse } from 'bootstrap';
 
 const props = defineProps({
   list: Object,
   index: Number,
 });
 
-const toggleOpen = () => {
-  isOpen.value = !isOpen.value;
-};
+const isOpenState = ref(false);
+const bsCollapseModalRef = ref(null);
+const bsCollapseModalInstance = ref(null); // 實體存放區
 
-onMounted(() => {
-  if (props.index === 0) {
-    isOpen.value = true;
+onMounted(async () => {
+  await nextTick(); // 保證 DOM 完成加載完畢
+
+  // 初始化 Bootstrap Collapse 實例
+  bsCollapseModalInstance.value = new Collapse(bsCollapseModalRef.value, {
+    toggle: false, // 初始化時不切換顯示/隱藏狀態
+  });
+
+  // 根據 index 的值來控制顯示或隱藏
+  if (props.index !== 0) {
+    bsCollapseModalInstance.value.hide();
+    isOpenState.value = false;
+  } else {
+    bsCollapseModalInstance.value.show();
+    isOpenState.value = true;
   }
 });
 
-const isOpenFn = computed(() => isOpen.value);
+onUnmounted(() => {
+  // bootstrap modal close 清除實體化
+  if (bsCollapseModalInstance.value) {
+    bsCollapseModalInstance.value.dispose();
+  }
+});
+
+const toggleOpen = () => {
+  bsCollapseModalInstance.value.toggle();
+  isOpenState.value = !isOpenState.value;
+};
 </script>
 <style lang="scss">
 .collapse {

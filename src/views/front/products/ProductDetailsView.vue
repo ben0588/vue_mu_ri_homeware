@@ -1,254 +1,289 @@
+<!-- eslint-disable max-len -->
 <template>
-  <div class="container py-32" v-if="!loadingStore.isLoading">
-    <div v-if="productsRatings">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <router-link
-              to="/products"
-              @click="
-                () => {
-                  handleChangeCategory('全部商品');
-                }
-              "
-              >全部商品</router-link
-            >
-          </li>
-          <li class="breadcrumb-item">
-            <router-link
-              to="/products"
-              @click="
-                () => {
-                  handleChangeCategory(productsRatings.category);
-                }
-              "
-              >{{ productsRatings.category }}</router-link
-            >
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">
-            {{ productsRatings.title }} | {{ route.params.id }}
-          </li>
-        </ol>
-      </nav>
-
-      <!-- 產品區塊 -->
-      <div class="row">
-        <!-- 左側 -->
-        <div class="col-lg-6">
-          <div class="row flex-row flex-sm-column-reverse flex-lg-row">
-            <!-- 小樣式 -->
-            <div class="col-xl-3 py-2 ps-sm-2 px-lg-0 py-lg-0 ps-xl-4 ps-xxl-0">
-              <Swiper
-                :onSwiper="setThumbsSwiper"
-                :slidesPerView="5"
-                :spaceBetween="11.7"
-                :freeMode="true"
-                :watchSlidesProgress="true"
-                class="thumbs-swiper-container ms-sm-1 ms-lg-0"
+  <div>
+    <div class="container py-32" v-if="!loadingStore.isLoading">
+      <div v-if="productsRatings">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <router-link
+                to="/products"
+                @click="
+                  () => {
+                    handleChangeCategory('全部商品');
+                  }
+                "
+                >全部商品</router-link
               >
-                <SwiperSlide
-                  v-for="(item, index) in productsRatings.imagesUrl"
-                  :key="index"
-                  class="thumbs-swiper my-sm-2 my-xl-0 mb-xl-2 ms-xl-2 ms-xxl-4"
+            </li>
+            <li class="breadcrumb-item">
+              <router-link
+                to="/products"
+                @click="
+                  () => {
+                    handleChangeCategory(productsRatings.category);
+                  }
+                "
+                >{{ productsRatings.category }}</router-link
+              >
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ productsRatings.title }} | {{ route.params.id }}
+            </li>
+          </ol>
+        </nav>
+
+        <!-- 產品區塊 -->
+        <div class="row">
+          <!-- 左側 -->
+          <div class="col-lg-6">
+            <div class="row flex-row flex-sm-column-reverse flex-lg-row">
+              <!-- 小樣式 -->
+              <div class="col-xl-3 py-2 ps-sm-2 px-lg-0 py-lg-0 ps-xl-4 ps-xxl-0">
+                <Swiper
+                  :onSwiper="setThumbsSwiper"
+                  :slidesPerView="5"
+                  :spaceBetween="11.7"
+                  :freeMode="true"
+                  :watchSlidesProgress="true"
+                  class="thumbs-swiper-container ms-sm-1 ms-lg-0"
                 >
-                  <img
-                    :src="item"
-                    :alt="productsRatings.title"
-                    class="thumbs-swiper-img d-block object-fit-cover"
-                  />
-                </SwiperSlide>
-              </Swiper>
-            </div>
+                  <SwiperSlide
+                    v-for="(item, index) in productsRatings.imagesUrl"
+                    :key="index"
+                    class="thumbs-swiper my-sm-2 my-xl-0 mb-xl-2 ms-xl-2 ms-xxl-4"
+                  >
+                    <img
+                      :src="item"
+                      :alt="productsRatings.title"
+                      class="thumbs-swiper-img d-block object-fit-cover"
+                    />
+                  </SwiperSlide>
+                </Swiper>
+              </div>
 
-            <!-- 主樣式 -->
-            <div class="col-md-12 col-lg-12 col-xl-9 px-lg-1">
-              <Swiper
-                :slidesPerView="1"
-                :slidesPerGroup="1"
-                :autoplay="{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: true,
-                }"
-                :grabCursor="true"
-                :pagination="{ clickable: true }"
-                class="mid-swiper-container"
-                :thumbs="{ swiper: thumbsSwiper }"
-                :style="{
-                  '--swiper-navigation-color': '#111c30',
-                  '--swiper-navigation-size': '40px',
-                  '--swiper-pagination-color': '#111c30',
-                  '--swiper-pagination-bullet-size': '15px',
-                }"
-                @swiper="onSwiper"
-              >
-                <SwiperSlide v-for="item in productsRatings.imagesUrl" :key="item">
-                  <VueMagnifier
-                    :src="item"
-                    class="swiper-img"
-                    :mgWidth="200"
-                    :mgHeight="200"
-                    :mgShape="'square'"
-                    :zoomFactor="1"
-                    @click="() => zoomInImage(item, productsRatings.title)"
-                  />
-                  <!-- <img :src="item" :alt="productsRatings.title" class="swiper-img" /> -->
-                </SwiperSlide>
-                <div ref="prevRef" class="swiper-button-prev"></div>
-                <div ref="nextRef" class="swiper-button-next"></div>
-              </Swiper>
-            </div>
-          </div>
-        </div>
-
-        <!-- 右側 -->
-        <div class="col-lg-6">
-          <div class="p-3">
-            <div>
-              <h2
-                class="d-flex justify-content-between align-items-center text-dark fw-bolder fs-4"
-              >
-                {{ productsRatings.title }}
-
-                <span class="cursor-pointer me-2" @click.prevent="addWishList(productsRatings)"
-                  ><font-awesome-icon
-                    :icon="[isWishListed(productsRatings) ? 'fas' : 'far', 'heart']"
-                    class="text-danger fs-3"
-                    :title="isWishListed(productsRatings) ? '移除願望清單' : '加入願望清單中'"
-                /></span>
-              </h2>
-              <div class="text-muted fs-5 mt-2">{{ productsRatings.content }}</div>
-            </div>
-            <div>
-              {{ productsRatings.description }}
-            </div>
-            <div>
-              <RatingStar
-                :averageRating="productsRatings.averageRating || 0"
-                :totalRatings="productsRatings.totalRatings || 0"
-                :classSize="'fs-6'"
-                :color="'text-warning'"
-              />
-              <span class="fw-500"> ({{ productsRatings.totalRatings }}) </span>
-            </div>
-
-            <div v-if="productsRatings.isOnSale" class="d-flex align-items-center mt-4">
-              <span class="fs-3 fw-700 text-danger"
-                >{{ usePriceToTw(productsRatings.price) }}
-              </span>
-              <span class="text-danger border border-danger mt-1 ms-2 px-2"
-                >-{{
-                  useComputedDiscount(productsRatings.origin_price, productsRatings.price)
-                }}</span
-              >
-            </div>
-            <div v-else>
-              <div class="fs-4 fw-bolder text-dark mt-4">
-                NT{{ usePriceToTw(productsRatings.price) }}
+              <!-- 主樣式 -->
+              <div class="col-md-12 col-lg-12 col-xl-9 px-lg-1">
+                <Swiper
+                  :slidesPerView="1"
+                  :slidesPerGroup="1"
+                  :autoplay="{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }"
+                  :grabCursor="true"
+                  :pagination="{ clickable: true }"
+                  class="mid-swiper-container"
+                  :thumbs="{ swiper: thumbsSwiper }"
+                  :style="{
+                    '--swiper-navigation-color': '#111c30',
+                    '--swiper-navigation-size': '40px',
+                    '--swiper-pagination-color': '#111c30',
+                    '--swiper-pagination-bullet-size': '15px',
+                  }"
+                  @swiper="onSwiper"
+                >
+                  <SwiperSlide v-for="item in productsRatings.imagesUrl" :key="item">
+                    <VueMagnifier
+                      :src="item"
+                      class="swiper-img"
+                      :mgWidth="200"
+                      :mgHeight="200"
+                      :mgShape="'square'"
+                      :zoomFactor="1"
+                      @click="() => zoomInImage(item, productsRatings.title)"
+                    />
+                  </SwiperSlide>
+                  <div ref="prevRef" class="swiper-button-prev"></div>
+                  <div ref="nextRef" class="swiper-button-next"></div>
+                </Swiper>
               </div>
             </div>
+          </div>
 
-            <div class="d-flex flex-column border-start border-5 border-primary mb-4 mt-5 ps-2">
-              <span class="text-ellipsis">首次，使用 LinePay 首次滿千免運，贈送點數!</span>
-              <span class="text-ellipsis">全店，滿額免運：全店滿$999元免運 (海外地區不適用)</span>
-              <span class="text-ellipsis">全店，滿額贈：消費滿$2000元贈 TEXT 品牌提袋 x1</span>
-            </div>
-            <div class="mt-3">
-              <div class="row">
-                <div class="col-6 col-xl-5">
-                  <div class="input-group">
-                    <button
-                      type="button"
-                      class="btn btn-dark border-1 py-2"
-                      @click="handleChangQuantity('reduce')"
-                    >
-                      <font-awesome-icon :icon="['fas', 'minus']" />
-                    </button>
-                    <input
-                      type="number"
-                      class="form-control text-center border-dark border-1 py-2 ps-3 ps-xl-3"
-                      readOnly
-                      v-model.number="quantity"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-dark border-1 py-2"
-                      @click="handleChangQuantity('add')"
-                    >
-                      <font-awesome-icon :icon="['fas', 'plus']" />
+          <!-- 右側 -->
+          <div class="col-lg-6">
+            <div class="px-3 pb-3">
+              <div>
+                <h2
+                  class="d-flex justify-content-between align-items-center text-dark fw-bolder fs-4"
+                >
+                  {{ productsRatings.title }}
+
+                  <span class="cursor-pointer me-2" @click.prevent="addWishList(productsRatings)"
+                    ><font-awesome-icon
+                      :icon="[isWishListed(productsRatings) ? 'fas' : 'far', 'heart']"
+                      class="text-danger fs-3"
+                      :title="isWishListed(productsRatings) ? '移除願望清單' : '加入願望清單中'"
+                  /></span>
+                </h2>
+                <div class="text-muted fs-5 mt-2">{{ productsRatings.content }}</div>
+              </div>
+
+              <div>
+                {{ productsRatings.description }}
+              </div>
+
+              <div>
+                <RatingStar
+                  :averageRating="productsRatings.averageRating || 0"
+                  :totalRatings="productsRatings.totalRatings || 0"
+                  :classSize="'fs-6'"
+                  :color="'text-warning'"
+                />
+                <span class="fw-500"> ({{ productsRatings.totalRatings }}) </span>
+              </div>
+
+              <div v-if="productsRatings.isOnSale" class="d-flex align-items-center mt-4">
+                <span class="fs-3 fw-700 text-danger"
+                  >{{ usePriceToTw(productsRatings.price) }}
+                </span>
+                <span class="text-danger border border-danger mt-1 ms-2 px-2"
+                  >-{{
+                    useComputedDiscount(productsRatings.origin_price, productsRatings.price)
+                  }}</span
+                >
+              </div>
+              <div v-else>
+                <div class="fs-4 fw-bolder text-dark mt-4">
+                  NT{{ usePriceToTw(productsRatings.price) }}
+                </div>
+              </div>
+
+              <div class="d-flex flex-column border-start border-5 border-primary mb-4 mt-5 ps-2">
+                <span class="text-ellipsis">首次，使用 LinePay 首次滿千免運，贈送點數!</span>
+                <span class="text-ellipsis">全店，滿額免運：全店滿$999元免運 (海外地區不適用)</span>
+                <span class="text-ellipsis">全店，滿額贈：消費滿$2000元贈 TEXT 品牌提袋 x1</span>
+              </div>
+
+              <div class="mt-3">
+                <div class="row">
+                  <div class="col-6 col-xl-5">
+                    <div class="input-group">
+                      <button
+                        type="button"
+                        class="btn btn-dark border-1 py-2"
+                        @click="handleChangQuantity('reduce')"
+                      >
+                        <font-awesome-icon :icon="['fas', 'minus']" />
+                      </button>
+                      <input
+                        type="number"
+                        class="form-control text-center border-dark border-1 py-2 ps-3 ps-xl-3"
+                        readOnly
+                        v-model.number="quantity"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-dark border-1 py-2"
+                        @click="handleChangQuantity('add')"
+                      >
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-6 col-xl-7">
+                    <button type="button" class="btn btn-primary text-white w-100 py-2">
+                      加入購物車
                     </button>
                   </div>
                 </div>
-                <div class="col-6 col-xl-7">
-                  <button type="button" class="btn btn-primary text-white w-100 py-2">
-                    加入購物車
-                  </button>
-                </div>
               </div>
-            </div>
 
-            <!-- 產品規格 -->
-            <div class="mt-3">
-              <CollapseComponent :index="0" :list="{ title: '產品規格' }">
-                <div class="table-responsive">
-                  <table class="details-table table align-middle mb-0">
-                    <thead>
-                      <tr>
-                        <th>名稱</th>
-                        <th>內容</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>產品編碼</td>
-                        <td>{{ productsRatings.id }}</td>
-                      </tr>
-                      <tr>
-                        <td>顏色</td>
-                        <td>
-                          <span
-                            v-for="(color, colorIndex) in productsRatings.colors"
-                            :key="colorIndex"
-                            class=""
-                            >{{ color.title
-                            }}<span v-if="colorIndex < productsRatings.colors.length - 1"
-                              >、</span
-                            ></span
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>尺寸[長x寬x高](cm)</td>
-                        <td>
-                          {{ productsRatings.dimensions.length }} x
-                          {{ productsRatings.dimensions.width }} x
-                          {{ productsRatings.dimensions.height }} 公分
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>材質</td>
-                        <td>{{ productsRatings.material }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </CollapseComponent>
+              <!-- 產品規格 -->
+              <div class="mt-3">
+                <CollapseComponent :index="0" :list="{ title: '產品規格' }">
+                  <div class="table-responsive">
+                    <table class="details-table table align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th>名稱</th>
+                          <th>內容</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>產品編碼</td>
+                          <td>{{ productsRatings.id }}</td>
+                        </tr>
+                        <tr>
+                          <td>顏色</td>
+                          <td>
+                            <span
+                              v-for="(color, colorIndex) in productsRatings.colors"
+                              :key="colorIndex"
+                              class=""
+                              >{{ color.title
+                              }}<span v-if="colorIndex < productsRatings.colors.length - 1"
+                                >、</span
+                              ></span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>尺寸[長x寬x高](cm)</td>
+                          <td>
+                            {{ productsRatings.dimensions.length }} x
+                            {{ productsRatings.dimensions.width }} x
+                            {{ productsRatings.dimensions.height }} 公分
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>材質</td>
+                          <td>{{ productsRatings.material }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CollapseComponent>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- 產品說明區塊(下方) -->
-      <div class="row border-top border-2">
-        <div class="col-lg-6">左側</div>
-        <div class="col-lg-6">
-          <div class="p-3">
-            右側
-            <ul class="list-unstyled">
-              <li v-for="(item, index) in testList" :key="item.id">
-                <CollapseComponent :list="item" :index="index + 1" />
-              </li>
-            </ul>
+        <!-- 產品說明區塊(下方) -->
+        <div class="row border-top border-2 py-3">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-6">
+            <h3 class="text-center my-4">產品描述</h3>
+            <div v-for="(item, index) in productsRatings.imagesUrlDescriptions" :key="index">
+              <img
+                v-if="index <= 2"
+                :src="productsRatings.imagesUrl[index]"
+                :alt="item"
+                class="product-description-img"
+                @click="zoomInImage(productsRatings.imagesUrl[index], item)"
+              />
+              <p class="mt-3" v-if="index <= 2">{{ item }}</p>
+            </div>
+          </div>
+          <div class="col-lg-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-center">推薦商品</h3>
+      <div class="mt-3" :style="{ backgroundColor: '#FBF9F9' }" v-if="originProductsRatings">
+        <div class="py-5">
+          <div class="container p-0">
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
+            >
+              <div
+                class="col col-1-2 col-2-2 col-4-3 px-3"
+                v-for="(product, index) in originProductsRatings"
+                :key="index"
+              >
+                <ProductDescriptionCard
+                  :product="product"
+                  :img-class="'product-description-card-img'"
+                  :card-bg-color="'#FBF9F9'"
+                  :star-color="'text-warning'"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -271,10 +306,12 @@ import useLoadingStore from '@/stores/loadingStores';
 import useCategoryStore from '@/stores/categoryStores';
 import useWishStore from '@/stores/wishStores';
 import usePriceToTw from '@/composables/usePriceToTw';
+import useComputedDiscount from '@/composables/useComputedDiscount';
+import useSearchStore from '@/stores/searchStores';
 import RatingStar from '@/components/common/RatingStar.vue';
 import CollapseComponent from '@/components/common/CollapseComponent.vue';
-import useComputedDiscount from '@/composables/useComputedDiscount';
 import ImageModal from '@/components/front/products/ImageModal.vue';
+import ProductDescriptionCard from '@/components/front/products/ProductDescriptionCard.vue';
 
 const imageModal = ref(null);
 const route = useRoute();
@@ -284,25 +321,22 @@ const categoryStore = useCategoryStore();
 const loadingStore = useLoadingStore();
 const wishStore = useWishStore();
 const { addWishList, isWishListed } = wishStore;
+const searchStore = useSearchStore();
 
 const products = ref([]);
+const productCategory = ref('');
 const quantity = ref(1);
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
 
-const testList = [
-  {
-    id: 1,
-    title: '其他注意項目',
-    center: [
-      '在結帳頁面輸入您的優惠卷代碼。',
-      '點擊應用或確認以套用優惠。',
-      '確認訂單金額已更新，並繼續完成結帳流程。',
-      '請注意優惠卷可能有特定使用條件，請仔細閱讀相關資訊。',
-    ],
-  },
-];
+// 取得對應類型的產品，只取五個
+function recommendList() {
+  return searchStore.originProducts
+    .filter((item) => item.category === productCategory.value)
+    .slice(0, 5);
+}
+const originProductsRatings = computed(() => calculateProductsRatings(recommendList()));
 
 const thumbsSwiper = ref(null); // 存放 swiper 實體
 
@@ -335,6 +369,7 @@ const fetchProduct = async () => {
     loadingStore.toggleLoading(); // 全頁加載
     const api = `${baseApiUrl}/v2/api/${apiPath}/product/${route.params.id}`;
     const response = await axios.get(api);
+    productCategory.value = response.data.product.category;
     products.value.push(response.data.product); // 為了計算星星數先用陣列儲存
   } catch (error) {
     showAlert({
@@ -375,13 +410,6 @@ const zoomInImage = (imgUrl, imgAlt) => {
   imageModal.value.openModal(imgUrl, imgAlt);
 };
 
-watch(
-  () => productsRatings,
-  () => {
-    console.log(productsRatings);
-  },
-);
-
 onMounted(() => {
   fetchProduct();
 });
@@ -392,6 +420,7 @@ onMounted(() => {
   min-width: 190px;
 }
 
+// 商品圖片輪播
 .thumbs-swiper-container {
   .swiper-wrapper {
     display: flex;
@@ -442,31 +471,7 @@ onMounted(() => {
   }
 }
 
-/* .mid-swiper-container .swiper-img {
-  display: block;
-  object-fit: cover;
-  width: 100% !important;
-  height: auto;
-  @media (min-width: 375px) {
-    height: 400px;
-  }
-  @media (min-width: 576px) {
-    height: 516px;
-  }
-  @media (min-width: 768px) {
-    height: 500px;
-  }
-  @media (min-width: 992px) {
-    height: 476px;
-  }
-  @media (min-width: 1200px) {
-    height: 393px;
-  }
-  @media (min-width: 1400px) {
-    height: 460px;
-  }
-} */
-
+// 大圖
 .mid-swiper-container .swiper-img {
   display: block;
   object-fit: cover !important;
@@ -504,5 +509,26 @@ onMounted(() => {
   opacity: 1;
   border: 2px solid #111c30a6;
   box-shadow: 0 0 5px #111c30b7;
+}
+
+// 圖片描述微調
+.product-description-img {
+  display: block;
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.product-description-card-img {
+  width: 100%;
+  height: 200px;
+  max-width: 233.6px;
+  object-fit: cover;
+
+  @media (max-width: 375px) {
+    max-width: 300px !important;
+    max-height: 210px;
+  }
 }
 </style>

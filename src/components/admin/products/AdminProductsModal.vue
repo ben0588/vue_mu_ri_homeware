@@ -98,6 +98,7 @@
                     {{ t('admin.products_modal_middle_file_img_button') }}
                   </button>
                 </div>
+
                 <div class="input-group mb-3">
                   <label class="form-label w-100">{{ t('admin.products_modal_url_images') }}</label>
                   <input
@@ -109,6 +110,20 @@
                     :placeholder="`【${index + 1}】 ${t('admin.products_modal_url_images_placeholder')}`"
                   />
                 </div>
+
+                <div class="input-group mb-3">
+                  <label class="form-label w-100">輸入圖片描述 (共五張)</label>
+                  <input
+                    type="text"
+                    class="form-control w-100"
+                    v-for="(item, index) in newTempData[i18nStore.currentIcon]
+                      .imagesUrlDescriptions"
+                    :key="index"
+                    v-model="newTempData[i18nStore.currentIcon].imagesUrlDescriptions[index]"
+                    :placeholder="`【${index + 1}】 請輸入圖片描述`"
+                  />
+                </div>
+
                 <!-- 主圖片預覽 -->
                 <div v-if="newTempData[i18nStore.currentIcon].imageUrl">
                   <h5 class="mb-0 mt-2 fw-bolder">
@@ -511,6 +526,7 @@ const newLanguageData = {
   stock: '',
   imageUrl: '',
   imagesUrl: ['', '', '', '', ''],
+  imagesUrlDescriptions: ['', '', '', '', ''],
   price: '',
   origin_price: '',
   description: '',
@@ -592,7 +608,42 @@ const newTempData = ref({
   is_enabled: 1,
   imageUrl: '主圖網址',
   imagesUrl: ['1', '2', '3', '4', '5'],
-  rating: 0,
+  ratings: {
+    star_1: {
+      count: 0,
+      reviews: [
+        {
+          user: '評論名稱',
+          comment: '產品描述',
+          reviewId: '頻論會員id',
+        },
+      ],
+    },
+    star_2: {
+      count: 0,
+    },
+    star_3: {
+      count: 0,
+    },
+    star_4: {
+      count: 0,
+    },
+    star_5: {
+      count: 9,
+      reviews: [
+        {
+          user: 'Alex',
+          comment: '商品品質再棒了!很喜歡',
+          reviewId: 'r1',
+        },
+        {
+          user: 'Ben',
+          comment: '躺起來非常舒服~~',
+          reviewId: 'r2',
+        },
+      ],
+    },
+  },
   create_date: new Date().getTime(),
   sales_num: 0,
   isNew: true, // 新品專區用
@@ -923,6 +974,7 @@ watchEffect(() => {
   newTempData.value.is_enabled = newTempData.value.tw.is_enabled;
   newTempData.value.imageUrl = newTempData.value.tw.imageUrl;
   newTempData.value.imagesUrl = newTempData.value.tw.imagesUrl;
+  newTempData.value.imagesUrlDescriptions = newTempData.value.tw.imagesUrlDescriptions;
   newTempData.value.ratings = newTempData.value.tw.ratings;
   newTempData.value.sales_num = newTempData.value.tw.sales_num;
   newTempData.value.isNew = newTempData.value.tw.isNew;

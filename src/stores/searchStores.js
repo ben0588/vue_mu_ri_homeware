@@ -19,6 +19,7 @@ const useSearchStore = defineStore('searchStore', () => {
   const fuse = new Fuse([], fuseOptions); // 先初始化空資料
   const searchText = ref('');
   const productsList = ref([]);
+  const originProducts = ref([]); // 儲存原始商品資料
   const isSearch = ref(false);
 
   // 取得所有產品資料用來關鍵字搜尋
@@ -26,6 +27,7 @@ const useSearchStore = defineStore('searchStore', () => {
     try {
       const api = `${baseApiUrl}/v2/api/${apiPath}/products/all`;
       const response = await axios.get(api);
+      originProducts.value = response.data.products;
       fuse.setCollection(response.data.products);
     } catch (error) {
       showAlert({
@@ -76,7 +78,7 @@ const useSearchStore = defineStore('searchStore', () => {
   });
 
   return {
-    isSearch, searchText, productsList, handleSearch, handleInput,
+    originProducts, isSearch, searchText, productsList, handleSearch, handleInput,
   };
 });
 
