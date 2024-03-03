@@ -184,8 +184,23 @@
                     </div>
                   </div>
                   <div class="col-6 col-xl-7">
-                    <button type="button" class="btn btn-primary text-white w-100 py-2">
-                      加入購物車
+                    <button
+                      type="button"
+                      class="btn btn-primary text-white w-100 py-2"
+                      title="加入購物車"
+                      @click="addCart({ id: productsRatings.id, quantity })"
+                      :disabled="cartStore.addTargetId === productsRatings.id"
+                      :class="{
+                        'cursor-not-allowed': cartStore.addTargetId === productsRatings.id,
+                      }"
+                    >
+                      <span v-if="cartStore.addTargetId === productsRatings.id">
+                        <span class="spinner-border spinner-border-sm" role="status">
+                          <span class="visually-hidden">新增購物車中</span>
+                        </span>
+                        新增購物車中</span
+                      >
+                      <span v-else> 加入購物車 </span>
                     </button>
                   </div>
                 </div>
@@ -312,6 +327,7 @@ import RatingStar from '@/components/common/RatingStar.vue';
 import CollapseComponent from '@/components/common/CollapseComponent.vue';
 import ImageModal from '@/components/front/products/ImageModal.vue';
 import ProductDescriptionCard from '@/components/front/products/ProductDescriptionCard.vue';
+import useCartStore from '@/stores/cartStores';
 
 const imageModal = ref(null);
 const route = useRoute();
@@ -322,6 +338,8 @@ const loadingStore = useLoadingStore();
 const wishStore = useWishStore();
 const { addWishList, isWishListed } = wishStore;
 const searchStore = useSearchStore();
+const cartStore = useCartStore();
+const { addCart } = cartStore;
 
 const products = ref([]);
 const productCategory = ref('');

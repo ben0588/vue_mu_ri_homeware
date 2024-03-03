@@ -37,7 +37,6 @@
         </Swiper>
       </div>
     </div>
-
     <div class="bg-white py-2">
       <div class="container">
         <nav class="navbar navbar-expand-lg">
@@ -99,6 +98,7 @@
                           :title="item.title"
                           :aria-label="item.label"
                           @click="toggleMenuOpen"
+                          class="position-relative"
                         >
                           <span v-if="isTable">{{ item.center }}</span>
                           <font-awesome-icon
@@ -106,6 +106,16 @@
                             class="header-icons"
                             v-else-if="item.icon !== 'none'"
                           />
+
+                          <span
+                            v-if="item.label === 'carts'"
+                            class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger"
+                          >
+                            {{ cartStore.cartList.length }}
+                            <span className="visually-hidden">
+                              當前購物車共有{{ cartStore.cartList.length }}筆
+                            </span>
+                          </span>
                         </router-link>
                       </li>
                       <li class="ms-4 header-navbar-items" v-if="isTable">
@@ -150,10 +160,12 @@ import { ref, watchEffect } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 import NavbarSearch from '@/components/common/NavbarSearch.vue';
+import useCartStore from '@/stores/cartStores';
 
 const screenWidth = ref(window.innerWidth);
 const isTable = ref(false);
 const isOpenMenu = ref(false);
+const cartStore = useCartStore();
 
 const navbarList = ref([
   {

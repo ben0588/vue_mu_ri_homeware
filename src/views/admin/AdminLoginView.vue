@@ -30,10 +30,10 @@
         <button
           type="submit"
           class="btn btn-dark text-white w-100 mt-2 p-2"
-          :disabled="LoadingStore.isLoading"
+          :disabled="loadingStore.isLoading"
         >
           <!-- 登入時無法多次發出登入請求，並且更換指定 loading 樣式 -->
-          <span v-if="LoadingStore.isLoading">
+          <span v-if="loadingStore.isLoading">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ t('admin.logging_in_text') }}
           </span>
@@ -55,7 +55,7 @@ import { useAlert } from '@/composables/useAlert';
 import useLoadingStore from '@/stores/loadingStores';
 import useAdminStore from '@/stores/adminStores';
 
-const LoadingStore = useLoadingStore();
+const loadingStore = useLoadingStore();
 const adminStore = useAdminStore();
 const { showAlert } = useAlert();
 

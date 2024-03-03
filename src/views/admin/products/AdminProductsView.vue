@@ -121,7 +121,7 @@ const { t } = useI18n();
 
 const { showAlert } = useAlert();
 const router = useRouter();
-const LoadingStore = useLoadingStore();
+const loadingStore = useLoadingStore();
 
 const adminProducts = ref([]);
 const adminPagination = ref([]);
@@ -145,7 +145,7 @@ const apiPath = import.meta.env.VITE_APP_API_PATH;
 
 const fetchAdminProducts = async (page = 1, category = '') => {
   try {
-    LoadingStore.toggleLoading(); // 全頁加載
+    loadingStore.toggleLoading(); // 全頁加載
     const token = localStorage.getItem('s72241'); // 防止重新整理後要重新登入
     axios.defaults.headers.common.Authorization = token;
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/products?page=${page}&category=${category}`;
@@ -167,7 +167,7 @@ const fetchAdminProducts = async (page = 1, category = '') => {
       }
     });
   } finally {
-    LoadingStore.toggleLoading();
+    loadingStore.toggleLoading();
   }
 };
 

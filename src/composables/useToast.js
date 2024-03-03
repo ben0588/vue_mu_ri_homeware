@@ -12,6 +12,8 @@ function useToast() {
       transition, // 動畫
       pauseOnFocusLoss: false, // 離開畫面失焦時暫停
       dangerouslyHTMLString: true, // 能不能用 html 文字
+      hideProgressBar: true, // 關閉進度條
+      pauseOnHover: false, // 滑鼠懸停時暫停
     });
   };
 
