@@ -28,7 +28,7 @@ const useWishStore = defineStore('wishStore', () => {
       // 存在的話就取消
       wishlist.value = wishlist.value.filter((item) => item.id !== product.id);
       toastAlert({
-        message: '🌠 已移除成功',
+        message: '🌠 已移除商品追蹤',
       });
     } else {
       // 不存在就存入清單中
@@ -43,7 +43,7 @@ const useWishStore = defineStore('wishStore', () => {
       };
       wishlist.value.push(newProduct);
       toastAlert({
-        message: '⭐已添加成功',
+        message: '⭐已新增商品追蹤',
       });
     }
   };
@@ -67,7 +67,7 @@ const useWishStore = defineStore('wishStore', () => {
       if (result.isConfirmed) {
         wishlist.value = wishlist.value.filter((item) => item.id !== product.id);
         toastAlert({
-          message: '🌠 已移除成功',
+          message: '🌠 已移除商品追蹤',
         });
       }
     });
@@ -89,7 +89,7 @@ const useWishStore = defineStore('wishStore', () => {
       if (result.isConfirmed) {
         wishlist.value = []; // 確認後重新清除
         toastAlert({
-          message: '🌌 已移除所有追蹤項目',
+          message: '🌌 已移除所有商品追蹤',
         });
       }
     });

@@ -29,7 +29,30 @@ const router = createRouter({
         {
           path: 'carts',
           name: 'front_carts',
-          component: () => import('@/views/front/shoppingCart/ShoppingCartView.vue'),
+          component: () => import('@/views/front/shoppingCart/CartsView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'front_carts_index',
+              component: () => import('@/views/front/shoppingCart/ShoppingCartView.vue'),
+            },
+            {
+              path: 'confirm',
+              name: 'front_order_confirm',
+              component: () => import('@/views/front/shoppingCart/OrderConfirmView.vue'),
+            },
+            {
+              path: 'payment',
+              name: 'front_order_payment',
+              component: () => import('@/views/front/shoppingCart/PaymentView.vue'),
+            },
+            {
+              path: 'complete',
+              name: 'front_order_complete',
+              component: () => import('@/views/front/shoppingCart/CompleteOrderView.vue'),
+            },
+
+          ],
         },
         {
           path: 'wishlist',

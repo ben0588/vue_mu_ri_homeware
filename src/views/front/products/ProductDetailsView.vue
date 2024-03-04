@@ -160,28 +160,10 @@
               <div class="mt-3">
                 <div class="row">
                   <div class="col-6 col-xl-5">
-                    <div class="input-group">
-                      <button
-                        type="button"
-                        class="btn btn-dark border-1 py-2"
-                        @click="handleChangQuantity('reduce')"
-                      >
-                        <font-awesome-icon :icon="['fas', 'minus']" />
-                      </button>
-                      <input
-                        type="number"
-                        class="form-control text-center border-dark border-1 py-2 ps-3 ps-xl-3"
-                        readOnly
-                        v-model.number="quantity"
-                      />
-                      <button
-                        type="button"
-                        class="btn btn-dark border-1 py-2"
-                        @click="handleChangQuantity('add')"
-                      >
-                        <font-awesome-icon :icon="['fas', 'plus']" />
-                      </button>
-                    </div>
+                    <QuantityButtonGroupVue
+                      @fetch-quantity="fetchQuantityFn"
+                      :productId="productsRatings.id"
+                    />
                   </div>
                   <div class="col-6 col-xl-7">
                     <button
@@ -308,7 +290,9 @@
   <ImageModal ref="imageModal"></ImageModal>
 </template>
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import {
+  ref, onMounted, computed, watch,
+} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
@@ -328,6 +312,7 @@ import CollapseComponent from '@/components/common/CollapseComponent.vue';
 import ImageModal from '@/components/front/products/ImageModal.vue';
 import ProductDescriptionCard from '@/components/front/products/ProductDescriptionCard.vue';
 import useCartStore from '@/stores/cartStores';
+import QuantityButtonGroupVue from '@/components/common/QuantityButtonGroup.vue';
 
 const imageModal = ref(null);
 const route = useRoute();
@@ -411,6 +396,12 @@ const handleChangeCategory = (target) => {
   categoryStore.categoryTarget = target;
 };
 
+const fetchQuantityFn = ({ productId, qty }) => {
+  console.log('qty', qty);
+  console.log('productId', productId);
+  quantity.value = qty;
+  console.log('quantity.value', quantity.value);
+};
 const handleChangQuantity = (type) => {
   if (type === 'add') {
     quantity.value += 1;

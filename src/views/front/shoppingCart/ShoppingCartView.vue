@@ -1,32 +1,37 @@
 <template>
-  <div class="container py-32">
-    <div v-if="wishStore.wishlist.length">
+  <div class="container py-32" v-if="!cartStore.cartLoading">
+    <div v-if="cartStore.cartList.length">
       <h2 class="fw-bolder fs-4 mb-4">購物車列表</h2>
       <div class="table-responsive">
         <table class="table align-middle">
           <thead>
             <tr>
-              <td>
-                <button type="button" class="btn btn-none" @click="removeAllWishlist">
+              <td class="text-start" colspan="3">商品明細</td>
+              <td>售價</td>
+              <td class="text-center">
+                <div :style="{paddingRight:`2rem`}">
+                  數量
+                </div>
+              </td>
+              <td  class="text-center">小計</td>
+              <th class="pb-0" colspan="1">
+                <button type="button" class="btn btn-none" @click="deleteCarts">
                   移除所有品項
                 </button>
-              </td>
-            </tr>
-            <tr>
-              <th class="text-start" colspan="2">商品明細</th>
-              <th>售價</th>
-              <th>數量</th>
-              <th>小計</th>
-              <th class="text-center" colspan="2">操作</th>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in wishStore.wishlist" :key="item.id">
+            <tr v-for="item in cartStore.cartList" :key="item.id">
               <td>
-                <router-link :to="`products/${item.id}`" title="查看商品詳情" class="image-hover">
+                <router-link
+                  :to="`products/${item.product_id}`"
+                  title="查看商品詳情"
+                  class="image-hover"
+                >
                   <img
-                    :src="item.imageUrl"
-                    :alt="item.title"
+                    :src="item.product.imageUrl"
+                    :alt="item.product.title"
                     :style="{ width: `70px`, height: `70px`, objectFit: 'cover' }"
                     class="border border-dark"
                   />
@@ -34,46 +39,92 @@
               </td>
               <td>
                 <div>
-                  <div>{{ item.title }}</div>
-                  <div>{{ item.content }}asdasdasqweqweqwewqeqwe</div>
-                  <div>{{ item.unit }}</div>
+                  <div>{{ item.product.title }}</div>
+                  <div>{{ item.product.content }}</div>
+                  <div>{{ item.product.unit }}</div>
                 </div>
               </td>
+              <td></td>
               <td>
-                <div class="text-decoration-line-through text-muted">
-                  {{ usePriceToTw(item.origin_price) }}
+                <div>
+                  <span class="text-decoration-line-through text-muted">
+                    {{ usePriceToTw(item.product.origin_price) }}</span
+                  >
+                  <span class="text-danger">
+                    -{{ useComputedDiscount(item.product.origin_price, item.product.price) }}</span
+                  >
                 </div>
-                <div class="fw-bolder">{{ usePriceToTw(item.price) }}</div>
-                <div class="text-danger fw-700">
-                  折扣 {{ useComputedDiscount(item.origin_price, item.price) }}
+                <div class="fw-500">
+                  {{ usePriceToTw(item.product.price) }}
                 </div>
-              </td>
-
-              <td>
-                <QuantityButtonGroupVue />
               </td>
 
               <td class="text-center">
-                <button
-                  @click.prevent="removeWishItem(item)"
-                  type="button"
-                  class="btn btn-none mx-auto"
-                >
-                  <font-awesome-icon :icon="['far', 'trash-can']" title="移除追蹤" class="fs-4" />
-                </button>
+                <div :style="{width:`150px`}" >
+                  <QuantityButtonGroupVue
+                  @fetch-quantity="fetchQuantityFn"
+                  :id="item.id"
+                  :type="'api-edit'"
+                  :cartQuantity="item.qty"
+                  :productId="item.product_id"
+                  :btnClass="'btn-secondary'"
+                  :inputClass="'border-secondary'"
+                  />
+                </div>
+              </td>
+
+              <td class="text-center">{{ usePriceToTw(item.total) }}</td>
+
+              <td>
+                <div class="flex-center">
+                  <span class="cursor-pointer me-2" @click.prevent="addWishList(item.product)"
+                    ><font-awesome-icon
+                      :icon="[isWishListed(item.product) ? 'fas' : 'far', 'heart']"
+                      class="text-danger fs-3"
+                      :title="isWishListed(item.product) ? '移除願望清單' : '加入願望清單中'"
+                  /></span>
+                  <button @click.prevent="deleteCart(item.id)" type="button" class="btn btn-none">
+                    <font-awesome-icon
+                      :icon="['far', 'trash-can']"
+                      title="移除購物車"
+                      class="fs-4"
+                    />
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
+
+          <tfoot>
+            <tr>
+              <td colspan="7">
+                <div class="float-end">
+                  <div class="d-flex flex-column">
+                    <span class="fs-5">
+                      <span> 共 {{ cartStore.cartList.length }} 項商品 | </span>
+                      <span class="fw-700">
+                        合計 NT{{ usePriceToTw(cartStore.cartFinalTotal) }}
+                      </span></span
+                    >
+                    <span class="text-end text-muted">*未含運費</span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
+      <div class="float-end mb-32">
+        <router-link to="/products" class="btn btn-outline-dark">繼續購物</router-link>
+        <router-link to="/carts/confirm" class="btn btn-dark">填寫訂單資訊</router-link>
+      </div>
     </div>
-
     <div v-else class="flex-center flex-column">
-      <p class="fs-4">目前並無任何追蹤商品</p>
+      <p class="fs-4">購物車目前並無任何商品</p>
       <div>
         <img
-          src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709362628868.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=h5XkhkexYnztCWjUC4P%2Bq2GcYACqx4RCgfPeAjKqqb4Xe%2BnBJJEVCz7v4TAcyYy%2BJSBlvRWWbk6qxveKZY9sJNVinlFg7WSBqssHpt4G5A0ZcrLlLc%2BRwg3dROKNkrAJNwKZs5QOcMO3mqU3W1qKSwCO3t6jLsAxgJxrdKhttiIoE%2F6n%2FpRzljAED%2BfI7KacbrUSSPVAdbllRxKbVcZ7rjcOzSqA2McBCotwTXYpuvCwOF91bHHZr7w5CJP63Z62CO8GUmQTJWXLxmaFWJJkOA429IC22Ts8%2FOCWGm%2BdH%2Fb4VQgC4kDgEE%2BU7sz0ODgHbwaT8kjq45vAIJOC3%2FY4ww%3D%3D"
-          alt="暫無任何追蹤商品"
+          src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1709523797457.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=TVpfq289hPAS0eJEUfUdQ094vN5dKwHD%2B261x5OpEH1uHeeE0Nd99HygcwvSAOfHcQJ4%2F%2B9BK4ugP20MZHg4sW9yksSFesbZoGYe6mOP3%2FLGJYD%2BwUyH3Go3d544OviGcMSRW%2FzcR1RKaWsMH1JEKdqCXibbCmwjqmnGufKB%2FeMqTzm3u8%2Fa66DIcFfmJf4t4%2BWdh2R5EQWzKN%2FVTud3sRRhiH%2BrltLOEoty5SBftDQnphuRO19cubaX2FaUG5ZpArGLvfPUgNu8lW9ivRIlaWgEqf36Mki4GOVn1cL2QV5lPje1jeZqN5oQjRZk1%2F52YRpaP7LcSt%2ByA%2FZEa0mnpQ%3D%3D"
+          alt="購物車目前並無任何商品"
         />
       </div>
       <div class="mt-4">
@@ -81,19 +132,28 @@
       </div>
     </div>
   </div>
+  <VueLoading :active="cartStore.cartLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 
 <script setup>
+import VueLoading from 'vue-loading-overlay';
+
 import usePriceToTw from '@/composables/usePriceToTw';
 import useComputedDiscount from '@/composables/useComputedDiscount';
 import useWishStore from '@/stores/wishStores';
-
-// import QuantityButtonGroup from '@/components/common/QuantityButtonGroup'
+import useCartStore from '@/stores/cartStores';
 import QuantityButtonGroupVue from '@/components/common/QuantityButtonGroup.vue';
 
 const wishStore = useWishStore();
-const { removeWishItem, removeAllWishlist } = wishStore;
-// wishStore.wishlist 要用此方式取得，使用結構出來的 wishlist 並不會有資料
+const { addWishList, isWishListed } = wishStore;
+const cartStore = useCartStore();
+const { deleteCart, deleteCarts, editCart } = cartStore;
+
+const fetchQuantityFn = ({ qty, id, productId }) => {
+  if (id === cartStore.addTargetId) {
+    editCart({ id, quantity: qty, productId });
+  }
+};
 </script>
 
 <style lang="scss">
