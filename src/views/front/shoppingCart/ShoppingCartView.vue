@@ -1,7 +1,7 @@
 <template>
-  <div class="container py-32" v-if="!cartStore.cartLoading">
+  <div class="container" v-if="!cartStore.cartLoading">
     <div v-if="cartStore.cartList.length">
-      <h2 class="fw-bolder fs-4 mb-4">購物車列表</h2>
+      <h2 class="fw-bolder fs-4">購物車列表</h2>
       <div class="table-responsive">
         <table class="table align-middle">
           <thead>
@@ -9,11 +9,9 @@
               <td class="text-start" colspan="3">商品明細</td>
               <td>售價</td>
               <td class="text-center">
-                <div :style="{paddingRight:`2rem`}">
-                  數量
-                </div>
+                <div :style="{ paddingRight: `2rem` }">數量</div>
               </td>
-              <td  class="text-center">小計</td>
+              <td class="text-center">小計</td>
               <th class="pb-0" colspan="1">
                 <button type="button" class="btn btn-none" @click="deleteCarts">
                   移除所有品項
@@ -27,14 +25,9 @@
                 <router-link
                   :to="`products/${item.product_id}`"
                   title="查看商品詳情"
-                  class="image-hover"
+                  class="cart-img-container image-hover"
                 >
-                  <img
-                    :src="item.product.imageUrl"
-                    :alt="item.product.title"
-                    :style="{ width: `70px`, height: `70px`, objectFit: 'cover' }"
-                    class="border border-dark"
-                  />
+                  <img :src="item.product.imageUrl" :alt="item.product.title" class="cart-img" />
                 </router-link>
               </td>
               <td>
@@ -60,15 +53,15 @@
               </td>
 
               <td class="text-center">
-                <div :style="{width:`150px`}" >
+                <div :style="{ width: `150px` }">
                   <QuantityButtonGroupVue
-                  @fetch-quantity="fetchQuantityFn"
-                  :id="item.id"
-                  :type="'api-edit'"
-                  :cartQuantity="item.qty"
-                  :productId="item.product_id"
-                  :btnClass="'btn-secondary'"
-                  :inputClass="'border-secondary'"
+                    @fetch-quantity="fetchQuantityFn"
+                    :id="item.id"
+                    :type="'api-edit'"
+                    :cartQuantity="item.qty"
+                    :productId="item.product_id"
+                    :btnClass="'btn-secondary'"
+                    :inputClass="'border-secondary'"
                   />
                 </div>
               </td>
@@ -94,29 +87,27 @@
               </td>
             </tr>
           </tbody>
-
-          <tfoot>
-            <tr>
-              <td colspan="7">
-                <div class="float-end">
-                  <div class="d-flex flex-column">
-                    <span class="fs-5">
-                      <span> 共 {{ cartStore.cartList.length }} 項商品 | </span>
-                      <span class="fw-700">
-                        合計 NT{{ usePriceToTw(cartStore.cartFinalTotal) }}
-                      </span></span
-                    >
-                    <span class="text-end text-muted">*未含運費</span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
         </table>
       </div>
-      <div class="float-end mb-32">
-        <router-link to="/products" class="btn btn-outline-dark">繼續購物</router-link>
-        <router-link to="/carts/confirm" class="btn btn-dark">填寫訂單資訊</router-link>
+      <div class="d-flex justify-content-end border-bottom border-2 pb-12 mb-12">
+        <div class="d-flex flex-column align-items-end">
+          <span class="fs-5">
+            <span> 共 {{ cartStore.cartList.length }} 項商品 | </span>
+            <span class="fw-700"> 合計 NT{{ usePriceToTw(cartStore.cartFinalTotal) }} </span></span
+          >
+          <span class="text-end text-muted">*未含運費</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end pb-12 mb-12">
+        <router-link to="/products" class="btn btn-outline-dark" :style="{ width: `150px` }"
+          >繼續購物</router-link
+        >
+        <router-link
+          to="/carts/confirm"
+          class="btn btn-primary text-white ms-2"
+          :style="{ width: `150px` }"
+          >填寫訂單資訊</router-link
+        >
       </div>
     </div>
     <div v-else class="flex-center flex-column">
@@ -157,39 +148,53 @@ const fetchQuantityFn = ({ qty, id, productId }) => {
 </script>
 
 <style lang="scss">
-.products-cred {
+.cart-img-container {
+  display: block;
+  width: 100px;
   overflow: hidden;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
+  border: 2px solid #788194c5;
+
+  @media (min-width: 992px) {
+    width: 75px;
+    height: 75px;
+  }
+
+  @media (min-width: 1200px) {
+    width: 85px;
+    height: 85px;
+  }
+
+  @media (min-width: 1400px) {
+    width: 96px;
+    height: 96px;
+  }
 
   &:hover {
-    /* pointer-events: none; */
-    opacity: 0.85;
+    border: 2px solid #111c30e8;
+
+    & .cart-img {
+      transform: scale(1.2);
+    }
   }
 }
-
-.card-img-container {
-  width: 255px;
-  height: 255px;
-  @media (max-width: 375px) {
-    height: 165px;
-    width: 165px;
-  }
-}
-
-.products-img {
-  width: 100%;
-  height: 100%;
+.cart-img {
   display: block;
   object-fit: cover;
-  object-position: center;
+  width: 100%;
+  height: 96px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 
-  @media (max-width: 375px) {
-    height: 165px;
-    width: 165px;
+  @media (min-width: 992px) {
+    height: 75px;
+  }
+
+  @media (min-width: 1200px) {
+    height: 85px;
+  }
+
+  @media (min-width: 1400px) {
+    height: 96px;
   }
 }
 </style>
-import QuantityButtonGroupVue from '@/components/common/QuantityButtonGroup.vue'; import
-QuantityButtonGroupVue from '@/components/common/QuantityButtonGroup.vue'; import
-QuantityButtonGroupVue from '@/components/common/QuantityButtonGroup.vue';

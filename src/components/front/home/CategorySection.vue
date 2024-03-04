@@ -4,9 +4,10 @@
     <div class="container mt-5">
       <div class="row justify-content-center align-items-start">
         <div class="col-4" v-if="!isTable">
-          <router-link to="/products" class="category-sale-img hover-img-opacity">
+          <router-link to="/products" class="hover-img-opacity">
             <img
               src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708468217006.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=i1erUbEbAV%2B9pIXREE5UrJF5GKTjvRH8in0d4OfHH%2B3V06bLny87p495Y9qHRMhmj7%2FDdOeZFxpcHs0RmCjWx9wyBhi%2FIWu9TgWB8WcJ2%2BPi%2FtWXYpcQ2JmbI5kvKkp4n5kt1MKXgUpq1v54fknne4bSy0RAHp2b4xQqoJQmPtV%2B1fsVnEdHVbOR8R2pFhAmS9ftC%2FUC1M0RShuQsyPLHNL%2FWbmDOPRyFnIF981Oaao6AT6Etm4kCTKns7iuvKoHPhMOkw951w9BSuR5qebL9NP66pnn8TK4vA%2B5yhPe0%2F3cvVZ4y%2BRfsgAdiqMCFO%2Bl%2B4pdrqOj%2F0xtMFUYnKfa2A%3D%3D"
+              class="category-sale-img"
               alt="特價中"
             />
             <p class="fs-4 fw-500 text-dark text-center pt-2">特價中</p>
@@ -18,6 +19,7 @@
               <router-link to="/products" class="category-sale-img hover-img-opacity">
                 <img
                   src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708555109803.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Rg3mRYkkD3AxpJsbtu3J5W2I1K0WDWsZEFJ7agbdPQ16VCpyRnrzmmPSu8AWdi11j0WZYZqvmY6vsrXDQKoiM9dATUwGMusUx2ALVygclUNjITGoRa0kVW7ZmAvZ7vHSJ8WHFe8BHEy92LXVctvGK6LtAUfg1CEvkcF6WDdyuc9BHhYDkWeNEIMM2zEInEggj4BYRe2uma%2Fv0zhBhA7Syyvi9c4tgc5rp4mtN8EG0JY5tH%2FxsB0W8gKoj1RGN1T7R5WExNan750HtGTVw4q%2FcBU1wRcKbCHj%2FtLSuNf4wUWJGexSNyHbHW0ybjMJT2l4lPIMfXSFYd%2FuCf%2FdLSVqyg%3D%3D"
+                  class="category-sale-img"
                   alt="特價中"
                 />
                 <p class="fs-4 fw-500 text-dark text-center pt-2">特價中</p>
@@ -27,39 +29,25 @@
               class="col-6 col-sm-3"
               v-for="(item, index) in categoryList"
               :key="item.title"
-              :class="{
-                // 'offset-2': item.title === '全部商品',
-                // 'offset-4': item.title === '廚房用品',
-              }"
               :style="{ marginBottom: !isTable ? '1.25rem' : '' }"
             >
-              <!-- :style="{ marginBottom: isTable ? '1.25rem' : '' }" -->
-
               <!-- 當手機板時只顯示最多6個類型選擇 -->
               <div v-if="isPhone">
-                <router-link
-                  :to="item.path"
-                  class="category-img hover-img-opacity"
-                  v-if="index <= 4"
-                >
-                  <img :src="item.imgUrl" :alt="item.title" />
+                <router-link :to="item.path" class="hover-img-opacity" v-if="index <= 4">
+                  <img :src="item.imgUrl" :alt="item.title" class="category-img" />
                   <p class="fs-4 fw-500 text-dark text-center pt-2">{{ item.title }}</p>
                 </router-link>
               </div>
 
               <div v-else-if="isTable">
-                <router-link
-                  :to="item.path"
-                  class="category-img hover-img-opacity"
-                  v-if="index <= 6"
-                >
-                  <img :src="item.imgUrl" :alt="item.title" />
+                <router-link :to="item.path" class="hover-img-opacity" v-if="index <= 6">
+                  <img :src="item.imgUrl" :alt="item.title" class="category-img" />
                   <p class="fs-4 fw-500 text-dark text-center pt-2">{{ item.title }}</p>
                 </router-link>
               </div>
 
-              <router-link :to="item.path" class="category-img hover-img-opacity" v-else>
-                <img :src="item.imgUrl" :alt="item.title" />
+              <router-link :to="item.path" class="hover-img-opacity" v-else>
+                <img :src="item.imgUrl" :alt="item.title" class="category-img" />
                 <p class="fs-4 fw-500 text-dark text-center pt-2">{{ item.title }}</p>
               </router-link>
             </div>
@@ -161,51 +149,47 @@ watchEffect(() => {
 
 <style lang="scss">
 .category-sale-img {
-  img {
-    height: auto;
-    max-width: 416px;
-    max-height: 472px;
-    object-fit: cover;
+  height: auto;
+  max-width: 416px;
+  max-height: 472px;
+  object-fit: cover;
 
-    @media (max-width: 1200px) {
-      width: 350px;
-      height: 413px;
-    }
+  @media (max-width: 1200px) {
+    width: 350px;
+    height: 413px;
+  }
 
-    @media (max-width: 992px) {
-      width: 135.98px;
-      height: 135.98px;
-    }
+  @media (max-width: 992px) {
+    width: 135.98px;
+    height: 135.98px;
+  }
 
-    @media (max-width: 768px) {
-      width: 156px;
-      height: 156px;
-    }
+  @media (max-width: 768px) {
+    width: 156px;
+    height: 156px;
+  }
 
-    @media (max-width: 576px) {
-      width: 111px;
-      height: 111px;
-    }
+  @media (max-width: 576px) {
+    width: 111px;
+    height: 111px;
+  }
 
-    @media (max-width: 500px) {
-      width: 163.5px;
-      height: 146px;
-    }
+  @media (max-width: 500px) {
+    width: 163.5px;
+    height: 146px;
   }
 }
 
 .category-img {
-  img {
-    width: 100%;
-    height: auto;
-    max-width: 196px;
-    max-height: 196px;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-width: 196px;
+  max-height: 196px;
+  object-fit: cover;
 
-    @media (max-width: 500px) {
-      width: 163.5px;
-      height: 146px;
-    }
+  @media (max-width: 500px) {
+    width: 163.5px;
+    height: 146px;
   }
 }
 </style>
