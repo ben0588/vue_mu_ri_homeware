@@ -80,8 +80,6 @@ const isCurrentOrPreviousRoute = (index) => {
   const currentRouteIndex = cartNavList.value.findIndex((item) => item.routeName === route.name);
   return index < currentRouteIndex;
 };
-
-console.log('route', route.name);
 </script>
 <style lang="scss">
 .cart-navbar-item {

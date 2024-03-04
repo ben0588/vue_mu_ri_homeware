@@ -28,6 +28,9 @@
                   class="cart-img-container image-hover"
                 >
                   <img :src="item.product.imageUrl" :alt="item.product.title" class="cart-img" />
+                  <span class="cart-sale-tag">
+                    -{{ useComputedDiscount(item.product.origin_price, item.product.price) }}</span
+                  >
                 </router-link>
               </td>
               <td>
@@ -39,16 +42,17 @@
               </td>
               <td></td>
               <td>
-                <div>
-                  <span class="text-decoration-line-through text-muted">
+                <div class="d-flex flex-column justify-content-center">
+                  <span
+                    class="text-decoration-line-through text-muted ms-1"
+                    :style="{ fontSize: '15px' }"
+                  >
                     {{ usePriceToTw(item.product.origin_price) }}</span
                   >
-                  <span class="text-danger">
-                    -{{ useComputedDiscount(item.product.origin_price, item.product.price) }}</span
-                  >
-                </div>
-                <div class="fw-500">
-                  {{ usePriceToTw(item.product.price) }}
+
+                  <span class="fw-500 fs-5 text-danger">
+                    {{ usePriceToTw(item.product.price) }}
+                  </span>
                 </div>
               </td>
 
@@ -196,5 +200,18 @@ const fetchQuantityFn = ({ qty, id, productId }) => {
   @media (min-width: 1400px) {
     height: 96px;
   }
+}
+.cart-sale-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 25px;
+  background: #d63031;
+  backdrop-filter: blur(5px);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

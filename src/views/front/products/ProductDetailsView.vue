@@ -160,10 +160,7 @@
               <div class="mt-3">
                 <div class="row">
                   <div class="col-6 col-xl-5">
-                    <QuantityButtonGroupVue
-                      @fetch-quantity="fetchQuantityFn"
-                      :productId="productsRatings.id"
-                    />
+                    <QuantityButtonGroupVue :productId="productsRatings.id" />
                   </div>
                   <div class="col-6 col-xl-7">
                     <button
@@ -290,9 +287,7 @@
   <ImageModal ref="imageModal"></ImageModal>
 </template>
 <script setup>
-import {
-  ref, onMounted, computed, watch,
-} from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
@@ -394,24 +389,6 @@ const productsRatings = computed(() => calculateProductsRatings(products.value)[
 
 const handleChangeCategory = (target) => {
   categoryStore.categoryTarget = target;
-};
-
-const fetchQuantityFn = ({ productId, qty }) => {
-  console.log('qty', qty);
-  console.log('productId', productId);
-  quantity.value = qty;
-  console.log('quantity.value', quantity.value);
-};
-const handleChangQuantity = (type) => {
-  if (type === 'add') {
-    quantity.value += 1;
-  } else if (type === 'reduce') {
-    if (quantity.value === 1) {
-      quantity.value = 1;
-    } else {
-      quantity.value -= 1;
-    }
-  }
 };
 
 // 放大圖片

@@ -227,3 +227,15 @@ body {
   height: 50px;
   object-fit: cover;
 }
+
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+
+.hover-opacity {
+  &:hover {
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}

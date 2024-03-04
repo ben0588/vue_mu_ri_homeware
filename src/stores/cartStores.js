@@ -25,6 +25,7 @@ const useCartStore = defineStore('cartStores', () => {
       cartLoading.value = true;
       const api = `${baseApiUrl}/v2/api/${apiPath}/cart`;
       const response = await axios.get(api);
+      console.log(' response.data.data.carts', response.data.data);
       cartList.value = response.data.data.carts;
       cartFinalTotal.value = response.data.data.final_total;
       cartTotal.value = response.data.data.total;

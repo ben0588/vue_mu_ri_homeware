@@ -1,6 +1,12 @@
 <template>
   <div class="container" v-if="!cartStore.cartLoading">
     <div v-if="cartStore.cartList.length">
+      <router-link
+        to="/carts"
+        class="d-inline-block text-dark text-decoration-underline hover-opacity p-3"
+        title="返回購物車"
+        >返回上頁</router-link
+      >
       <!-- 確認訂單 -->
       <div
         class="table-responsive border-start border-end border-top border-2 border-dark px-3 pt-3"
@@ -22,6 +28,9 @@
               <td>
                 <div class="cart-img-container">
                   <img :src="item.product.imageUrl" :alt="item.product.title" class="cart-img" />
+                  <span class="cart-sale-tag">
+                    -{{ useComputedDiscount(item.product.origin_price, item.product.price) }}</span
+                  >
                 </div>
               </td>
               <td>
@@ -33,16 +42,17 @@
               </td>
               <td></td>
               <td>
-                <div>
-                  <span class="text-decoration-line-through text-muted">
+                <div class="d-flex flex-column justify-content-center">
+                  <span
+                    class="text-decoration-line-through text-muted ms-1"
+                    :style="{ fontSize: '15px' }"
+                  >
                     {{ usePriceToTw(item.product.origin_price) }}</span
                   >
-                  <span class="text-danger">
-                    -{{ useComputedDiscount(item.product.origin_price, item.product.price) }}</span
-                  >
-                </div>
-                <div class="fw-500">
-                  {{ usePriceToTw(item.product.price) }}
+
+                  <span class="fw-500 fs-5 text-danger">
+                    {{ usePriceToTw(item.product.price) }}
+                  </span>
                 </div>
               </td>
 
@@ -50,7 +60,26 @@
                 {{ item.qty }}
               </td>
 
-              <td class="text-end pe-3">{{ usePriceToTw(item.total) }}</td>
+              <td class="text-end pe-3">
+                <div class="d-flex flex-column justify-content-end" v-if="item.coupon">
+                  <span class="text-decoration-line-through text-muted">{{
+                    usePriceToTw(item.total)
+                  }}</span>
+
+                  <span>
+                    <span class="fw-500 fs-5 text-danger">
+                      {{ usePriceToTw(item.final_total) }}
+                    </span></span
+                  >
+                  <span class="fw-500 fs-6 text-danger"
+                    ><font-awesome-icon :icon="['fas', 'ticket-simple']" /> 已折
+                    <span>{{ item.coupon.code }}</span></span
+                  >
+                </div>
+                <div v-else-if="!item.coupon">
+                  <span>{{ usePriceToTw(item.total) }}</span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -60,9 +89,7 @@
           <div class="d-flex flex-column align-items-end">
             <span class="fs-5">
               <span> 共 {{ cartStore.cartList.length }} 項商品 | </span>
-              <span class="fw-700">
-                合計 NT{{ usePriceToTw(cartStore.cartFinalTotal) }}
-              </span></span
+              <span class="fw-700"> 合計 NT{{ usePriceToTw(cartStore.cartTotal) }} </span></span
             >
             <span class="text-muted">*未含運費</span>
           </div>
@@ -79,99 +106,183 @@
             v-slot="{ handleSubmit, isSubmitting, errors, meta }"
             :validation-schema="schema"
             as="div"
-            ref="orederForm"
           >
-            <p class="fs-5 border-bottom border-dark pb-2 mb-3">
-              <font-awesome-icon :icon="['far', 'address-card']" /> 訂購人資料
-            </p>
-            <VeeValidateInput
-              :name="'username'"
-              :label="'訂購人姓名'"
-              :id="'order-username'"
-              :placeholder="'請輸入訂購人姓名'"
-              :errors="errors"
-              :type="'text'"
-            />
-            <VeeValidateInput
-              :name="'phone'"
-              :label="'聯絡手機'"
-              :id="'order-phone'"
-              :placeholder="'請輸入聯絡手機'"
-              :errors="errors"
-              :type="'tel'"
-            />
-            <VeeValidateInput
-              :name="'email'"
-              :label="'聯絡信箱 [ 訂單通知、電子發票寄送 ]'"
-              :id="'order-email'"
-              :placeholder="'請輸入聯絡電子信箱'"
-              :errors="errors"
-              :type="'email'"
-            />
-            <VeeValidateInput
-              :name="'address'"
-              :label="'地址'"
-              :id="'order-address'"
-              :placeholder="'請輸入聯絡電子信箱'"
-              :errors="errors"
-              :type="'text'"
-            />
-
-            <VeeValidateInput
-              :name="'center'"
-              :label="'問題描述'"
-              :id="'more-center'"
-              :placeholder="'請詳細描述問題'"
-              :errors="errors"
-              :type="'text'"
-              :as="'textarea'"
-            />
-
-            <button
-              type="submit"
-              class="btn btn-dark w-100"
-              :disabled="!meta.valid || isSubmitting"
-            >
-              <span v-if="isSubmitting">
-                <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
-                <span role="status"></span> 提交表單中
-              </span>
-              <span v-else>提交表單</span>
-            </button>
+            <form @submit="handleSubmit($event, onSubmit)">
+              <p class="fs-5 border-bottom border-dark pb-2 mb-3">
+                <font-awesome-icon :icon="['far', 'address-card']" /> 訂購人資料
+              </p>
+              <VeeValidateInput
+                :name="'username'"
+                :label="'訂購人姓名'"
+                :id="'order-username'"
+                :placeholder="'請輸入訂購人姓名'"
+                :errors="errors"
+                :type="'text'"
+              />
+              <VeeValidateInput
+                :name="'phone'"
+                :label="'聯絡手機'"
+                :id="'order-phone'"
+                :placeholder="'請輸入聯絡手機'"
+                :errors="errors"
+                :type="'tel'"
+              />
+              <VeeValidateInput
+                :name="'email'"
+                :label="'聯絡信箱 [ 訂單通知、電子發票寄送 ]'"
+                :id="'order-email'"
+                :placeholder="'請輸入聯絡電子信箱'"
+                :errors="errors"
+                :type="'email'"
+              />
+              <VeeValidateInput
+                :name="'address'"
+                :label="'地址'"
+                :id="'order-address'"
+                :placeholder="'請輸入聯絡電子信箱'"
+                :errors="errors"
+                :type="'text'"
+              />
+              <button
+                type="submit"
+                class="btn btn-dark w-100"
+                :disabled="!meta.valid || isSubmitting"
+              >
+                <span v-if="isSubmitting">
+                  <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
+                  <span role="status"></span> 建立訂單中
+                </span>
+                <span v-else>建立訂單</span>
+              </button>
+            </form>
           </VeeForm>
         </div>
 
+        <!-- 備註填寫 -->
         <div class="border border-2 border-dark p-3 mt-3">
-          <p class="fs-5 border-bottom border-dark pb-2 mb-3">
-            <font-awesome-icon :icon="['far', 'pen-to-square']" /> 訂單備註/告知客服內容
-          </p>
+          <div class="mb-3">
+            <label
+              for="order-message"
+              class="form-label fs-5 border-bottom border-dark w-100 pb-2 mb-3"
+            >
+              <font-awesome-icon :icon="['far', 'pen-to-square']" /> 訂單備註/告知客服內容</label
+            >
+            <textarea
+              name="message"
+              id="order-message"
+              cols="30"
+              rows="5"
+              placeholder="若您的配送地點可能有道路、樓梯間、戶門狹窄而無法駛入或搬入的問題，請在訂單留言"
+              class="form-control"
+              v-model.trim="message"
+            ></textarea>
+          </div>
         </div>
 
+        <!-- 運輸方式 -->
         <div class="border border-2 border-dark p-3 mt-3">
           <p class="fs-5 border-bottom border-dark pb-2 mb-3">
-            <font-awesome-icon :icon="['fas', 'truck-fast']" /> 運送方式
+            <font-awesome-icon :icon="['fas', 'truck-fast']" /> 運輸方式
           </p>
+          <div class="border border-2 border-dark p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5>宅配-一般家飾</h5>
+                <p class="mb-0">費運120元，商品金額滿100元免運</p>
+                <p>(期間限定：2023/01/01~2024/12/31)</p>
+              </div>
+              <div>
+                <p class="fs-3 fw-700 mb-0">$ 120</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 右側訂單折價卷 + 前往付款 -->
+      <!-- 右側訂單折價卷  -->
       <div class="col-lg-6">
         <div class="border border-2 border-dark p-3">
-          <p class="fs-5 border-bottom border-dark pb-2 mb-3">
-            <font-awesome-icon :icon="['fas', 'ticket']" /> 優惠卷
-          </p>
-          <div class="d-flex justify-content-end pb-12 mb-12">
-            <router-link to="/products" class="btn btn-outline-dark" :style="{ width: `150px` }"
-              >繼續購物</router-link
-            >
-            <router-link
-              to="/carts/confirm"
-              class="btn btn-primary text-white ms-2"
-              :style="{ width: `150px` }"
-              >填寫訂單資訊</router-link
-            >
+          <div class="fs-5 border-bottom border-dark pb-2 mb-3">
+            <div class="d-flex justify-content-between align-content-center">
+              <span><font-awesome-icon :icon="['fas', 'ticket']" /> 優惠卷</span>
+              <span
+                ><button
+                  type="button"
+                  class="btn btn-primary text-white px-3"
+                  @click="openCouponModal"
+                >
+                  選擇優惠卷
+                </button></span
+              >
+            </div>
           </div>
-          <button @click="submitForm">外部按鈕控制提交表單</button>
+
+          <div class="border-bottom border-dark">
+            <div class="row pb-3">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-9">
+                <div class="row">
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-5">商品總金額</div>
+                  <div class="col-lg-4 text-end">{{ usePriceToTw(cartStore.cartTotal) }}</div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-5">運費小計</div>
+                  <div class="col-lg-4 text-end text-decoration-line-through text-muted">
+                    {{ usePriceToTw(0) }}
+                  </div>
+                </div>
+
+                <div v-if="cartStore.cartList[0].coupon" class="row">
+                  <div class="col-lg-3 text-danger text-end">
+                    原價 - {{ Math.floor(discountPercentage) }} %
+                  </div>
+                  <div class="col-lg-5 text-danger">
+                    <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
+                  </div>
+                  <div class="col-lg-4 text-danger text-end">
+                    {{ usePriceToTw(cartStore.cartFinalTotal - cartStore.cartTotal) }}
+                  </div>
+                </div>
+
+                <div v-else class="row">
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-5">
+                    <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
+                  </div>
+                  <div class="col-lg-4 text-end">未使用</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-bottom border-dark">
+            <div class="row py-3">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-9">
+                <div class="row">
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-5"><span class="fs-5 fw-700">訂單最終總金額</span></div>
+                  <div class="col-lg-4 text-end">
+                    <span class="fs-5 fw-700">NT{{ usePriceToTw(cartStore.cartFinalTotal) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 注意事項 -->
+        <div class="mt-3">
+          <div class="border border-2 border-dark p-3">
+            <p class="fs-5 border-bottom border-dark pb-2 mb-3">
+              <font-awesome-icon :icon="['fas', 'circle-exclamation']" /> 訂購注意事項
+            </p>
+            <ul class="w-100">
+              <li v-for="(text, index) in orderInformationList" :key="index" class="mb-2">
+                {{ text }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -191,10 +302,11 @@
     </div>
   </div>
   <VueLoading :active="cartStore.cartLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <CouponModal ref="couponModal" @refetch-carts="refetchCartsFn" />
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import VueLoading from 'vue-loading-overlay';
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -204,11 +316,21 @@ import useComputedDiscount from '@/composables/useComputedDiscount';
 import useCartStore from '@/stores/cartStores';
 import VeeValidateInput from '@/components/common/VeeValidateInput.vue';
 import { useAlert } from '@/composables/useAlert';
+import CouponModal from '@/components/front/cart/CouponModal.vue';
 
 const cartStore = useCartStore();
+const { fetchCarts } = cartStore;
 const { showAlert } = useAlert();
 
-const orederForm = ref(null);
+const message = ref('');
+const couponModal = ref(null);
+
+const orderInformationList = ref([
+  '訂購有任何需要注意事項或備註項目，請先確保在建立訂單前填寫完畢，謝謝 !',
+  '在結帳前，請務必仔細核對您的訂單信息，確保一切正確無誤，以免因錯誤信息導致不必要的麻煩。',
+  '如果您在購物過程中遇到任何問題或需要幫助，請隨時聯繫我們的客戶支援團隊。',
+  '我們為您提供全面的售後服務，包括維修、保固等。您可以在購買後放心享受我們的售後支援。',
+]);
 
 const phoneRegExp = /^(0|\+?886)9\d{8}$/; // 使用 0或者+886都可以用
 const userNameRegExp = /^[\u4E00-\u9FA5]{2,4}$/; // 使用 0或者+886都可以用
@@ -238,8 +360,15 @@ function apiCall(state) {
   });
 }
 
+const discountPercentage = computed(
+  // eslint-disable-next-line comma-dangle
+  () => ((cartStore.cartTotal - cartStore.cartFinalTotal) / cartStore.cartTotal) * 100
+);
+
 async function onSubmit(values, actions) {
   try {
+    console.log('values', values);
+    console.log('message', message.value);
     const response = await apiCall(0); // 呼叫 API
     if (response) {
       await showAlert({
@@ -264,12 +393,13 @@ async function onSubmit(values, actions) {
   }
 }
 
-// 客製化處理表單
-const submitForm = () => {
-  orederForm.value.handleSubmit((values) => {
-    console.log(values);
-    // 在這裡處理表單提交後的行為
-  })();
+const openCouponModal = () => {
+  couponModal.value.openModal();
+};
+
+// 重新獲取購物車
+const refetchCartsFn = () => {
+  fetchCarts();
 };
 </script>
 
@@ -279,6 +409,7 @@ const submitForm = () => {
   width: 100px;
   overflow: hidden;
   border: 2px solid #788194c5;
+  position: relative;
 
   @media (min-width: 992px) {
     width: 75px;
@@ -322,5 +453,19 @@ const submitForm = () => {
   @media (min-width: 1400px) {
     height: 96px;
   }
+}
+
+.cart-sale-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 25px;
+  background: #d63031;
+  backdrop-filter: blur(5px);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
