@@ -1,0 +1,1 @@
+import{q as r}from"./index-vmlNiwhE.js";const u=e=>{const t=e!==void 0?Math.floor(e):0;return new Intl.NumberFormat("zh-TW",{style:"currency",currency:"TWD",minimumFractionDigits:0}).format(t)};function c(e,t){return`${r(()=>Math.floor((e-t)/e*100)).value}%`}export{c as a,u};
