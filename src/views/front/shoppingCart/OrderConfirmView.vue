@@ -359,19 +359,6 @@ const schema = yup.object().shape({
   address: yup.string().required('聯絡地址必填'),
 });
 
-// 模擬呼叫後端的 AJAX
-function apiCall(state) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (state) {
-        resolve(true);
-      } else {
-        reject(new Error('呼叫失敗'));
-      }
-    }, 2000);
-  });
-}
-
 const discountPercentage = computed(
   // eslint-disable-next-line comma-dangle
   () => ((cartStore.cartTotal - cartStore.cartFinalTotal) / cartStore.cartTotal) * 100

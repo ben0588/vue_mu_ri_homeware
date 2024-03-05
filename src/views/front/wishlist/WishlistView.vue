@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-32">
+  <div class="container" :class="`${titleShow ? 'py-32' : 'py-0'}`">
     <div v-if="wishStore.wishlist.length">
       <h2 class="fw-bolder fs-4 mb-4" v-if="titleShow">願望清單列表</h2>
       <div class="table-responsive">

@@ -103,8 +103,8 @@ const fetchProducts = async (page = 1, category = '') => {
     ProductsPagination.value = response.data.pagination;
   } catch (error) {
     showAlert({
-      title: `${error}`,
-      text: '取得商品資料失敗，請聯繫網站提供者',
+      title: '失敗',
+      text: `${error}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
@@ -246,7 +246,7 @@ watch(
       targetSort.value = 'default';
       fetchProducts(1, categoryStore.categoryTarget);
     }
-  },
+  }
 );
 
 onMounted(() => {
@@ -264,7 +264,7 @@ watch(
   () => {
     const newArray = searchStore.productsList.map((proxyObj) => proxyObj.item);
     productsList.value = newArray;
-  },
+  }
 );
 </script>
 <style lang="scss">

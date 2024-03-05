@@ -246,8 +246,8 @@ const fetchOrder = async () => {
     products.value = Object.values(response?.data?.order?.products || {}); // 取得指定格式
   } catch (error) {
     showAlert({
-      title: `${error}`,
-      text: '取得訂單資料失敗，請聯繫網站提供者，或前往我的訂單確認',
+      title: '失敗',
+      text: `${error}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',

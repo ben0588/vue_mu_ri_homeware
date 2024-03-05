@@ -31,8 +31,8 @@ const useSearchStore = defineStore('searchStore', () => {
       fuse.setCollection(response.data.products);
     } catch (error) {
       showAlert({
-        title: `${error}`,
-        text: '取得商品資料失敗，請聯繫網站提供者',
+        title: '失敗',
+        text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
         confirmButtonColor: '#000000',

@@ -30,8 +30,8 @@ const useCartStore = defineStore('cartStores', () => {
       cartTotal.value = response.data.data.total;
     } catch (error) {
       showAlert({
-        title: `${error}`,
-        text: '取得購物車資訊失敗，請聯繫網站提供者',
+        title: '失敗',
+        text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
         confirmButtonColor: '#000000',
@@ -60,7 +60,7 @@ const useCartStore = defineStore('cartStores', () => {
       }
     } catch (error) {
       showAlert({
-        title: '失敗!',
+        title: '失敗',
         text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
@@ -90,7 +90,7 @@ const useCartStore = defineStore('cartStores', () => {
       }
     } catch (error) {
       showAlert({
-        title: '失敗!',
+        title: '失敗',
         text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
@@ -147,7 +147,7 @@ const useCartStore = defineStore('cartStores', () => {
       });
     } catch (error) {
       showAlert({
-        title: '失敗!',
+        title: '失敗',
         text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
@@ -201,7 +201,7 @@ const useCartStore = defineStore('cartStores', () => {
       });
     } catch (error) {
       showAlert({
-        title: '失敗!',
+        title: '失敗',
         text: `${error}`,
         icon: 'error',
         confirmButtonText: '確認',
