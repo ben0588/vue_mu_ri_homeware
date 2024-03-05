@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { useAlert } from '@/composables/useAlert';
 import useToast from '@/composables/useToast';
-import { Swal } from 'sweetalert2/dist/sweetalert2';
+import Swal from 'sweetalert2';
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
@@ -25,7 +25,6 @@ const useCartStore = defineStore('cartStores', () => {
       cartLoading.value = true;
       const api = `${baseApiUrl}/v2/api/${apiPath}/cart`;
       const response = await axios.get(api);
-      console.log(' response.data.data.carts', response.data.data);
       cartList.value = response.data.data.carts;
       cartFinalTotal.value = response.data.data.final_total;
       cartTotal.value = response.data.data.total;
@@ -85,7 +84,9 @@ const useCartStore = defineStore('cartStores', () => {
           transition: 'slide',
         });
         addTargetId.value = '';
-        await fetchCarts();
+        setTimeout(() => {
+          fetchCarts();
+        }, 1000);
       }
     } catch (error) {
       showAlert({

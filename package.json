@@ -2,7 +2,7 @@
   "name": "vue-hexschool-v2",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "deploy": "sh deploy.sh",

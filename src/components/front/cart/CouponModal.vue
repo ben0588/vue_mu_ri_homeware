@@ -147,19 +147,6 @@ const copyCouponCode = (code) => {
   });
 };
 
-// 模擬呼叫後端的 AJAX
-function apiCall(state) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (state) {
-        resolve(true);
-      } else {
-        reject(new Error('呼叫失敗'));
-      }
-    }, 2000);
-  });
-}
-
 const useCouponCode = async () => {
   try {
     useCouponCodeState.value = true;

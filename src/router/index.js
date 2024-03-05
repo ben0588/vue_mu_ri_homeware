@@ -42,7 +42,7 @@ const router = createRouter({
               component: () => import('@/views/front/shoppingCart/OrderConfirmView.vue'),
             },
             {
-              path: 'payment',
+              path: 'payment/:id',
               name: 'front_order_payment',
               component: () => import('@/views/front/shoppingCart/PaymentView.vue'),
             },

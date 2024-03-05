@@ -108,7 +108,7 @@
                           />
 
                           <span
-                            v-if="item.label === 'carts'"
+                            v-if="item.label === 'carts' && cartStore.cartList.length >= 1"
                             class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger"
                           >
                             {{ cartStore.cartList.length }}

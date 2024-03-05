@@ -234,7 +234,7 @@
 
                 <div v-if="cartStore.cartList[0].coupon" class="row">
                   <div class="col-lg-3 text-danger text-end">
-                    原價 - {{ Math.floor(discountPercentage) }} %
+                    - {{ Math.floor(discountPercentage) }} %
                   </div>
                   <div class="col-lg-5 text-danger">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
@@ -289,7 +289,7 @@
 
     <!-- 訂單的購物車沒資料時顯示 -->
     <div v-else class="flex-center flex-column">
-      <p class="fs-4">購物車目前並無任何商品</p>
+      <p class="fs-4 mb-4">購物車目前並無任何商品</p>
       <div>
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1709523797457.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=TVpfq289hPAS0eJEUfUdQ094vN5dKwHD%2B261x5OpEH1uHeeE0Nd99HygcwvSAOfHcQJ4%2F%2B9BK4ugP20MZHg4sW9yksSFesbZoGYe6mOP3%2FLGJYD%2BwUyH3Go3d544OviGcMSRW%2FzcR1RKaWsMH1JEKdqCXibbCmwjqmnGufKB%2FeMqTzm3u8%2Fa66DIcFfmJf4t4%2BWdh2R5EQWzKN%2FVTud3sRRhiH%2BrltLOEoty5SBftDQnphuRO19cubaX2FaUG5ZpArGLvfPUgNu8lW9ivRIlaWgEqf36Mki4GOVn1cL2QV5lPje1jeZqN5oQjRZk1%2F52YRpaP7LcSt%2ByA%2FZEa0mnpQ%3D%3D"
@@ -310,6 +310,9 @@ import { ref, onMounted, computed } from 'vue';
 import VueLoading from 'vue-loading-overlay';
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
 
 import usePriceToTw from '@/composables/usePriceToTw';
 import useComputedDiscount from '@/composables/useComputedDiscount';
@@ -324,6 +327,8 @@ const { showAlert } = useAlert();
 
 const message = ref('');
 const couponModal = ref(null);
+const router = useRouter();
+const orderId = ref('');
 
 const orderInformationList = ref([
   '訂購有任何需要注意事項或備註項目，請先確保在建立訂單前填寫完畢，謝謝 !',
@@ -365,25 +370,79 @@ const discountPercentage = computed(
   () => ((cartStore.cartTotal - cartStore.cartFinalTotal) / cartStore.cartTotal) * 100
 );
 
-async function onSubmit(values, actions) {
+async function onSubmit(values) {
   try {
-    console.log('values', values);
-    console.log('message', message.value);
-    const response = await apiCall(0); // 呼叫 API
-    if (response) {
-      await showAlert({
-        title: '成功',
-        text: '表單資訊已成功提交，我們將會在收到後盡快與您聯絡。謝謝',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      actions.resetForm(); // 重置表單
-    }
+    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order`;
+    const data = {
+      user: {
+        name: values.username,
+        email: values.email,
+        tel: values.phone,
+        address: values.address,
+      },
+      message: message.value,
+    };
+    showAlert({
+      title: '建立訂單',
+      text: '注意：確認建立後聯絡人資料異動須透過客服修改',
+      icon: 'question',
+      confirmButtonColor: '#29292D',
+      cancelButtonColor: '#b2bec3',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
+      showCancelButton: true,
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          return await axios.post(api, { data });
+        } catch (error) {
+          showAlert({
+            title: '失敗',
+            text: `${error.response.data.message}`,
+            icon: 'error',
+            confirmButtonText: '確認',
+            confirmButtonColor: '#000000',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+          });
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then(async (result) => {
+      if (result?.value?.data?.success) {
+        orderId.value = result.value.data.orderId;
+        showAlert({
+          title: '成功',
+          text: `${result.value.data.message}`,
+          icon: 'success',
+          showCancelButton: true,
+          confirmButtonText: '前往付款',
+          confirmButtonColor: '#000000',
+          cancelButtonColor: '#b2bec3',
+          cancelButtonText: '繼續逛逛',
+          reverseButtons: true,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        }).then((res) => {
+          if (res.isConfirmed) {
+            // 前往付款頁面，並且把剛完成的訂單id傳遞過去
+            router.replace({ name: 'front_order_payment', params: { id: orderId.value } });
+            fetchCarts();
+          } else if (res.dismiss === 'cancel') {
+            // 取消繼續逛逛，進入產品列表
+            router.replace({ path: '/products' });
+            fetchCarts();
+          }
+        });
+      }
+    });
   } catch (error) {
     showAlert({
-      title: '失敗',
-      text: `${error}，請重新提交嘗試`,
+      title: '失敗!',
+      text: `${error}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
@@ -402,70 +461,3 @@ const refetchCartsFn = () => {
   fetchCarts();
 };
 </script>
-
-<style lang="scss">
-.cart-img-container {
-  display: block;
-  width: 100px;
-  overflow: hidden;
-  border: 2px solid #788194c5;
-  position: relative;
-
-  @media (min-width: 992px) {
-    width: 75px;
-    height: 75px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 85px;
-    height: 85px;
-  }
-
-  @media (min-width: 1400px) {
-    width: 96px;
-    height: 96px;
-  }
-
-  &:hover {
-    border: 2px solid #111c30e8;
-
-    & .cart-img {
-      transform: scale(1.2);
-    }
-  }
-}
-.cart-img {
-  display: block;
-  object-fit: cover;
-  width: 100%;
-  height: 96px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-
-  @media (min-width: 992px) {
-    height: 75px;
-  }
-
-  @media (min-width: 1200px) {
-    height: 85px;
-  }
-
-  @media (min-width: 1400px) {
-    height: 96px;
-  }
-}
-
-.cart-sale-tag {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 45px;
-  height: 25px;
-  background: #d63031;
-  backdrop-filter: blur(5px);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

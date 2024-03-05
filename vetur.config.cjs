@@ -3,7 +3,7 @@
 module.exports = {
   settings: {
     'vetur.useWorkspaceDependencies': true,
-    'vetur.experimental.templateInterpolationService': true
+    'vetur.experimental.templateInterpolationService': true,
   },
   projects: [
     './packages/repo2', // shorthand for only root.
@@ -12,7 +12,7 @@ module.exports = {
       package: './package.json',
       tsconfig: './tsconfig.json',
       snippetFolder: './.vscode/vetur/snippets',
-      globalComponents: ['./src/components/**/*.vue']
-    }
-  ]
-}
+      globalComponents: ['./src/components/**/*.vue'],
+    },
+  ],
+};

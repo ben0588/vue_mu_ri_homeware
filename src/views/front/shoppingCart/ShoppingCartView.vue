@@ -115,7 +115,7 @@
       </div>
     </div>
     <div v-else class="flex-center flex-column">
-      <p class="fs-4">購物車目前並無任何商品</p>
+      <p class="fs-4 mb-4">購物車目前並無任何商品</p>
       <div>
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1709523797457.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=TVpfq289hPAS0eJEUfUdQ094vN5dKwHD%2B261x5OpEH1uHeeE0Nd99HygcwvSAOfHcQJ4%2F%2B9BK4ugP20MZHg4sW9yksSFesbZoGYe6mOP3%2FLGJYD%2BwUyH3Go3d544OviGcMSRW%2FzcR1RKaWsMH1JEKdqCXibbCmwjqmnGufKB%2FeMqTzm3u8%2Fa66DIcFfmJf4t4%2BWdh2R5EQWzKN%2FVTud3sRRhiH%2BrltLOEoty5SBftDQnphuRO19cubaX2FaUG5ZpArGLvfPUgNu8lW9ivRIlaWgEqf36Mki4GOVn1cL2QV5lPje1jeZqN5oQjRZk1%2F52YRpaP7LcSt%2ByA%2FZEa0mnpQ%3D%3D"
@@ -150,68 +150,3 @@ const fetchQuantityFn = ({ qty, id, productId }) => {
   }
 };
 </script>
-
-<style lang="scss">
-.cart-img-container {
-  display: block;
-  width: 100px;
-  overflow: hidden;
-  border: 2px solid #788194c5;
-
-  @media (min-width: 992px) {
-    width: 75px;
-    height: 75px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 85px;
-    height: 85px;
-  }
-
-  @media (min-width: 1400px) {
-    width: 96px;
-    height: 96px;
-  }
-
-  &:hover {
-    border: 2px solid #111c30e8;
-
-    & .cart-img {
-      transform: scale(1.2);
-    }
-  }
-}
-.cart-img {
-  display: block;
-  object-fit: cover;
-  width: 100%;
-  height: 96px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-
-  @media (min-width: 992px) {
-    height: 75px;
-  }
-
-  @media (min-width: 1200px) {
-    height: 85px;
-  }
-
-  @media (min-width: 1400px) {
-    height: 96px;
-  }
-}
-.cart-sale-tag {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 45px;
-  height: 25px;
-  background: #d63031;
-  backdrop-filter: blur(5px);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

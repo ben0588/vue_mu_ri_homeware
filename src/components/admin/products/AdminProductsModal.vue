@@ -52,7 +52,6 @@
           </ul>
         </div>
         <div class="modal-body">
-          {{ newTempData.create_date }}
           <form>
             <div>
               <span class="text-danger">*</span>{{ t('admin.products_modal_illustrate_message') }}
@@ -764,7 +763,7 @@ watch(
   (newValue) => {
     // 當每次按下編輯或者新增更新此按鈕字樣
     submitBtnText.value = newValue;
-  },
+  }
 );
 watch(
   () => submitIsLoading.value,
@@ -775,7 +774,7 @@ watch(
     } else {
       submitBtnText.value = props.typeName;
     }
-  },
+  }
 );
 
 watch(
@@ -789,7 +788,7 @@ watch(
     } else if (newValue === '儲存' || 'Save' || '保存' || '저장' || 'บันทึก') {
       submitBtnText.value = t('admin.products_keep_text');
     }
-  },
+  }
 );
 
 onMounted(() => {
@@ -958,7 +957,7 @@ watch(
   () => {
     // 當繁體中文商品主類型有修改，那麼就改主類型的紀錄
     newTempData.value.category = newTempData.value.tw.category;
-  },
+  }
 );
 
 watchEffect(() => {
