@@ -185,15 +185,15 @@
             <font-awesome-icon :icon="['fas', 'truck-fast']" /> 運輸方式
           </p>
           <div class="border border-2 border-dark p-3">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <h5>宅配-一般家飾</h5>
-                <p class="mb-0">費運120元，商品金額滿100元免運</p>
-                <p>(期間限定：2023/01/01~2024/12/31)</p>
+            <div class="row justify-content-between align-items-center">
+              <div class="col-sm-9">
+                <div>
+                  <h5>宅配-一般家飾</h5>
+                  <p class="mb-0">費運120元，商品金額滿100元免運</p>
+                  <p>(期間限定：2023/01/01~2024/12/31)</p>
+                </div>
               </div>
-              <div>
-                <p class="fs-3 fw-700 mb-0">$ 120</p>
-              </div>
+              <div class="col-sm-3"><p class="fs-3 fw-700 mb-0">$ 120</p></div>
             </div>
           </div>
         </div>
@@ -217,52 +217,59 @@
             </div>
           </div>
 
+          <!-- 優惠卷 -->
           <div class="border-bottom border-dark">
             <div class="row pb-3">
               <div class="col-lg-3"></div>
               <div class="col-lg-9">
                 <div class="row">
-                  <div class="col-lg-3"></div>
-                  <div class="col-lg-5">商品總金額</div>
-                  <div class="col-lg-4 text-end">{{ usePriceToTw(cartStore.cartTotal) }}</div>
-                  <div class="col-lg-3"></div>
-                  <div class="col-lg-5">運費小計</div>
-                  <div class="col-lg-4 text-end text-decoration-line-through text-muted">
-                    {{ usePriceToTw(0) }}
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6">商品總金額</div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">
+                    {{ usePriceToTw(cartStore.cartTotal) }}
+                  </div>
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6">運費小計</div>
+                  <div
+                    class="col-6 col-sm-4 col-md-3 col-lg-4 text-end text-decoration-line-through"
+                  >
+                    <span class="text-muted"> {{ usePriceToTw(0) }}</span>
                   </div>
                 </div>
 
-                <div v-if="cartStore.cartList[0].coupon" class="row">
-                  <div class="col-lg-3 text-danger text-end">
+                <div lass="row" v-if="cartStore.cartList[0].coupon" c>
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-2 text-danger text-end">
                     - {{ Math.floor(discountPercentage) }} %
                   </div>
-                  <div class="col-lg-5 text-danger">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6 text-danger">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
                   </div>
-                  <div class="col-lg-4 text-danger text-end">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-danger text-end">
                     {{ usePriceToTw(cartStore.cartFinalTotal - cartStore.cartTotal) }}
                   </div>
                 </div>
-
                 <div v-else class="row">
-                  <div class="col-lg-3"></div>
-                  <div class="col-lg-5">
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
                   </div>
-                  <div class="col-lg-4 text-end">未使用</div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">未使用</div>
                 </div>
               </div>
             </div>
           </div>
 
+          <!-- 最終金額 -->
           <div class="border-bottom border-dark">
             <div class="row py-3">
               <div class="col-lg-3"></div>
               <div class="col-lg-9">
                 <div class="row">
-                  <div class="col-lg-3"></div>
-                  <div class="col-lg-5"><span class="fs-5 fw-700">訂單最終總金額</span></div>
-                  <div class="col-lg-4 text-end">
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6">
+                    <div class="fs-5 fw-700">訂單最終總金額</div>
+                  </div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">
                     <span class="fs-5 fw-700">NT{{ usePriceToTw(cartStore.cartFinalTotal) }}</span>
                   </div>
                 </div>
@@ -306,7 +313,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed } from 'vue';
 import VueLoading from 'vue-loading-overlay';
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';

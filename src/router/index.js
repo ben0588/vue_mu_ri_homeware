@@ -33,6 +33,7 @@ const router = createRouter({
           children: [
             {
               path: '',
+              index: true,
               name: 'front_carts_index',
               component: () => import('@/views/front/shoppingCart/ShoppingCartView.vue'),
             },
@@ -62,7 +63,25 @@ const router = createRouter({
         {
           path: 'member',
           name: 'front_member',
-          component: () => import('@/views/front/member/FrontMemberView.vue'),
+          component: () => import('@/views/front/member/MemberView.vue'),
+          children: [
+            {
+              path: 'account',
+              index: true,
+              name: 'front_member_account',
+              component: () => import('@/views/front/member/MemberAccountView.vue'),
+            },
+            {
+              path: 'wishlist',
+              name: 'front_member_wishlist',
+              component: () => import('@/views/front/member/MemberWishlistView.vue'),
+            },
+            {
+              path: 'orders',
+              name: 'front_member_orders',
+              component: () => import('@/views/front/member/MemberOrdersView.vue'),
+            },
+          ],
         },
         {
           path: 'inspiration',

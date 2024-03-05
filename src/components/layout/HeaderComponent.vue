@@ -120,7 +120,7 @@
                       </li>
                       <li class="ms-4 header-navbar-items" v-if="isTable">
                         <router-link
-                          to="/member"
+                          to="/member/account"
                           title="前往會員頁"
                           aria-label="member"
                           @click="toggleMenuOpen"
@@ -192,7 +192,7 @@ const navbarList = ref([
   {
     title: '前往會員頁',
     center: '會員專區',
-    path: '/member',
+    path: '/member/account',
     label: 'member',
     icon: ['far', 'user'],
   },

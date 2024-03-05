@@ -1,7 +1,7 @@
 <template>
   <div class="container py-32">
     <div v-if="wishStore.wishlist.length">
-      <h2 class="fw-bolder fs-4 mb-4">願望清單列表</h2>
+      <h2 class="fw-bolder fs-4 mb-4" v-if="titleShow">願望清單列表</h2>
       <div class="table-responsive">
         <table class="table align-middle">
           <thead>
@@ -93,6 +93,13 @@ import useWishStore from '@/stores/wishStores';
 const wishStore = useWishStore();
 const { removeWishItem, removeAllWishlist } = wishStore;
 // wishStore.wishlist 要用此方式取得，使用結構出來的 wishlist 並不會有資料
+
+defineProps({
+  titleShow: {
+    type: Boolean,
+    default: true,
+  },
+});
 </script>
 
 <style lang="scss">
