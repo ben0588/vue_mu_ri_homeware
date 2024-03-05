@@ -124,7 +124,7 @@ const fetchOrders = async (page = 1) => {
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error}`,
+      text: `${error.response.data.message}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',

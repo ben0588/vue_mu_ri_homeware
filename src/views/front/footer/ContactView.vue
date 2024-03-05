@@ -145,7 +145,7 @@ async function onSubmit(values, actions) {
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error}，請重新提交嘗試`,
+      text: `${error.response.data.message}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',

@@ -20,7 +20,7 @@
             X
           </button>
         </div>
-        <div class="modal-body">內容 | {{ id }}</div>
+        <div class="modal-body">內容</div>
       </div>
     </div>
   </div>
@@ -52,24 +52,16 @@ onUnmounted(() => {
   }
 });
 
-const openModal = (id) => {
-  orderId.value = id;
-  bsFrontMemberModalInstance.value.show();
-};
-
-const closeModal = () => {
-  bsFrontMemberModalInstance.value.hide();
-}; // 關閉模組
-
-const fetchOrder = async () => {
+const fetchOrder = async (id) => {
   try {
-    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order/${orderId.value}`;
+    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order/${id}`;
     const response = await axios.get(api);
+    console.log('response', response);
     orderData.value = response.data.order;
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error}`,
+      text: `${error.response.data.message}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
@@ -79,9 +71,14 @@ const fetchOrder = async () => {
   }
 };
 
-onMounted(() => {
-  fetchOrder();
-});
+const openModal = (id) => {
+  fetchOrder(id);
+  bsFrontMemberModalInstance.value.show();
+};
+
+const closeModal = () => {
+  bsFrontMemberModalInstance.value.hide();
+}; // 關閉模組
 
 defineExpose({
   openModal,

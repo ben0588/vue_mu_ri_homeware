@@ -32,7 +32,7 @@ const useSearchStore = defineStore('searchStore', () => {
     } catch (error) {
       showAlert({
         title: '失敗',
-        text: `${error}`,
+        text: `${error.response.data.message}`,
         icon: 'error',
         confirmButtonText: '確認',
         confirmButtonColor: '#000000',
