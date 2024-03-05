@@ -9,7 +9,7 @@
     <div class="modal-dialog">
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
-          <h5 id="frontMemberModalLabel" class="modal-title">使用優惠卷</h5>
+          <h5 id="frontMemberModalLabel" class="modal-title">查看訂單：編碼{{ orderId }}</h5>
           <button
             type="button"
             class="bg-dark text-white fs-4 fw-bolder border-0"
@@ -20,7 +20,65 @@
             X
           </button>
         </div>
-        <div class="modal-body">內容</div>
+        <div class="modal-body position-relative">
+          <div class="table-responsive border border-2 border-dark px-3 mb-3 pt-3">
+            <p class="fs-5 border-bottom border-dark pb-2 mb-3">
+              <font-awesome-icon :icon="['far', 'address-card']" /> 訂購人資料
+            </p>
+            <table class="table align-middle">
+              <tbody>
+                <tr>
+                  <td>姓名</td>
+                  <td>{{ orderData?.user?.name }}</td>
+                </tr>
+                <tr>
+                  <td>連絡電話</td>
+                  <td>{{ orderData?.user?.tel }}</td>
+                </tr>
+                <tr>
+                  <td>連絡信箱</td>
+                  <td>{{ orderData?.user?.email }}</td>
+                </tr>
+                <tr>
+                  <td>訂購地址</td>
+                  <td>{{ orderData?.user?.address }}</td>
+                </tr>
+                <tr>
+                  <td>訂單備註</td>
+                  <td>{{ orderData.message }}</td>
+                </tr>
+                <tr>
+                  <td>訂單當前狀態</td>
+                  <td>
+                    <span
+                      v-if="orderData.status"
+                      :class="`${
+                        orderData.status === 0
+                          ? 'text-muted'
+                          : orderData.status === 1
+                            ? 'text-dark'
+                            : orderData.status === 2
+                              ? 'text-info'
+                              : 'text-success'
+                      }`"
+                    >
+                      {{
+                        orderData.status === 0
+                          ? '未確認'
+                          : orderData.status === 1
+                            ? '已確認'
+                            : orderData.status === 2
+                              ? '寄送中'
+                              : '已送達'
+                      }}
+                    </span>
+                    <span v-else class="text-muted">未確認</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -30,12 +88,11 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { Modal } from 'bootstrap';
 import axios from 'axios';
 
-import useToast from '@/composables/useToast';
 import { useAlert } from '@/composables/useAlert';
 
+const { showAlert } = useAlert();
 const orderId = ref('');
 const orderData = ref({});
-const { showAlert } = useAlert();
 
 const bsFrontMemberModalRef = ref(null);
 const bsFrontMemberModalInstance = ref(null); // 實體存放區
@@ -56,7 +113,6 @@ const fetchOrder = async (id) => {
   try {
     const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order/${id}`;
     const response = await axios.get(api);
-    console.log('response', response);
     orderData.value = response.data.order;
   } catch (error) {
     showAlert({
@@ -72,6 +128,7 @@ const fetchOrder = async (id) => {
 };
 
 const openModal = (id) => {
+  orderId.value = id;
   fetchOrder(id);
   bsFrontMemberModalInstance.value.show();
 };
