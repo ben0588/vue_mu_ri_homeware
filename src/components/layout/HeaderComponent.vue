@@ -39,7 +39,7 @@
     </div>
     <div class="bg-white py-2">
       <div class="container">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg" @click="toggleMenuOpen">
           <div class="container-fluid px-0">
             <!-- 左側 Logo 或品牌名稱 -->
             <router-link

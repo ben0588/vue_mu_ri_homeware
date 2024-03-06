@@ -214,7 +214,7 @@
   <VueLoading :active="fetchLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';

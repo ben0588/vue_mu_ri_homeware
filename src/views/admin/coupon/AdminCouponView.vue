@@ -16,12 +16,12 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th class="fw-500" scope="col">編碼</th>
-            <th class="fw-500" scope="col">標題</th>
-            <th class="fw-500" scope="col">優惠碼</th>
-            <th class="fw-500" scope="col">折扣比(%)</th>
-            <th class="fw-500" scope="col">到期日</th>
-            <th class="fw-500 text-center" scope="col">{{ t('admin.products_operate') }}</th>
+            <td>編碼</td>
+            <td>標題</td>
+            <td>優惠碼</td>
+            <td>折扣比(%)</td>
+            <td>到期日</td>
+            <td class="fw-500 text-center">{{ t('admin.products_operate') }}</td>
           </tr>
         </thead>
 
@@ -33,33 +33,40 @@
             <td>{{ coupon.percent }}</td>
             <td>
               <!-- 增加時間判斷顯示是否已失效 -->
-              <div v-if="new Date().getTime() / 1000 <= coupon.due_date" class="text-success">
-                {{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }} [有效]
+              <div
+                v-if="new Date().getTime() / 1000 <= coupon.due_date"
+                class="d-flex justify-content-start flex-column text-success"
+              >
+                <span>{{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }}</span>
+                <span>[有效]</span>
               </div>
-              <div v-else class="text-danger">
-                {{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }} [已到期]
+              <div v-else class="d-flex justify-content-start flex-column text-danger">
+                <span>{{ new Date(coupon.due_date * 1000).toISOString().split('T')[0] }}</span>
+                <span>[已到期]</span>
               </div>
             </td>
-            <td class="d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-dark me-1"
-                @click="handleOpenModal('edit', coupon)"
-              >
-                {{ t('admin.products_edit_text') }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                @click="deleteCoupon(coupon.id)"
-                :disabled="deleteTargetId === coupon.id"
-              >
-                <span v-if="deleteTargetId === coupon.id">
-                  <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
-                  <span role="status"></span>
-                </span>
-                {{ t('admin.products_delete_text') }}
-              </button>
+            <td>
+              <div class="d-flex justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-dark me-1"
+                  @click="handleOpenModal('edit', coupon)"
+                >
+                  {{ t('admin.products_edit_text') }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  @click="deleteCoupon(coupon.id)"
+                  :disabled="deleteTargetId === coupon.id"
+                >
+                  <span v-if="deleteTargetId === coupon.id">
+                    <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
+                    <span role="status"></span>
+                  </span>
+                  {{ t('admin.products_delete_text') }}
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

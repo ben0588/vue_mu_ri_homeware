@@ -9,7 +9,7 @@
               <td>訂單金額(NT)</td>
               <td>付款狀態</td>
               <td>寄送狀態</td>
-              <td>訂單資訊</td>
+              <td>更多操作</td>
             </tr>
           </thead>
           <tbody>
@@ -52,14 +52,21 @@
                 </span>
                 <span v-else class="text-muted">未確認</span>
               </td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary text-white"
-                  @click="openOrderInfoModal(order.id)"
-                >
-                  查看
-                </button>
+              <td colspan="2" :style="{ minWidth: `200px` }">
+                <div class="d-flex">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    @click="openOrderInfoModal(order.id)"
+                  >
+                    查看詳情
+                  </button>
+                  <router-link
+                    :to="`/carts/payment/${order.id}`"
+                    class="btn btn-primary text-white ms-1"
+                    >前往付款</router-link
+                  >
+                </div>
               </td>
             </tr>
           </tbody>
@@ -79,32 +86,19 @@
     </div>
   </div>
   <VueLoading :active="orderLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
-  <MemberModal ref="orderModal" />
+  <MemberOrderModal ref="orderModal" />
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import VueLoading from 'vue-loading-overlay';
-import { Form as VeeForm } from 'vee-validate';
-import * as yup from 'yup';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
 
 import usePriceToTw from '@/composables/usePriceToTw';
-import useComputedDiscount from '@/composables/useComputedDiscount';
-import useCartStore from '@/stores/cartStores';
-import VeeValidateInput from '@/components/common/VeeValidateInput.vue';
 import { useAlert } from '@/composables/useAlert';
-import MemberModal from '@/components/front/member/MemberModal.vue';
+import MemberOrderModal from '@/components/front/member/MemberOrderModal.vue';
 import Pagination from '@/components/common/Pagination.vue';
 
-const cartStore = useCartStore();
 const { showAlert } = useAlert();
-
-const message = ref('');
-const couponModal = ref(null);
-const router = useRouter();
-const orderId = ref('');
 
 const orderLoading = ref(false);
 const orders = ref([]);

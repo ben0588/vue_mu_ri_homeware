@@ -160,7 +160,10 @@
               <div class="mt-3">
                 <div class="row">
                   <div class="col-6 col-xl-5">
-                    <QuantityButtonGroupVue :productId="productsRatings.id" />
+                    <QuantityButtonGroupVue
+                      :productId="productsRatings.id"
+                      @fetch-quantity="handleChangQty"
+                    />
                   </div>
                   <div class="col-6 col-xl-7">
                     <button
@@ -394,6 +397,11 @@ const handleChangeCategory = (target) => {
 // 放大圖片
 const zoomInImage = (imgUrl, imgAlt) => {
   imageModal.value.openModal(imgUrl, imgAlt);
+};
+
+// 從子元件取出 qty 數量
+const handleChangQty = ({ qty }) => {
+  quantity.value = qty;
 };
 
 onMounted(() => {

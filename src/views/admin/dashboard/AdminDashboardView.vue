@@ -61,7 +61,6 @@ const navbarList = computed(() => [
     background: #e9f1f5cc;
   }
 }
-
 .admin-nav-active {
   color: #fff !important;
   background: rgb(33, 37, 41) !important;

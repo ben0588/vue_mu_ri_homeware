@@ -84,7 +84,8 @@
           </tbody>
         </table>
       </div>
-      <div class="border-start border-end border-2 border-dark">
+
+      <div class="border-start border-end border-2 border-dark mb-3">
         <div class="d-flex justify-content-end border-bottom border-2 border-dark pb-12 mb-12 pe-3">
           <div class="d-flex flex-column align-items-end">
             <span class="fs-5">
@@ -237,14 +238,14 @@
                   </div>
                 </div>
 
-                <div lass="row" v-if="cartStore.cartList[0].coupon" c>
+                <div class="row" v-if="cartStore.cartList[0].coupon">
                   <div class="col-0 col-sm-4 col-md-6 col-lg-2 text-danger text-end">
                     - {{ Math.floor(discountPercentage) }} %
                   </div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-6 text-danger">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-7 text-danger">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
                   </div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-danger text-end">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-3 text-danger text-end">
                     {{ usePriceToTw(cartStore.cartFinalTotal - cartStore.cartTotal) }}
                   </div>
                 </div>

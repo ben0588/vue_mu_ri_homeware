@@ -46,7 +46,7 @@
             <th class="fw-400" scope="col">{{ t('admin.products_name') }}</th>
             <th class="fw-400" scope="col">{{ t('admin.products_category') }}</th>
             <th class="fw-400" scope="col">{{ t('admin.products_subcategory') }}</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_price') }}</th>
+            <th class="fw-400" scope="col">{{ t('admin.products_price') }}(NT)</th>
             <th class="fw-400" scope="col">{{ t('admin.products_state') }}</th>
             <th class="fw-400 text-center" scope="col">{{ t('admin.products_operate') }}</th>
           </tr>
@@ -58,7 +58,7 @@
             <td>{{ product[i18nStore.currentIcon].title }}</td>
             <td>{{ product[i18nStore.currentIcon].category }}</td>
             <td>{{ product[i18nStore.currentIcon].subcategory }}</td>
-            <td>{{ product[i18nStore.currentIcon].price }}</td>
+            <td>{{ usePriceToTw(product[i18nStore.currentIcon].price) }}</td>
             <td>
               <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{
                 t('admin.products_on_enabled')
@@ -103,12 +103,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import useLoadingStore from '@/stores/loadingStores';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import Swal from 'sweetalert2';
+import usePriceToTw from '@/composables/usePriceToTw';
 
 import { useAlert } from '@/composables/useAlert';
 import AdminProductsModal from '@/components/admin/products/AdminProductsModal.vue';
