@@ -1,1 +1,0 @@
-import{a1 as o,c as n,d as e,e as a,g as c,a as r,o as s}from"./index-vmlNiwhE.js";const l={};function _(d,i){const t=r("router-link");return s(),n("div",null,[e(" 模擬選擇付款選項後進行付款 "),a(t,{to:"/carts/complete",class:"btn btn-outline-dark"},{default:c(()=>[e("付款完成後跳轉的完成訂單頁面")]),_:1})])}const u=o(l,[["render",_]]);export{u as default};
