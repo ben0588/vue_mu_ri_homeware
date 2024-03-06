@@ -76,7 +76,10 @@
           </tbody>
         </table>
       </div>
-      <Pagination :pagination="ordersPagination" @updated:page="fetchOrders"></Pagination>
+      <PaginationComponent
+        :pagination="ordersPagination"
+        @updated:page="fetchOrders"
+      ></PaginationComponent>
     </div>
 
     <div v-else class="row justify-content-start py-32">
@@ -101,7 +104,7 @@ import { useRouter } from 'vue-router';
 import usePriceToTw from '@/composables/usePriceToTw';
 import { useAlert } from '@/composables/useAlert';
 import MemberOrderModal from '@/components/front/member/MemberOrderModal.vue';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 
 const router = useRouter();
 const { showAlert } = useAlert();

@@ -70,7 +70,10 @@
         </tbody>
       </table>
     </div>
-    <Pagination :pagination="adminPagination" @updated:page="fetchArticles"></Pagination>
+    <PaginationComponent
+      :pagination="adminPagination"
+      @updated:page="fetchArticles"
+    ></PaginationComponent>
 
     <AdminArticleModal
       ref="adminArticleModal"
@@ -87,7 +90,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 
 import { useAlert } from '@/composables/useAlert';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 import AdminArticleModal from '@/components/admin/article/AdminArticleModal.vue';
 
 const router = useRouter();

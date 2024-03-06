@@ -22,7 +22,7 @@
   </nav>
 </template>
 <script setup>
-const props = defineProps({
+defineProps({
   pagination: Object,
   'get-products': Function,
 });
@@ -33,4 +33,3 @@ const changePage = (page) => {
   emits('updated:page', page);
 };
 </script>
-<style lang="sass"></style>

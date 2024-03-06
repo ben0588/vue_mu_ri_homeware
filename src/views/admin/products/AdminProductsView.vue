@@ -96,7 +96,10 @@
       </table>
     </div>
 
-    <Pagination :pagination="adminPagination" @updated:page="fetchAdminProducts"></Pagination>
+    <PaginationComponent
+      :pagination="adminPagination"
+      @updated:page="fetchAdminProducts"
+    ></PaginationComponent>
     <AdminProductsModal
       ref="adminProductsModal"
       :typeName="typeName"
@@ -117,7 +120,7 @@ import usePriceToTw from '@/composables/usePriceToTw';
 import { useAlert } from '@/composables/useAlert';
 import AdminProductsModal from '@/components/admin/products/AdminProductsModal.vue';
 import useI18nStore from '@/stores/i18nStores';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 
 const adminProductsModal = ref(null);
 const i18nStore = useI18nStore();

@@ -82,7 +82,10 @@
         </tbody>
       </table>
     </div>
-    <Pagination :pagination="adminPagination" @updated:page="fetchAdminCoupons"></Pagination>
+    <PaginationComponent
+      :pagination="adminPagination"
+      @updated:page="fetchAdminCoupons"
+    ></PaginationComponent>
 
     <AdminCouponModal
       ref="adminCouponModal"
@@ -103,7 +106,7 @@ import Swal from 'sweetalert2';
 import { useAlert } from '@/composables/useAlert';
 import useI18nStore from '@/stores/i18nStores';
 import AdminCouponModal from '@/components/admin/coupon/AdminCouponModal.vue';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 
 const adminCouponModal = ref(null);
 const i18nStore = useI18nStore();

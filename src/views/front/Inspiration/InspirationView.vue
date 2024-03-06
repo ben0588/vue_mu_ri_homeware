@@ -1,33 +1,61 @@
 <template>
-  <div>
-    布置靈感
+  <div class="container py-32" v-if="!articleLoading">
+    <h2>空間佈置靈感</h2>
 
-    <div :style="{ width: '320px', height: '48px' }" class="overflow-hidden position-relative">
-      <input
-        class="form-control h-100 border-2"
-        type="text"
-        :style="{ borderLeft: 'none' }"
-        placeholder="輸入商品"
-        aria-label="default input example"
-        v-model="searchStore.searchText"
-        @keydown.enter="handleSearch"
-        @input="handleInput"
-      />
-      <font-awesome-icon
-        :icon="['fas', 'magnifying-glass']"
-        class="search-icon"
-        role="button"
-        @click="handleSearch"
-        :title="'搜尋'"
-      />
-    </div>
-    {{ searchStore.searchText }} ||
+    <PaginationComponent
+      :pagination="articlesPagination"
+      @updated:page="fetchArticles"
+    ></PaginationComponent>
   </div>
+  <VueLoading :active="articleLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
-import useSearchStore from '@/stores/searchStores';
+import { ref, onMounted } from 'vue';
+import VueLoading from 'vue-loading-overlay';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-const searchStore = useSearchStore();
-const { handleSearch, handleInput } = searchStore;
+import { useAlert } from '@/composables/useAlert';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
+
+const router = useRouter();
+const { showAlert } = useAlert();
+const articleLoading = ref(false);
+const articles = ref([]);
+const articlesPagination = ref([]);
+
+const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
+const apiPath = import.meta.env.VITE_APP_API_PATH;
+
+const navigateToPayment = (id) => {
+  router.push({ name: 'front_order_payment', params: { id } });
+};
+
+const fetchArticles = async (page = 1) => {
+  try {
+    articleLoading.value = true;
+    const api = `${baseApiUrl}/v2/api/${apiPath}/articles?page=${page}`;
+    const response = await axios.get(api);
+    console.log(response.data.articles);
+    articles.value = response.data.articles;
+    articlesPagination.value = response.data.pagination;
+  } catch (error) {
+    showAlert({
+      title: '失敗',
+      text: `${error.response.data.message}`,
+      icon: 'error',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+    });
+  } finally {
+    articleLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchArticles();
+});
 </script>
 <style lang="scss"></style>

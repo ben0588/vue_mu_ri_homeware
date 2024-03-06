@@ -59,7 +59,10 @@
     </div>
 
     <div class="flex-center mt-3 pt-3" v-if="!searchStore.isSearch">
-      <Pagination :pagination="ProductsPagination" @updated:page="fetchProducts"></Pagination>
+      <PaginationComponent
+        :pagination="ProductsPagination"
+        @updated:page="fetchProducts"
+      ></PaginationComponent>
     </div>
   </div>
   <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
@@ -71,7 +74,7 @@ import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 
 import { useAlert } from '@/composables/useAlert';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 import HomeCard from '@/components/common/HomeCard.vue';
 
 // 計算屬性：為產品列表中的每個產品計算星星符號
@@ -246,7 +249,7 @@ watch(
       targetSort.value = 'default';
       fetchProducts(1, categoryStore.categoryTarget);
     }
-  }
+  },
 );
 
 onMounted(() => {
@@ -264,7 +267,7 @@ watch(
   () => {
     const newArray = searchStore.productsList.map((proxyObj) => proxyObj.item);
     productsList.value = newArray;
-  }
+  },
 );
 </script>
 <style lang="scss">

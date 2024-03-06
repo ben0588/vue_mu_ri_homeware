@@ -94,7 +94,10 @@
         </tbody>
       </table>
     </div>
-    <Pagination :pagination="adminPagination" @updated:page="fetchOrders"></Pagination>
+    <PaginationComponent
+      :pagination="adminPagination"
+      @updated:page="fetchOrders"
+    ></PaginationComponent>
 
     <AdminOrderModal ref="adminOrderModal" @refetch-orders="fetchOrders"></AdminOrderModal>
   </div>
@@ -108,7 +111,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 
 import { useAlert } from '@/composables/useAlert';
-import Pagination from '@/components/common/Pagination.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 import AdminOrderModal from '@/components/admin/order/AdminOrderModal.vue';
 import usePriceToTw from '@/composables/usePriceToTw';
 
