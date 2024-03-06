@@ -5,7 +5,7 @@
         <h3 class="">優惠卷列表</h3>
       </span>
       <span class="col-6">
-        <div class="float-end pe-5">
+        <div class="float-end pe-3">
           <button type="button" class="btn btn-success px-4" @click="handleOpenModal('create')">
             新增優惠卷
           </button>
@@ -20,7 +20,7 @@
             <td>標題</td>
             <td>優惠碼</td>
             <td>折扣比(%)</td>
-            <td>到期日</td>
+            <td>狀態/到期日</td>
             <td class="fw-500 text-center">{{ t('admin.products_operate') }}</td>
           </tr>
         </thead>
@@ -33,6 +33,13 @@
             <td>{{ coupon.percent }}</td>
             <td>
               <!-- 增加時間判斷顯示是否已失效 -->
+              <div
+                class="d-flex justify-content-start flex-column text-success"
+                v-if="coupon.is_enabled"
+              >
+                啟用
+              </div>
+              <div class="d-flex justify-content-start flex-column text-danger" v-else>未啟用</div>
               <div
                 v-if="new Date().getTime() / 1000 <= coupon.due_date"
                 class="d-flex justify-content-start flex-column text-success"
@@ -49,7 +56,7 @@
               <div class="d-flex justify-content-center">
                 <button
                   type="button"
-                  class="btn btn-dark me-1"
+                  class="btn btn-outline-dark me-1"
                   @click="handleOpenModal('edit', coupon)"
                 >
                   {{ t('admin.products_edit_text') }}

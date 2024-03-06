@@ -131,7 +131,7 @@ function apiCall(state) {
 
 async function onSubmit(values, actions) {
   try {
-    const response = await apiCall(0); // 呼叫 API
+    const response = await apiCall(1); // 呼叫 API
     if (response) {
       await showAlert({
         title: '成功',

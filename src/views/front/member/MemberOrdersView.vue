@@ -61,11 +61,15 @@
                   >
                     查看詳情
                   </button>
-                  <router-link
+                  <button
+                    type="button"
                     :to="`/carts/payment/${order.id}`"
                     class="btn btn-primary text-white ms-1"
-                    >前往付款</router-link
+                    :disabled="order.is_paid"
+                    @click.prevent="navigateToPayment(order.id)"
                   >
+                    前往付款
+                  </button>
                 </div>
               </td>
             </tr>
@@ -92,14 +96,15 @@
 import { ref, onMounted } from 'vue';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 import usePriceToTw from '@/composables/usePriceToTw';
 import { useAlert } from '@/composables/useAlert';
 import MemberOrderModal from '@/components/front/member/MemberOrderModal.vue';
 import Pagination from '@/components/common/Pagination.vue';
 
+const router = useRouter();
 const { showAlert } = useAlert();
-
 const orderLoading = ref(false);
 const orders = ref([]);
 const ordersPagination = ref([]);
@@ -107,6 +112,10 @@ const orderModal = ref(null);
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
+
+const navigateToPayment = (id) => {
+  router.push({ name: 'front_order_payment', params: { id } });
+};
 
 const fetchOrders = async (page = 1) => {
   try {

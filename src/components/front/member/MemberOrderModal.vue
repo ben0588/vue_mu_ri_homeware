@@ -79,6 +79,13 @@
                           <span v-else class="text-muted">未確認</span>
                         </td>
                       </tr>
+                      <tr>
+                        <td>訂單付款狀態</td>
+                        <td>
+                          <span v-if="orderData.is_paid" class="text-success">已付款</span>
+                          <span class="text-danger" v-else>未付款</span>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -106,13 +113,13 @@
                         <td>{{ product.qty }}</td>
                         <td v-if="product.coupon">
                           <div class="row">
-                            <div class="col-lg-6">
-                              <span class="text-danger">
+                            <div class="col-lg-12">
+                              <span class="text-muted text-decoration-line-through">
+                                {{ usePriceToTw(product.total) }}</span
+                              >
+                              <span class="text-danger ps-2">
                                 {{ usePriceToTw(product.final_total) }}
                               </span>
-                            </div>
-                            <div class="col-lg-6">
-                              <span class="text-danger">已折</span>
                             </div>
                           </div>
                         </td>
@@ -133,7 +140,7 @@
                           合計 NT{{ usePriceToTw(orderData.total) }}
                         </span></span
                       >
-                      <span class="text-danger" v-if="orderProducts.length"
+                      <span class="text-danger" v-if="orderProducts[0]?.coupon?.title"
                         ><font-awesome-icon :icon="['fas', 'ticket-simple']" /> 已套用優惠碼：{{
                           orderProducts[0].coupon.title
                         }}：{{ orderProducts[0].coupon.code }}</span

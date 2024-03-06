@@ -42,13 +42,13 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th class="fw-400" scope="col">{{ t('admin.products_id') }}</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_name') }}</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_category') }}</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_subcategory') }}</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_price') }}(NT)</th>
-            <th class="fw-400" scope="col">{{ t('admin.products_state') }}</th>
-            <th class="fw-400 text-center" scope="col">{{ t('admin.products_operate') }}</th>
+            <td>{{ t('admin.products_id') }}</td>
+            <td>{{ t('admin.products_name') }}</td>
+            <td>{{ t('admin.products_category') }}</td>
+            <!-- <td>{{ t('admin.products_subcategory') }}</td> -->
+            <td>{{ t('admin.products_price') }}(NT)</td>
+            <td>{{ t('admin.products_state') }}</td>
+            <td class="text-center">{{ t('admin.products_operate') }}</td>
           </tr>
         </thead>
 
@@ -57,7 +57,7 @@
             <td>{{ product.id }}</td>
             <td>{{ product[i18nStore.currentIcon].title }}</td>
             <td>{{ product[i18nStore.currentIcon].category }}</td>
-            <td>{{ product[i18nStore.currentIcon].subcategory }}</td>
+            <!-- <td>{{ product[i18nStore.currentIcon].subcategory }}</td> -->
             <td>{{ usePriceToTw(product[i18nStore.currentIcon].price) }}</td>
             <td>
               <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{
@@ -70,7 +70,7 @@
               <div class="d-flex align-items-center">
                 <button
                   type="button"
-                  class="btn btn-dark me-1"
+                  class="btn btn-outline-dark me-1"
                   @click="handleOpenModal('edit', product)"
                 >
                   {{ t('admin.products_edit_text') }}

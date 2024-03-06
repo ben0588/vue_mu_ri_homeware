@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <label :for="id" class="form-label fs-5 mb-1"
+    <label :for="id" class="form-label fw-500 mb-1" :class="labelClass"
       ><span class="text-danger">*</span>{{ label }}</label
     >
     <Field
@@ -60,6 +60,10 @@ defineProps({
   as: {
     type: String,
     default: 'input',
+  },
+  labelClass: {
+    type: String,
+    default: 'fs-5',
   },
 });
 </script>

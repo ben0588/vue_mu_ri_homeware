@@ -82,6 +82,13 @@
                           <span v-else class="text-muted">未確認</span>
                         </td>
                       </tr>
+                      <tr>
+                        <td>訂單付款狀態</td>
+                        <td>
+                          <span v-if="orderData.is_paid" class="text-success">已付款</span>
+                          <span class="text-danger" v-else>未付款</span>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -110,6 +117,18 @@
                             <option value="2">寄送中</option>
                             <option value="3">已送達</option>
                           </select>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="admin-order-message" class="form-label fw-500"
+                            >修改訂單備註</label
+                          >
+                          <input
+                            type="text"
+                            v-model="orderData.message"
+                            class="form-control"
+                            id="admin-order-message"
+                          />
                         </div>
 
                         <div class="form-check">
@@ -177,13 +196,13 @@
                         <td>{{ product.qty }}</td>
                         <td v-if="product.coupon">
                           <div class="row">
-                            <div class="col-lg-6">
-                              <span class="text-danger">
+                            <div class="col-lg-12">
+                              <span class="text-muted text-decoration-line-through">
+                                {{ usePriceToTw(product.total) }}</span
+                              >
+                              <span class="text-danger ps-2">
                                 {{ usePriceToTw(product.final_total) }}
                               </span>
-                            </div>
-                            <div class="col-lg-6">
-                              <span class="text-danger">已折</span>
                             </div>
                           </div>
                         </td>
@@ -204,10 +223,10 @@
                           合計 NT{{ usePriceToTw(orderData.total) }}
                         </span></span
                       >
-                      <span class="text-danger" v-if="orderProducts.length"
+                      <span class="text-danger" v-if="orderProducts[0]?.coupon?.title"
                         ><font-awesome-icon :icon="['fas', 'ticket-simple']" /> 已套用優惠碼：{{
-                          orderProducts[0].coupon.title
-                        }}：{{ orderProducts[0].coupon.code }}</span
+                          orderProducts[0]?.coupon?.title
+                        }}：{{ orderProducts[0]?.coupon?.code }}</span
                       >
                       <span class="text-muted">*已含運費</span>
                     </div>
@@ -232,7 +251,6 @@ import { useAlert } from '@/composables/useAlert';
 import usePriceToTw from '@/composables/usePriceToTw';
 
 const { showAlert } = useAlert();
-const orderId = ref('');
 const orderData = ref({});
 const orderState = ref(false);
 const orderProducts = ref([]);
@@ -242,7 +260,7 @@ const orderSubmitState = ref(false);
 const bsAdminOrderModalRef = ref(null);
 const bsAdminOrderModalInstance = ref(null); // 實體存放區
 
-const emits = defineEmits(['refetch-orders']);
+const emits = defineEmits(['refetch-articles']);
 
 onMounted(() => {
   // bootstrap modal init
@@ -290,7 +308,7 @@ const editOrder = async () => {
         timer: 1000,
       });
       setTimeout(() => {
-        emits('refetch-orders', true); // 呼叫父層 = 重新取得產品資料
+        emits('refetch-articles', true); // 呼叫父層 = 重新取得產品資料
       }, 1000);
     }
   } catch (error) {

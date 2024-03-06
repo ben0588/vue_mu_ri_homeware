@@ -172,9 +172,9 @@ const router = createRouter({
 
             },
             {
-              path: 'article',
+              path: 'articles',
               name: 'admin_article',
-              component: () => import('@/views/admin/article/AdminArticleView.vue'),
+              component: () => import('@/views/admin/article/AdminArticlesView.vue'),
               meta: { requiresAuth: false },
 
             },

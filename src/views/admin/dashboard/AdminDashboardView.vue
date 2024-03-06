@@ -47,7 +47,7 @@ const navbarList = computed(() => [
     title: t('admin.menu_orders_manage'),
   },
   {
-    path: 'article',
+    path: 'articles',
     title: t('admin.menu_article_manage'),
   },
 ]);
