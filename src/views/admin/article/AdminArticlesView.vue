@@ -114,7 +114,6 @@ const fetchArticles = async (page = 1) => {
     axios.defaults.headers.common.Authorization = token;
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/articles?page=${page}`;
     const response = await axios.get(api);
-    console.log('admn-response', response);
     adminArticles.value = response.data.articles;
     adminPagination.value = response.data.pagination;
   } catch (error) {
@@ -139,7 +138,7 @@ const fetchArticles = async (page = 1) => {
 
 const deleteArticle = async (id) => {
   try {
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/order/${id}`;
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/article/${id}`;
     showAlert({
       title: '確認刪除訂單?',
       text: '注意：確認刪除後，訂單將無法復原!',

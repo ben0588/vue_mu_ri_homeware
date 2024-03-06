@@ -27,7 +27,7 @@
         </div>
         <div class="modal-body position-relative">
           <div v-if="!articleState">
-            <form @submit="onSubmit" @keyup.enter="onSubmit">
+            <form @submit="onSubmit">
               <div class="row">
                 <div class="col-md-4">
                   <VeeValidateCustomInput
@@ -266,7 +266,7 @@ const initialFormValues = ref({
   image: '',
   imagesUrl: ['', ''],
   tag: [],
-  create_at: new Date().getTime(),
+  create_at: 0,
   author: '小白',
   isPublic: true,
   content: '',
@@ -376,7 +376,9 @@ const addOrEditArticle = async (val) => {
     let response;
     if (type === '新增') {
       api = `${baseApiUrl}/v2/api/${apiPath}/admin/article`;
-      response = await axios.post(api, { data: { ...val } });
+      response = await axios.post(api, {
+        data: { ...val, create_at: Math.floor(new Date().getTime() / 1000) },
+      });
     } else if (type === '儲存') {
       api = `${baseApiUrl}/v2/api/${apiPath}/admin/article/${articleId.value}`;
       response = await axios.put(api, { data: { ...val } });

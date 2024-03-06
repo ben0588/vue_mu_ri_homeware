@@ -567,7 +567,7 @@ const newLanguageData = {
       ],
     },
   },
-  create_date: new Date().getTime(),
+  create_date: Math.floor(new Date().getTime() / 1000),
   sales_num: 0,
   isNew: true, // 新品專區用
   isOnHot: false, // 首頁展示商品用
@@ -643,7 +643,7 @@ const newTempData = ref({
       ],
     },
   },
-  create_date: new Date().getTime(),
+  create_date:  Math.floor(new Date().getTime() / 1000),
   sales_num: 0,
   isNew: true, // 新品專區用
   isOnHot: false, // 首頁展示商品用
