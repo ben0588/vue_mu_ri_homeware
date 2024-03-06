@@ -66,27 +66,30 @@
               <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
             </td>
 
-            <td class="flex-center">
-              <button
-                type="button"
-                class="btn btn-dark me-1"
-                @click="handleOpenModal('edit', product)"
-              >
-                {{ t('admin.products_edit_text') }}
-              </button>
-              <!-- 要注意 id 這邊是因為 api 規格最外層的 id，刪除產品是用這個 id -->
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                @click="deleteProduct(product.id)"
-                :disabled="deleteTargetId === product.id"
-              >
-                <span v-if="deleteTargetId === product.id">
-                  <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
-                  <span role="status"></span>
-                </span>
-                {{ t('admin.products_delete_text') }}
-              </button>
+            <td :style="{ minWidth: `158px` }">
+              <div class="d-flex align-items-center">
+                <button
+                  type="button"
+                  class="btn btn-dark me-1"
+                  @click="handleOpenModal('edit', product)"
+                >
+                  {{ t('admin.products_edit_text') }}
+                </button>
+                <!-- 要注意 id 這邊是因為 api 規格最外層的 id，刪除產品是用這個 id -->
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  @click="deleteProduct(product.id)"
+                  :disabled="deleteTargetId === product.id"
+                >
+                  <span v-if="deleteTargetId === product.id">
+                    <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
+                    <span role="status"></span>
+                    <span>{{ t('admin.products_delete_text') }}</span>
+                  </span>
+                  <span v-else>{{ t('admin.products_delete_text') }}</span>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

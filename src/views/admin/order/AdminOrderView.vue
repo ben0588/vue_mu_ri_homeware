@@ -6,11 +6,7 @@
       </span>
       <span class="col-6">
         <div class="float-end pe-2">
-          <button
-            type="button"
-            class="btn btn-outline-danger px-4"
-            @click="handleOpenModal('create')"
-          >
+          <button type="button" class="btn btn-outline-danger px-4" @click="deleteOrders()">
             刪除所有訂單
           </button>
         </div>
@@ -28,7 +24,6 @@
             <td>操作</td>
           </tr>
         </thead>
-
         <tbody>
           <tr v-for="order in adminOrders" :key="order.id">
             <td>{{ order.id }}</td>
@@ -45,27 +40,28 @@
               <span v-else class="text-dark">未付款</span>
             </td>
             <td>
-              <span
-                v-if="order.status"
-                :class="`${
-                  order.status === 0
-                    ? 'text-muted'
-                    : order.status === 1
-                      ? 'text-dark'
-                      : order.status === 2
-                        ? 'text-info'
-                        : 'text-success'
-                }`"
-              >
-                {{
-                  order.status === 0
-                    ? '未確認'
-                    : order.status === 1
-                      ? '已確認'
-                      : order.status === 2
-                        ? '寄送中'
-                        : '已送達'
-                }}
+              <span v-if="order.status">
+                <span
+                  :class="`${
+                    order.status === '0'
+                      ? 'text-muted'
+                      : order.status === '1'
+                        ? 'text-dark'
+                        : order.status === '2'
+                          ? 'text-info'
+                          : 'text-success'
+                  }`"
+                >
+                  {{
+                    order.status === '0'
+                      ? '未確認'
+                      : order.status === '1'
+                        ? '已確認'
+                        : order.status === '2'
+                          ? '寄送中'
+                          : '已送達'
+                  }}
+                </span>
               </span>
               <span v-else class="text-muted">未確認</span>
             </td>
@@ -78,12 +74,18 @@
                 >
                   編輯
                 </button>
-                <button type="button" class="btn btn-outline-danger" :disabled="true">
-                  <span v-if="true">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  :disabled="deleteTarget === order.id"
+                  @click="deleteOrder(order.id)"
+                >
+                  <span v-if="deleteTarget === order.id">
                     <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
                     <span role="status"></span>
+                    <span>刪除中</span>
                   </span>
-                  刪除
+                  <span v-else> 刪除 </span>
                 </button>
               </div>
             </td>
@@ -116,6 +118,7 @@ const loadingStore = useLoadingStore();
 const adminOrderModal = ref(null);
 const adminOrders = ref([]);
 const adminPagination = ref([]);
+const deleteTarget = ref('');
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (order) => {
@@ -128,6 +131,8 @@ const apiPath = import.meta.env.VITE_APP_API_PATH;
 const fetchOrders = async (page = 1) => {
   try {
     loadingStore.toggleLoading(); // 全頁加載
+    const token = localStorage.getItem('s72241'); // 防止重新整理後要重新登入
+    axios.defaults.headers.common.Authorization = token;
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/orders?page=${page}`;
     const response = await axios.get(api);
     adminOrders.value = response.data.orders;
@@ -152,6 +157,124 @@ const fetchOrders = async (page = 1) => {
   }
 };
 
+const deleteOrder = async (id) => {
+  try {
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/order/${id}`;
+    showAlert({
+      title: '確認刪除訂單?',
+      text: '注意：確認刪除後，訂單將無法復原!',
+      icon: 'question',
+      confirmButtonColor: '#29292D',
+      cancelButtonColor: '#b2bec3',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
+      showCancelButton: true,
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          deleteTarget.value = id;
+          return await axios.delete(api);
+        } catch (error) {
+          showAlert({
+            title: '失敗',
+            text: `${error.response.data.message}`,
+            icon: 'error',
+            confirmButtonText: '確認',
+            confirmButtonColor: '#000000',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+          });
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then(async (result) => {
+      if (result?.value?.data?.success) {
+        showAlert({
+          position: 'top-start',
+          title: `成功 | ${result?.value?.data?.message}`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        setTimeout(() => {
+          fetchOrders();
+        }, 1000);
+      }
+    });
+  } catch (error) {
+    showAlert({
+      title: '失敗',
+      text: `${error.response.data.message}`,
+      icon: 'error',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+    });
+  } finally {
+    deleteTarget.value = '';
+  }
+};
+
+const deleteOrders = async () => {
+  try {
+    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/orders/all`;
+    showAlert({
+      title: '確認刪除全部訂單?',
+      text: '注意：確認刪除後，全部訂單將無法復原!',
+      icon: 'question',
+      confirmButtonColor: '#29292D',
+      cancelButtonColor: '#b2bec3',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
+      showCancelButton: true,
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          return await axios.delete(api);
+        } catch (error) {
+          showAlert({
+            title: '失敗',
+            text: `${error.response.data.message}`,
+            icon: 'error',
+            confirmButtonText: '確認',
+            confirmButtonColor: '#000000',
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+          });
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then(async (result) => {
+      if (result?.value?.data?.success) {
+        showAlert({
+          position: 'top-start',
+          title: `成功 | ${result?.value?.data?.message}`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        setTimeout(() => {
+          fetchOrders();
+        }, 1000);
+      }
+    });
+  } catch (error) {
+    showAlert({
+      title: '失敗',
+      text: `${error.response.data.message}`,
+      icon: 'error',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+    });
+  }
+};
 onMounted(() => {
   fetchOrders();
 });

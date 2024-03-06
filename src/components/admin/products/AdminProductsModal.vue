@@ -1012,7 +1012,7 @@ const addOrPutProduct = async () => {
       closeModal(); // 新增或更新成功後關閉模組
       showAlert({
         position: 'top-start',
-        title: `${response.data.message} | ${t('admin.message_success')}`,
+        title: ` ${t('admin.message_success')} | ${response.data.message}`,
         icon: 'success',
         showConfirmButton: false,
         timer: 1000,

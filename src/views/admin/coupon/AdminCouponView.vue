@@ -63,8 +63,11 @@
                   <span v-if="deleteTargetId === coupon.id">
                     <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
                     <span role="status"></span>
+                    <span> {{ t('admin.products_delete_text') }}</span>
                   </span>
-                  {{ t('admin.products_delete_text') }}
+                  <span v-else>
+                    {{ t('admin.products_delete_text') }}
+                  </span>
                 </button>
               </div>
             </td>

@@ -278,7 +278,7 @@ watch(
   (newValue) => {
     // 當每次按下編輯或者新增更新此按鈕字樣
     submitBtnText.value = newValue;
-  },
+  }
 );
 
 watch(
@@ -290,7 +290,7 @@ watch(
     } else {
       submitBtnText.value = props.typeName;
     }
-  },
+  }
 );
 
 watch(
@@ -304,7 +304,7 @@ watch(
     } else if (newValue === '儲存' || 'Save' || '保存' || '저장' || 'บันทึก') {
       submitBtnText.value = t('admin.products_keep_text');
     }
-  },
+  }
 );
 
 onMounted(() => {
@@ -407,7 +407,7 @@ const addOrPutCoupon = async (postData) => {
     }
   } catch (error) {
     showAlert({
-      title: `${error.response.data.message} | ${t('admin.message_error')}`,
+      title: `${t('admin.message_error')} | ${error.response.data.message}`,
       icon: 'error',
       confirmButtonText: `${t('admin.message_confirm_text')}`,
       confirmButtonColor: '#000000',

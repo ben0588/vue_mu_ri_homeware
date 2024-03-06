@@ -19,14 +19,15 @@
             data-bs-dismiss="modal"
             aria-label="Close"
             @click="closeModal"
+            :disabled="orderSubmitState"
           >
             X
           </button>
         </div>
         <div class="modal-body position-relative">
           <div v-if="!orderState">
-            <div class="row">
-              <div class="col-lg-6">
+            <div class="row d-flex align-items-stretch">
+              <div class="col-lg-6 d-flex flex-column">
                 <div class="table-responsive border border-2 border-dark px-3 mb-3 pt-3">
                   <p class="fs-5 border-bottom border-dark pb-2 mb-3">
                     <font-awesome-icon :icon="['far', 'address-card']" /> 訂購人資料
@@ -85,9 +86,74 @@
                   </table>
                 </div>
               </div>
-              <div class="col-lg-6">
-                <div class="border border-2 border-dark p-3"></div>
+              <div class="col-lg-6 d-flex flex-column">
+                <div class="border border-2 border-dark h-100 px-3 mb-3 pt-3">
+                  <p class="fs-5 border-bottom border-dark pb-2 mb-3">
+                    <font-awesome-icon :icon="['fas', 'gear']" /> 訂單操作
+                  </p>
+
+                  <form class="h-100 pb-60" @submit.prevent="editOrder">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                      <div>
+                        <div class="mb-3">
+                          <label for="admin-order-select" class="form-label fw-500"
+                            >修改商品送達狀態</label
+                          >
+                          <select
+                            class="form-select"
+                            aria-label="修改送達狀態"
+                            id="admin-order-select"
+                            v-model="orderStatus"
+                          >
+                            <option value="0" selected>未確認</option>
+                            <option value="1">已確認</option>
+                            <option value="2">寄送中</option>
+                            <option value="3">已送達</option>
+                          </select>
+                        </div>
+
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="admin-payment-state"
+                            v-model="orderData.is_paid"
+                          />
+                          <label class="form-check-labe fw-500" for="admin-payment-state"
+                            >修改訂單付款狀態<span v-if="orderData.is_paid">(已付款)</span
+                            ><span v-else>(未付款)</span></label
+                          >
+                        </div>
+                      </div>
+
+                      <div class="d-flex justify-content-end align-items-center pb-2">
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark w-50"
+                          @click="closeModal"
+                          :disabled="orderSubmitState"
+                        >
+                          取消
+                        </button>
+                        <button
+                          type="submit"
+                          class="btn btn-dark w-50 ms-1"
+                          :disabled="orderSubmitState"
+                        >
+                          <span v-if="orderSubmitState"
+                            ><span class="spinner-border spinner-border-sm me-1" role="status">
+                              <span class="visually-hidden">儲存中</span>
+                            </span>
+                            <span>儲存中</span></span
+                          >
+                          <span v-else>儲存</span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
+              <!-- 訂單資訊 -->
               <div class="col-lg-12">
                 <div
                   class="table-responsive border-top border-start border-end border-2 border-dark px-3 pt-3"
@@ -133,19 +199,15 @@
                   >
                     <div class="d-flex flex-column align-items-end">
                       <span class="fs-5">
-                        <span>
-                          共 {{ Object.values(orderData.products || {}).length }} 項商品 |
-                        </span>
+                        <span> 共 {{ orderProducts.length }} 項商品 | </span>
                         <span class="fw-700">
                           合計 NT{{ usePriceToTw(orderData.total) }}
                         </span></span
                       >
-                      <span
-                        class="text-danger"
-                        v-if="Object.values(orderData.products || {}).length"
+                      <span class="text-danger" v-if="orderProducts.length"
                         ><font-awesome-icon :icon="['fas', 'ticket-simple']" /> 已套用優惠碼：{{
-                          Object.values(orderData.products || {})[0].coupon.title
-                        }}</span
+                          orderProducts[0].coupon.title
+                        }}：{{ orderProducts[0].coupon.code }}</span
                       >
                       <span class="text-muted">*已含運費</span>
                     </div>
@@ -155,7 +217,7 @@
             </div>
           </div>
 
-          <div v-else class="text-center py-64">讀取中，請稍後..</div>
+          <div v-else class="text-center py-64">讀取中，請稍候..</div>
         </div>
       </div>
     </div>
@@ -173,6 +235,9 @@ const { showAlert } = useAlert();
 const orderId = ref('');
 const orderData = ref({});
 const orderState = ref(false);
+const orderProducts = ref([]);
+const orderStatus = ref(0);
+const orderSubmitState = ref(false);
 
 const bsAdminOrderModalRef = ref(null);
 const bsAdminOrderModalInstance = ref(null); // 實體存放區
@@ -194,12 +259,40 @@ onUnmounted(() => {
   }
 });
 
-const fetchOrder = async (id) => {
+const openModal = (order) => {
+  orderData.value = JSON.parse(JSON.stringify(order)); // 深層複製
+  orderProducts.value = Object.values(order.products || {});
+  orderStatus.value = order.status || 0; // 重置訂單送達狀態
+  bsAdminOrderModalInstance.value.show();
+};
+
+const closeModal = () => {
+  bsAdminOrderModalInstance.value.hide();
+}; // 關閉模組
+
+const editOrder = async () => {
   try {
-    orderState.value = true;
-    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order/${id}`;
-    const response = await axios.get(api);
-    orderData.value = response.data.order;
+    orderSubmitState.value = true;
+    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/admin/order/${orderData.value.id}`;
+    const response = await axios.put(api, {
+      data: {
+        ...orderData.value,
+        status: orderStatus.value,
+      },
+    });
+    if (response.data.success) {
+      closeModal();
+      showAlert({
+        position: 'top-start',
+        title: `成功 | ${response.data.message}`,
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      setTimeout(() => {
+        emits('refetch-orders', true); // 呼叫父層 = 重新取得產品資料
+      }, 1000);
+    }
   } catch (error) {
     showAlert({
       title: '失敗',
@@ -211,20 +304,9 @@ const fetchOrder = async (id) => {
       allowOutsideClick: false,
     });
   } finally {
-    orderState.value = false;
+    orderSubmitState.value = false;
   }
 };
-
-const openModal = (order) => {
-  orderData.value = order;
-  console.log('order', order);
-  console.log('order2', order.id);
-  bsAdminOrderModalInstance.value.show();
-};
-
-const closeModal = () => {
-  bsAdminOrderModalInstance.value.hide();
-}; // 關閉模組
 
 defineExpose({
   openModal,

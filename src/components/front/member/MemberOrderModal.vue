@@ -128,17 +128,15 @@
                   >
                     <div class="d-flex flex-column align-items-end">
                       <span class="fs-5">
-                        <span>
-                          共 {{ Object.values(orderData.products || {}).length }} 項商品 |
-                        </span>
+                        <span> 共 {{ orderProducts.length }} 項商品 | </span>
                         <span class="fw-700">
                           合計 NT{{ usePriceToTw(orderData.total) }}
                         </span></span
                       >
-                      <span class="text-danger"
+                      <span class="text-danger" v-if="orderProducts.length"
                         ><font-awesome-icon :icon="['fas', 'ticket-simple']" /> 已套用優惠碼：{{
-                          Object.values(orderData.products || {})[0].coupon.title
-                        }}</span
+                          orderProducts[0].coupon.title
+                        }}：{{ orderProducts[0].coupon.code }}</span
                       >
                       <span class="text-muted">*已含運費</span>
                     </div>
@@ -165,6 +163,7 @@ const { showAlert } = useAlert();
 const orderId = ref('');
 const orderData = ref({});
 const orderState = ref(true);
+const orderProducts = ref([]);
 
 const bsFrontMemberModalRef = ref(null);
 const bsFrontMemberModalInstance = ref(null); // 實體存放區
@@ -187,6 +186,7 @@ const fetchOrder = async (id) => {
     const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/order/${id}`;
     const response = await axios.get(api);
     orderData.value = response.data.order;
+    orderProducts.value = Object.values(response.data.order.products || {});
   } catch (error) {
     showAlert({
       title: '失敗',
