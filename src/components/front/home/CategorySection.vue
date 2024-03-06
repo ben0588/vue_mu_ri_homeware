@@ -7,7 +7,7 @@
           <router-link to="/products" class="hover-img-opacity">
             <img
               src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708468217006.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=i1erUbEbAV%2B9pIXREE5UrJF5GKTjvRH8in0d4OfHH%2B3V06bLny87p495Y9qHRMhmj7%2FDdOeZFxpcHs0RmCjWx9wyBhi%2FIWu9TgWB8WcJ2%2BPi%2FtWXYpcQ2JmbI5kvKkp4n5kt1MKXgUpq1v54fknne4bSy0RAHp2b4xQqoJQmPtV%2B1fsVnEdHVbOR8R2pFhAmS9ftC%2FUC1M0RShuQsyPLHNL%2FWbmDOPRyFnIF981Oaao6AT6Etm4kCTKns7iuvKoHPhMOkw951w9BSuR5qebL9NP66pnn8TK4vA%2B5yhPe0%2F3cvVZ4y%2BRfsgAdiqMCFO%2Bl%2B4pdrqOj%2F0xtMFUYnKfa2A%3D%3D"
-              class="category-sale-img"
+              class="category-sale-bg-img"
               alt="特價中"
             />
             <p class="fs-4 fw-500 text-dark text-center pt-2">特價中</p>
@@ -16,10 +16,10 @@
         <div class="col-lg-8">
           <div class="row justify-content-center align-items-center">
             <div class="col-6 col-sm-3" v-if="isTable">
-              <router-link to="/products" class="category-sale-img hover-img-opacity">
+              <router-link to="/products" class="hover-img-opacity">
                 <img
                   src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1708555109803.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Rg3mRYkkD3AxpJsbtu3J5W2I1K0WDWsZEFJ7agbdPQ16VCpyRnrzmmPSu8AWdi11j0WZYZqvmY6vsrXDQKoiM9dATUwGMusUx2ALVygclUNjITGoRa0kVW7ZmAvZ7vHSJ8WHFe8BHEy92LXVctvGK6LtAUfg1CEvkcF6WDdyuc9BHhYDkWeNEIMM2zEInEggj4BYRe2uma%2Fv0zhBhA7Syyvi9c4tgc5rp4mtN8EG0JY5tH%2FxsB0W8gKoj1RGN1T7R5WExNan750HtGTVw4q%2FcBU1wRcKbCHj%2FtLSuNf4wUWJGexSNyHbHW0ybjMJT2l4lPIMfXSFYd%2FuCf%2FdLSVqyg%3D%3D"
-                  class="category-sale-img"
+                  class="category-sale-sm-img"
                   alt="特價中"
                 />
                 <p class="fs-4 fw-500 text-dark text-center pt-2">特價中</p>
@@ -148,35 +148,50 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
-.category-sale-img {
+.category-sale-sm-img {
   height: auto;
-  max-width: 416px;
-  max-height: 472px;
+  max-width: 196px;
+  max-height: 196px;
   object-fit: cover;
 
-  @media (max-width: 1200px) {
-    width: 350px;
-    height: 413px;
-  }
-
   @media (max-width: 992px) {
-    width: 135.98px;
-    height: 135.98px;
-  }
-
-  @media (max-width: 768px) {
     width: 156px;
     height: 156px;
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     width: 111px;
     height: 111px;
+  }
+
+  @media (max-width: 576px) {
+    width: 196px;
+    height: 196px;
   }
 
   @media (max-width: 500px) {
     width: 163.5px;
     height: 146px;
+  }
+}
+
+.category-sale-bg-img {
+  height: auto;
+  object-fit: cover;
+
+  @media (min-width: 992px) {
+    width: 289px;
+    height: 352px;
+  }
+
+  @media (min-width: 1200px) {
+    width: 349px;
+    height: 412px;
+  }
+
+  @media (min-width: 1400px) {
+    width: 411px;
+    height: 474px;
   }
 }
 

@@ -27,7 +27,9 @@
                   {{ item.center }}
                 </span>
                 <span class="header-top-btn-container">
-                  <router-link :to="item.path" class="btn btn-outline-light px-3 py-1 fw-500"
+                  <router-link
+                    :to="item.path"
+                    class="btn btn-outline-light text-white px-3 py-1 fw-500"
                     >了解更多</router-link
                   >
                 </span>
@@ -137,17 +139,13 @@
         </nav>
         <nav class="header-navbar w-100 h-100 py-2 pt-4">
           <ul class="list-unstyled d-flex align-items-center justify-content-start m-0">
-            <li class="me-5">
-              <router-link to="/products" aria-label="products">全部商品</router-link>
-            </li>
-            <li class="me-5">
-              <router-link to="/inspiration" aria-label="inspiration">佈置靈感</router-link>
-            </li>
-            <li class="me-5">
-              <router-link to="/newProducts" aria-label="newProducts">新品專區</router-link>
-            </li>
-            <li class="me-5">
-              <router-link to="/newEvents" aria-label="newEvents">最新活動</router-link>
+            <li class="me-5" v-for="(item, index) in frontNavbarList" :key="index">
+              <router-link
+                :to="item.path"
+                :aria-label="item.label"
+                active-class="header-router-active"
+                >{{ item.title }}</router-link
+              >
             </li>
           </ul>
         </nav>
@@ -198,6 +196,29 @@ const navbarList = ref([
   },
 ]);
 
+const frontNavbarList = ref([
+  {
+    title: '全部商品',
+    path: '/products',
+    label: 'products',
+  },
+  {
+    title: '佈置靈感',
+    path: '/inspiration',
+    label: 'inspiration',
+  },
+  {
+    title: '新品專區',
+    path: '/newEvents',
+    label: 'newEvents',
+  },
+  {
+    title: '最新活動',
+    path: '/newProducts',
+    label: 'newProducts',
+  },
+]);
+
 const advertiseList = [
   // path 可以用來連結對應的活動頁面/或者商品資訊
   {
@@ -244,6 +265,11 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
+.header-router-active {
+  font-weight: 600 !important;
+  color: $primary-700;
+}
+
 .logo-title-hide {
   text-indent: 101%;
   overflow: hidden;

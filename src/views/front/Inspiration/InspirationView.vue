@@ -1,11 +1,22 @@
 <template>
   <div class="container py-32" v-if="!articleLoading">
     <h2>空間佈置靈感</h2>
-
-    <PaginationComponent
-      :pagination="articlesPagination"
-      @updated:page="fetchArticles"
-    ></PaginationComponent>
+    <div>tag位置</div>
+    <div class="row row-cols-3">
+      <div class="col" v-for="item in articles" :key="item.id">
+        <div class="border">
+          <img :src="item.image" :alt="item.title" :style="{ height: `200px` }" />
+          <h3 class="mb-0 fs-4">{{ item.title }}</h3>
+          <span v-for="(tag, index) in item.tag" :key="index">{{ tag }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-2">
+      <PaginationComponent
+        :pagination="articlesPagination"
+        @updated:page="fetchArticles"
+      ></PaginationComponent>
+    </div>
   </div>
   <VueLoading :active="articleLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>

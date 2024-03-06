@@ -5,6 +5,10 @@ import { useAlert } from '@/composables/useAlert';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    // 返回滾動位置
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',
@@ -187,10 +191,6 @@ const router = createRouter({
       component: () => import('@/views/ErrorView.vue'),
     },
   ],
-  scrollBehavior(to, from, savedPosition) {
-    // 返回滾動位置
-    return { top: 0 };
-  },
 });
 const { showAlert } = useAlert();
 
