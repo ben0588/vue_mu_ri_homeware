@@ -3,13 +3,14 @@
     <label :for="id" class="form-label" :class="labelClass"
       ><span class="text-danger" v-if="required">*</span>{{ labelText }}</label
     >
-    <input
+    <textarea
+      v-model="value"
       :id="id"
-      v-model.trim="value"
-      :type="type || 'text'"
       class="form-control"
       :class="`${errorMessage && meta.touched && 'is-invalid'}`"
-    />
+      rows="3"
+    ></textarea>
+
     <span class="text-danger" v-if="errorMessage && meta.touched">{{ errorMessage }}</span>
   </div>
 </template>
@@ -19,7 +20,6 @@ import { useField } from 'vee-validate';
 
 const props = defineProps({
   name: String,
-  type: String,
   id: String,
   inputContainer: {
     type: String,

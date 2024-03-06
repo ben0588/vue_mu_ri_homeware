@@ -468,7 +468,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" @click="closeModal">
+              <button type="button" class="btn btn-outline-secondary text-dark" @click="closeModal">
                 {{ t('admin.products_cancel_text') }}
               </button>
               <button
@@ -763,7 +763,7 @@ watch(
   (newValue) => {
     // 當每次按下編輯或者新增更新此按鈕字樣
     submitBtnText.value = newValue;
-  }
+  },
 );
 watch(
   () => submitIsLoading.value,
@@ -774,7 +774,7 @@ watch(
     } else {
       submitBtnText.value = props.typeName;
     }
-  }
+  },
 );
 
 watch(
@@ -788,7 +788,7 @@ watch(
     } else if (newValue === '儲存' || 'Save' || '保存' || '저장' || 'บันทึก') {
       submitBtnText.value = t('admin.products_keep_text');
     }
-  }
+  },
 );
 
 onMounted(() => {
@@ -957,7 +957,7 @@ watch(
   () => {
     // 當繁體中文商品主類型有修改，那麼就改主類型的紀錄
     newTempData.value.category = newTempData.value.tw.category;
-  }
+  },
 );
 
 watchEffect(() => {

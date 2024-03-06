@@ -1,15 +1,15 @@
 <template>
-  <div :class="inputContainer">
-    <label :for="id" class="form-label" :class="labelClass"
-      ><span class="text-danger" v-if="required">*</span>{{ labelText }}</label
-    >
+  <div class="form-check" :class="inputContainer">
     <input
+      class="form-check-input"
+      type="checkbox"
       :id="id"
-      v-model.trim="value"
-      :type="type || 'text'"
-      class="form-control"
+      v-model="value"
       :class="`${errorMessage && meta.touched && 'is-invalid'}`"
     />
+    <label class="form-check-label" :for="id" :class="labelClass">
+      <span class="text-danger" v-if="required">*</span>{{ labelText }}
+    </label>
     <span class="text-danger" v-if="errorMessage && meta.touched">{{ errorMessage }}</span>
   </div>
 </template>
@@ -19,7 +19,6 @@ import { useField } from 'vee-validate';
 
 const props = defineProps({
   name: String,
-  type: String,
   id: String,
   inputContainer: {
     type: String,
