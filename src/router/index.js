@@ -93,6 +93,12 @@ const router = createRouter({
           component: () => import('@/views/front/Inspiration/InspirationView.vue'),
         },
         {
+          path: 'inspiration/:id',
+          name: 'front_inspiration_details',
+          component: () => import('@/views/front/Inspiration/InspirationDetailsView.vue'),
+        },
+
+        {
           path: 'newProducts',
           name: 'front_newProducts',
           component: () => import('@/views/front/newProducts/NewProductsView.vue'),

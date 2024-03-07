@@ -252,7 +252,7 @@ const articleId = ref('');
 const modalType = ref('');
 const articleState = ref(false);
 const articleSubmitState = ref(false);
-const selectTagList = ['客廳', '臥室', '工作空間', '書房', '浴室'];
+const selectTagList = ['客廳', '廚房', '臥室', '書房', '浴室'];
 const selectedTag = ref([]);
 
 const bsAdminArticleModalRef = ref(null);
@@ -442,24 +442,29 @@ const handleFileUpload = (event) => {
 const handleUploadImg = async () => {
   try {
     uploadLoading.value = true;
-    const formData = new FormData();
-    formData.append('file-to-upload', fileRef.value.files[0]);
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/upload`;
-    const headers = { 'Content-Type': 'multipart/form-data' };
-    const response = await axios.post(api, formData, { headers });
-    if (response.data.success) {
-      setFieldValue('image', response.data.imageUrl); // 更新表簪
-      showAlert({
-        position: 'top-start',
-        title: '成功 | 圖片上傳成功',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 1000,
-      });
+    if (fileRef.value.files) {
+      const formData = new FormData();
+      formData.append('file-to-upload', fileRef?.value?.files[0]);
+      const api = `${baseApiUrl}/v2/api/${apiPath}/admin/upload`;
+      const headers = { 'Content-Type': 'multipart/form-data' };
+      const response = await axios.post(api, formData, { headers });
+      if (response?.data?.success) {
+        setFieldValue('image', response?.data?.imageUrl); // 更新表簪
+        if (fileRef.value) {
+          fileRef.value.value = ''; // 直接清空 <input> 元素的值
+        }
+        showAlert({
+          position: 'top-start',
+          title: '成功 | 圖片上傳成功',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
     }
   } catch (error) {
     showAlert({
-      title: `失敗 | ${error.response.data.message}`,
+      title: `失敗 | ${error?.response?.data?.message}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',

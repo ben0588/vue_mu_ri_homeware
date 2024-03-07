@@ -4,7 +4,7 @@
       ><span class="text-danger" v-if="required">*</span>{{ labelText }}</label
     >
     <textarea
-      v-model="value"
+      v-model.trim="value"
       :id="id"
       class="form-control"
       :class="`${errorMessage && meta.touched && 'is-invalid'}`"
