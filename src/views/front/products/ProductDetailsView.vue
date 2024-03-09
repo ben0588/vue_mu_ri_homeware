@@ -27,9 +27,7 @@
                 >{{ productsRatings.category }}</router-link
               >
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              {{ productsRatings.title }} | {{ route.params.id }}
-            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ productsRatings.title }}</li>
           </ol>
         </nav>
 
@@ -73,14 +71,12 @@
                     pauseOnMouseEnter: true,
                   }"
                   :grabCursor="true"
-                  :pagination="{ clickable: true }"
-                  class="mid-swiper-container"
+                  :pagination="{ clickable: true, el: '.details-swiper-pagination' }"
+                  class="mid-swiper-container position-relative"
                   :thumbs="{ swiper: thumbsSwiper }"
                   :style="{
-                    '--swiper-navigation-color': '#111c30',
-                    '--swiper-navigation-size': '40px',
-                    '--swiper-pagination-color': '#111c30',
-                    '--swiper-pagination-bullet-size': '15px',
+                    '--details-swiper-pagination-color': '#000',
+                    '--details-swiper-pagination-bullet-size': '15px',
                   }"
                   @swiper="onSwiper"
                 >
@@ -95,8 +91,12 @@
                       @click="() => zoomInImage(item, productsRatings.title)"
                     />
                   </SwiperSlide>
-                  <div ref="prevRef" class="swiper-button-prev"></div>
-                  <div ref="nextRef" class="swiper-button-next"></div>
+                  <div ref="prevRef" class="details-swiper-button details-swiper-button-prev">
+                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                  </div>
+                  <div ref="nextRef" class="details-swiper-button details-swiper-button-next">
+                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                  </div>
                 </Swiper>
               </div>
             </div>
@@ -110,7 +110,6 @@
                   class="d-flex justify-content-between align-items-center text-dark fw-bolder fs-4"
                 >
                   {{ productsRatings.title }}
-
                   <span class="cursor-pointer me-2" @click.prevent="addWishList(productsRatings)"
                     ><font-awesome-icon
                       :icon="[isWishListed(productsRatings) ? 'fas' : 'far', 'heart']"
@@ -118,24 +117,22 @@
                       :title="isWishListed(productsRatings) ? '移除願望清單' : '加入願望清單中'"
                   /></span>
                 </h2>
-                <div class="text-muted fs-5 mt-2">{{ productsRatings.content }}</div>
+                <div>
+                  {{ productsRatings.description }}
+                </div>
+                <div class="text-muted fs-6 mt-4 pb-3">{{ productsRatings.content }}</div>
               </div>
-
-              <div>
-                {{ productsRatings.description }}
-              </div>
-
               <div>
                 <RatingStar
                   :averageRating="productsRatings.averageRating || 0"
                   :totalRatings="productsRatings.totalRatings || 0"
                   :classSize="'fs-6'"
-                  :color="'text-warning'"
+                  :color="'text-primary'"
                 />
                 <span class="fw-500"> ({{ productsRatings.totalRatings }}) </span>
               </div>
 
-              <div v-if="productsRatings.isOnSale" class="d-flex align-items-center mt-4">
+              <div v-if="productsRatings.isOnSale" class="d-flex align-items-center mt-3">
                 <span class="fs-3 fw-700 text-danger"
                   >{{ usePriceToTw(productsRatings.price) }}
                 </span>
@@ -146,8 +143,8 @@
                 >
               </div>
               <div v-else>
-                <div class="fs-4 fw-bolder text-dark mt-4">
-                  NT{{ usePriceToTw(productsRatings.price) }}
+                <div class="fs-4 fw-bolder text-dark mt-3">
+                  NT{{ usePriceToTw(productsRatings.origin_price) }}
                 </div>
               </div>
 
@@ -210,12 +207,16 @@
                             <span
                               v-for="(color, colorIndex) in productsRatings.colors"
                               :key="colorIndex"
-                              class=""
-                              >{{ color.title
-                              }}<span v-if="colorIndex < productsRatings.colors.length - 1"
-                                >、</span
-                              ></span
                             >
+                              {{ color.title }}
+                              <span
+                                v-if="
+                                  colorIndex < productsRatings.colors.length - 1 &&
+                                  color.title !== ''
+                                "
+                                >、</span
+                              >
+                            </span>
                           </td>
                         </tr>
                         <tr>
@@ -244,7 +245,11 @@
           <div class="col-lg-3"></div>
           <div class="col-lg-6">
             <h3 class="text-center my-4">產品描述</h3>
-            <div v-for="(item, index) in productsRatings.imagesUrlDescriptions" :key="index">
+            <div
+              v-for="(item, index) in productsRatings.imagesUrlDescriptions"
+              :key="index"
+              class="mb-5"
+            >
               <img
                 v-if="index <= 2"
                 :src="productsRatings.imagesUrl[index]"
@@ -258,27 +263,27 @@
           <div class="col-lg-3"></div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <h3 class="text-center">推薦商品</h3>
-      <div class="mt-3" :style="{ backgroundColor: '#FBF9F9' }" v-if="originProductsRatings">
-        <div class="py-5">
-          <div class="container p-0">
-            <div
-              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
-            >
+      <div class="mt-3">
+        <h3 class="text-center mb-4">推薦商品</h3>
+        <div class="mt-3" :style="{ backgroundColor: '#FBF9F9' }" v-if="originProductsRatings">
+          <div class="py-5">
+            <div class="container p-0">
               <div
-                class="col col-1-2 col-2-2 col-4-3 px-3"
-                v-for="(product, index) in originProductsRatings"
-                :key="index"
+                class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
               >
-                <ProductDescriptionCard
-                  :product="product"
-                  :img-class="'product-description-card-img'"
-                  :card-bg-color="'#FBF9F9'"
-                  :star-color="'text-warning'"
-                />
+                <div
+                  class="col col-1-2 col-2-2 col-4-3 px-3"
+                  v-for="(product, index) in originProductsRatings"
+                  :key="index"
+                >
+                  <ProductDescriptionCard
+                    :product="product"
+                    :img-class="'product-description-card-img'"
+                    :card-bg-color="'#FBF9F9'"
+                    :star-color="'text-primary'"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -524,5 +529,67 @@ onMounted(() => {
     max-width: 300px !important;
     max-height: 210px;
   }
+}
+
+// 左右兩側按鈕客製化
+.details-swiper-button {
+  position: absolute;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.562);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  /* border-radius: 50%; */
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+.details-swiper-button-prev {
+  top: 50%;
+  left: 3%;
+
+  /* z-index: -1; */
+
+  // 大於等於 1290px 調整位置
+  /* @media (min-width: 768px) {
+    left: 4.7%;
+  }
+  @media (min-width: 1600px) {
+    left: 6.4%; // 筆電展示範圍
+  }
+  @media (min-width: 1920px) {
+    left: 13.53%;
+  } */
+}
+
+.details-swiper-button-next {
+  top: 50%;
+  right: 3%;
+
+  /* z-index: -1; */
+
+  // 大於等於 1290px 調整位置
+  /* @media (min-width: 768px) {
+    right: 4.7%;
+  }
+  @media (min-width: 1600px) {
+    right: 6.4%;
+  }
+  @media (min-width: 1920px) {
+    right: 13.53%;
+  } */
+}
+
+/* 設定下方分頁樣式 */
+.details-swiper-pagination {
+  position: absolute;
+  margin-bottom: 30%;
 }
 </style>

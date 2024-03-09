@@ -209,13 +209,13 @@ const frontNavbarList = ref([
   },
   {
     title: '新品專區',
-    path: '/newEvents',
-    label: 'newEvents',
+    path: '/newProducts',
+    label: 'newProducts',
   },
   {
     title: '最新活動',
-    path: '/newProducts',
-    label: 'newProducts',
+    path: '/newEvents',
+    label: 'newEvents',
   },
 ]);
 

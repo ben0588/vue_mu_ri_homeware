@@ -26,7 +26,9 @@
         <div class="col-md-6 col-1-2-event col-2-2" v-for="event in eventList" :key="event.title">
           <div class="row">
             <div class="col-lg-7 px-0 mb-32">
-              <img :src="event.imageUrl" :alt="event.title" class="event-img" />
+              <router-link :to="`/newEvents`" class="hover-opacity">
+                <img :src="event.imageUrl" :alt="event.title" class="event-img" />
+              </router-link>
             </div>
             <div class="col-lg-5 px-0">
               <div class="d-flex flex-column justify-content-center align-items-center h-100 w-100">
@@ -41,8 +43,6 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-
 const bulletinList = [
   {
     title: '防詐騙宣導',

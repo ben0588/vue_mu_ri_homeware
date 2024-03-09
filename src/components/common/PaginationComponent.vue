@@ -2,7 +2,15 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item" :class="{ disabled: !pagination.has_pre }">
-        <a class="page-link" href="#" @click.prevent="changePage(pagination.current_page - 1)"
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="
+            () => {
+              changePage(pagination.current_page - 1);
+              handleToTop();
+            }
+          "
           >&lt;</a
         >
       </li>
@@ -10,13 +18,28 @@
         <a
           class="page-link"
           href="#"
-          @click.prevent="changePage(page)"
+          @click.prevent="
+            () => {
+              changePage(page);
+              handleToTop();
+            }
+          "
           :class="{ active: page === pagination.current_page }"
           >{{ page }}</a
         >
       </li>
       <li class="page-item" :class="{ disabled: !pagination.has_next }">
-        <a class="page-link" href="#" @click.prevent="changePage(pagination.current_page + 1)">></a>
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="
+            () => {
+              changePage(pagination.current_page + 1);
+              handleToTop();
+            }
+          "
+          >></a
+        >
       </li>
     </ul>
   </nav>
@@ -28,6 +51,13 @@ defineProps({
 });
 
 const emits = defineEmits(['updated:page']);
+
+const handleToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
 
 const changePage = (page) => {
   emits('updated:page', page);

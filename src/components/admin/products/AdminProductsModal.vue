@@ -86,7 +86,7 @@
                   />
 
                   <button
-                    class="input-group-text d-block w-100"
+                    class="input-group-text bg-dark text-white d-block w-100"
                     type="button"
                     :value="`${t('admin.products_modal_middle_file_img_button')}`"
                     @click="handleUploadImg"
@@ -94,7 +94,15 @@
                     :disabled="!fileSelected || uploadLoading"
                     :title="!fileSelected ? '請先選擇檔案' : '上傳檔案'"
                   >
-                    {{ t('admin.products_modal_middle_file_img_button') }}
+                    <span v-if="uploadLoading"
+                      ><span class="spinner-border spinner-border-sm me-1" role="status">
+                        <span class="visually-hidden">上傳中</span>
+                      </span>
+                      <span
+                        >{{ t('admin.products_modal_middle_file_img_button') }} ing..</span
+                      ></span
+                    >
+                    <span v-else>{{ t('admin.products_modal_middle_file_img_button') }}</span>
                   </button>
                 </div>
 
@@ -394,7 +402,7 @@
                 </div>
                 <div class="mb-3">
                   <h5 class="fw-bolder fs-6">
-                    <span class="text-danger">*</span>{{ t('admin.products_modal_tag') }}
+                    {{ t('admin.products_modal_tag') }}
                   </h5>
                   <div class="form-check d-inline-block">
                     <label class="form-check-label" for="isNew">{{
@@ -508,6 +516,7 @@ const bsModalInstance = ref(null); // 實體存放區
 const i18nStore = useI18nStore();
 const { t } = useI18n();
 const { showAlert } = useAlert();
+const currentPage = ref(0);
 
 const props = defineProps({
   typeName: String,
@@ -522,7 +531,7 @@ const newLanguageData = {
   category: '',
   subcategory: '',
   unit: '',
-  stock: '',
+  stock: '1',
   imageUrl: '',
   imagesUrl: ['', '', '', '', ''],
   imagesUrlDescriptions: ['', '', '', '', ''],
@@ -569,7 +578,7 @@ const newLanguageData = {
   },
   create_date: Math.floor(new Date().getTime() / 1000),
   sales_num: 0,
-  isNew: true, // 新品專區用
+  isNew: false, // 新品專區用
   isOnHot: false, // 首頁展示商品用
   isRecommended: false, // 前台預設排序用
   isOnSale: false, // 全部商品篩選用
@@ -643,7 +652,7 @@ const newTempData = ref({
       ],
     },
   },
-  create_date:  Math.floor(new Date().getTime() / 1000),
+  create_date: Math.floor(new Date().getTime() / 1000),
   sales_num: 0,
   isNew: true, // 新品專區用
   isOnHot: false, // 首頁展示商品用
@@ -697,7 +706,6 @@ const subcategoryList = computed(() => [
   { id: '5', text: t('admin.products_modal_subcategory_wardrobes_and_storage_cabinets'), cid: '1' }, // 衣櫃和儲物櫃
   { id: '6', text: t('admin.products_modal_subcategory_coffee_tables_and_side_tables'), cid: '1' }, // 咖啡桌和邊桌
   { id: '7', text: t('admin.products_modal_subcategory_outdoor_furniture'), cid: '1' }, // 戶外家具
-  { id: '8', text: t('admin.products_modal_subcategory_closets_and_storage_cabinets'), cid: '1' }, // 衣櫃和儲物櫃
   { id: '9', text: t('admin.products_modal_subcategory_rugs_and_floor_mats'), cid: '2' }, // 地毯和地墊
   { id: '10', text: t('admin.products_modal_subcategory_curtains_and_blinds'), cid: '2' }, // 窗簾和百葉窗
   { id: '11', text: t('admin.products_modal_subcategory_paintings_and_wall_decor'), cid: '2' }, // 掛畫和壁飾
@@ -834,10 +842,6 @@ onUnmounted(() => {
   }
 });
 
-// onMounted(() => {
-//   console.log('newTempData', newTempData);
-// });
-
 const fileRef = ref(null);
 const uploadLoading = ref(false);
 const fileUploadMessage = ref('');
@@ -865,21 +869,26 @@ const handleUploadImg = async () => {
   try {
     uploadLoading.value = true;
     const formData = new FormData();
-    formData.append('file-to-upload', fileRef.value.files[0]);
-    const api = `${baseApiUrl}/v2/api/${apiPath}/admin/upload`;
-    const headers = {
-      'Content-Type': 'multipart/form-data',
-    };
-    const response = await axios.post(api, formData, { headers });
-    if (response.data.success) {
-      newTempData.value[i18nStore.currentIcon].imageUrl = response.data.imageUrl; // 依照各語系資料儲存
-      showAlert({
-        position: 'top-start',
-        title: `成功 | ${t('admin.message_success')}`,
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 1000,
-      });
+    if (fileRef.value.files) {
+      formData.append('file-to-upload', fileRef.value.files[0]);
+      const api = `${baseApiUrl}/v2/api/${apiPath}/admin/upload`;
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+      };
+      const response = await axios.post(api, formData, { headers });
+      if (response.data.success) {
+        newTempData.value[i18nStore.currentIcon].imageUrl = response.data.imageUrl; // 依照各語系資料儲存
+        if (fileRef.value) {
+          fileRef.value.value = ''; // 直接清空 <input> 元素的值
+        }
+        showAlert({
+          position: 'top-start',
+          title: `成功 | ${t('admin.message_success')}`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
     }
   } catch (error) {
     showAlert({
@@ -893,7 +902,8 @@ const handleUploadImg = async () => {
   }
 };
 
-const openModal = (type, data) => {
+const openModal = (type, data, page) => {
+  currentPage.value = page;
   if (type === 'create') {
     newTempData.value = {
       // 因 api 格式要求，所以必須要有以下欄位，故不填寫任何資料
@@ -1018,7 +1028,7 @@ const addOrPutProduct = async () => {
         timer: 1000,
       });
       setTimeout(() => {
-        emits('refetch-products', true); // 呼叫父層 = 重新取得產品資料
+        emits('refetch-products', currentPage.value); // 呼叫父層 = 重新取得產品資料
       }, 1000);
     }
   } catch (error) {

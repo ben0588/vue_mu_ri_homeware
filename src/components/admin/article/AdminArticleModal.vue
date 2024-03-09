@@ -453,6 +453,7 @@ const handleUploadImg = async () => {
         if (fileRef.value) {
           fileRef.value.value = ''; // 直接清空 <input> 元素的值
         }
+        uploadLoading.value = false;
         showAlert({
           position: 'top-start',
           title: '成功 | 圖片上傳成功',

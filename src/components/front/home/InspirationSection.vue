@@ -3,7 +3,6 @@
     <h3 class="home-title mb-64" :style="{ width: `244px` }">最新佈置靈感</h3>
     <div class="container px-0 px-xl-1">
       <Swiper
-        :loop="true"
         :speed="400"
         :autoplay="{
           delay: 5000,
@@ -38,7 +37,7 @@
       >
         <SwiperSlide v-for="item in inspirationList" :key="item.id">
           <div class="container px-0">
-            <img :src="item.imgUrl" :alt="item.title" className="inspiration-img" />
+            <img :src="item.image" :alt="item.title" className="inspiration-img" />
             <div class="fs-4 fw-500 text-truncate" :style="{ maxWidth: `100%` }">
               {{ item.title }}
             </div>
@@ -55,28 +54,40 @@
   </div>
 </template>
 <script setup>
+import { ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import axios from 'axios';
 
-const inspirationList = [
-  {
-    id: 1,
-    title: '夢想中的薰衣草色調風格別墅',
-    imgUrl:
-      'https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709014815857.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Ex36jErypMlWCF7JPLcDdtQUiFzkXNtJ3uNPkeHrmOjINzq6n%2BxDndWQejX0FxYU5ZsN%2FJdBaSVtLEX6FKtpKoo%2FwFrM1IcvFY%2FA7sgwp2I5RoNaUWJ%2BwlG0%2B2h8A5d6o8GfrIbUd3u56vmrchnwqjpIN0%2FcMLIBwsr6fGeFN0%2BHHutqArRE82cg4xAoANS3E%2BNeWoreUZ7NMry%2Bt7ajU0y4jEzjJWkfa2t%2B6WB%2Fh%2BuTUWnOZg4QHO1%2BhLe%2BpSnwGrL66tC3keJQ9QOEEom4VnalwbWu7j7pDoiL8G9L2HC0jZu8CMvpug1ubdYimCWSmUdhJrYm%2B5UdTrVC95k8eg%3D%3D',
-  },
-  {
-    id: 2,
-    title: '海洋風情的海濱小屋',
-    imgUrl:
-      'https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709014798913.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=lHrBfj3z4dnrWas3jG2qCeUt2Z82HWbBuOVZw9qUksskS69pl8sxAGikxOorkFPr4lSREkj09qJiWSvoz7F%2FSF9xWUYKJvcRNmc9yILFKfAhFP18LrQa3xXjGlhXeFVBGIr8Zu6XzwUChYb86LYkO6kpCZf5j2JgDk%2FKQ1nqhkR2WTYxe34pwUIGgD0YkcE5YZzmBPbxqDwBJk28%2FsB4jeFCsyUNDoxEDzdZZ8j9PBIE46CtHQToSCiV%2FEGtnwhRyXHN5ocV2Vr4JRZts5OgRecUdwN4VY5%2BelBm9Dp8mLAVTVnpQXT68uh8cJ0hiMl3cdxIYB8TpUG3cw%2B%2FQBrHQQ%3D%3D',
-  },
-  {
-    id: 3,
-    title: '測試中測試中測試中測試中',
-    imgUrl:
-      'https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709014815857.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Ex36jErypMlWCF7JPLcDdtQUiFzkXNtJ3uNPkeHrmOjINzq6n%2BxDndWQejX0FxYU5ZsN%2FJdBaSVtLEX6FKtpKoo%2FwFrM1IcvFY%2FA7sgwp2I5RoNaUWJ%2BwlG0%2B2h8A5d6o8GfrIbUd3u56vmrchnwqjpIN0%2FcMLIBwsr6fGeFN0%2BHHutqArRE82cg4xAoANS3E%2BNeWoreUZ7NMry%2Bt7ajU0y4jEzjJWkfa2t%2B6WB%2Fh%2BuTUWnOZg4QHO1%2BhLe%2BpSnwGrL66tC3keJQ9QOEEom4VnalwbWu7j7pDoiL8G9L2HC0jZu8CMvpug1ubdYimCWSmUdhJrYm%2B5UdTrVC95k8eg%3D%3D',
-  },
-];
+import { useAlert } from '@/composables/useAlert';
+
+const { showAlert } = useAlert();
+
+const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
+const apiPath = import.meta.env.VITE_APP_API_PATH;
+
+const inspirationList = ref([]);
+
+const fetchArticles = async (page = 1) => {
+  try {
+    const api = `${baseApiUrl}/v2/api/${apiPath}/articles?page=${page}`;
+    const response = await axios.get(api);
+    inspirationList.value = response.data.articles;
+  } catch (error) {
+    showAlert({
+      title: '失敗',
+      text: `${error.response.data.message}`,
+      icon: 'error',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#000000',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+    });
+  }
+};
+
+onMounted(() => {
+  fetchArticles();
+});
 </script>
 <style lang="scss">
 .swiper-pagination-inspiration {

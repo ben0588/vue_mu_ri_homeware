@@ -47,7 +47,7 @@
             <td>{{ t('admin.products_category') }}</td>
             <!-- <td>{{ t('admin.products_subcategory') }}</td> -->
             <td>{{ t('admin.products_price') }}(NT)</td>
-            <td>{{ t('admin.products_state') }}</td>
+            <td>{{ t('admin.products_state') }}/標籤</td>
             <td class="text-center">{{ t('admin.products_operate') }}</td>
           </tr>
         </thead>
@@ -58,12 +58,33 @@
             <td>{{ product[i18nStore.currentIcon].title }}</td>
             <td>{{ product[i18nStore.currentIcon].category }}</td>
             <!-- <td>{{ product[i18nStore.currentIcon].subcategory }}</td> -->
-            <td>{{ usePriceToTw(product[i18nStore.currentIcon].price) }}</td>
             <td>
-              <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-success">{{
+              <span v-if="product[i18nStore.currentIcon].isOnSale" class="text-danger">
+                {{ usePriceToTw(product[i18nStore.currentIcon].price) }}</span
+              >
+              <span v-else> {{ usePriceToTw(product[i18nStore.currentIcon].origin_price) }}</span>
+            </td>
+            <td>
+              <span v-if="product[i18nStore.currentIcon].is_enabled" class="text-info">{{
                 t('admin.products_on_enabled')
               }}</span>
               <span v-else class="text-danger">{{ t('admin.products_off_enabled') }}</span>
+
+              <span v-if="product[i18nStore.currentIcon].isNew">
+                <span>/</span><span class="text-success">新品</span></span
+              >
+              <span v-if="product[i18nStore.currentIcon].isOnSale">
+                <span>/</span><span class="text-danger">已折</span></span
+              >
+              <span v-if="!product[i18nStore.currentIcon].isOnSale">/原價</span>
+
+              <span v-if="product[i18nStore.currentIcon].isRecommended">
+                <span>/</span><span class="text-warning">推薦</span></span
+              >
+
+              <span v-if="product[i18nStore.currentIcon].isOnHot">
+                <span>/</span><span class="text-danger">熱門</span></span
+              >
             </td>
 
             <td :style="{ minWidth: `158px` }">
@@ -136,6 +157,7 @@ const typeName = ref('新增');
 const deleteLoading = ref(false);
 const deleteTargetId = ref('');
 const targetCategory = ref('');
+const currentPage = ref(1);
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = (type, data) => {
@@ -144,7 +166,7 @@ const handleOpenModal = (type, data) => {
   } else {
     typeName.value = t('admin.products_keep_text');
   }
-  adminProductsModal.value.openModal(type, data);
+  adminProductsModal.value.openModal(type, data, currentPage.value);
 };
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
@@ -153,6 +175,7 @@ const apiPath = import.meta.env.VITE_APP_API_PATH;
 const fetchAdminProducts = async (page = 1, category = '') => {
   try {
     loadingStore.toggleLoading(); // 全頁加載
+    currentPage.value = page;
     const token = localStorage.getItem('s72241'); // 防止重新整理後要重新登入
     axios.defaults.headers.common.Authorization = token;
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/products?page=${page}&category=${category}`;

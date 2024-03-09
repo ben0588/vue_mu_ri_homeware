@@ -256,6 +256,9 @@ onMounted(() => {
   // 當初次加載重新取得所有商品，防止換頁丟失資訊
   if (categoryStore.categoryTarget === '全部商品') {
     fetchProducts();
+  } else if (categoryStore.categoryTarget === '特價中') {
+    targetSort.value = 'sale';
+    fetchProducts(1, '');
   } else {
     fetchProducts(1, categoryStore.categoryTarget);
   }

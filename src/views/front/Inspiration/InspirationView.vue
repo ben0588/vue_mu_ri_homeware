@@ -91,7 +91,6 @@ const fetchArticles = async (page = 1) => {
     articleLoading.value = true;
     const api = `${baseApiUrl}/v2/api/${apiPath}/articles?page=${page}`;
     const response = await axios.get(api);
-    console.log(response.data.articles);
     articles.value = response.data.articles;
     articlesPagination.value = response.data.pagination;
   } catch (error) {

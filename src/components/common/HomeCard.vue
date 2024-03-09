@@ -7,7 +7,7 @@
     >
       <img :src="product.imageUrl" class="card-img-top" :alt="product.title" :class="imgClass" />
       <div class="card-body pt-3 px-0">
-        <h5 class="card-title fs-4 text-start">{{ product.title }}</h5>
+        <h5 class="card-title fs-4 text-start text-ellipsis">{{ product.title }}</h5>
 
         <div class="mb-32">
           <RatingStar
@@ -25,24 +25,13 @@
               >-{{ useComputedDiscount(product.origin_price, product.price) }}</span
             >
           </span>
-          <span class="fs-3 fw-700" v-else>{{ usePriceToTw(product.price) }}</span>
+          <span class="fs-3 fw-700" v-else>{{ usePriceToTw(product.origin_price) }}</span>
 
           <span class="cursor-pointer me-2" @click.prevent="addWishList(product)"
             ><font-awesome-icon
               :icon="[isWishListed(product) ? 'fas' : 'far', 'heart']"
               class="text-danger heart-icon"
           /></span>
-
-          <!-- <span @click.prevent="addToWishList(item)" class="me-2">
-            <font-awesome-icon
-              :icon="['fas', 'heart']"
-              class="heart-icon"
-              :class="[
-                { 'text-primary': !isWishListed(item) },
-                { 'text-danger': isWishListed(item) },
-              ]"
-            />
-          </span> -->
         </div>
       </div>
     </div>

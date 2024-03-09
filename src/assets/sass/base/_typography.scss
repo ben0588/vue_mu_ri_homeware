@@ -144,6 +144,11 @@ body {
   width: 166px;
   margin: 0 auto;
 
+  @media (max-width: 414px) {
+    font-size: 2rem;
+    width: 136px;
+  }
+
   &::before {
     content: '';
     position: absolute;
