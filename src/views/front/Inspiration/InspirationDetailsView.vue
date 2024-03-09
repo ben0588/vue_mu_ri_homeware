@@ -64,7 +64,6 @@
     </div>
   </div>
   <RecommendedComponent />
-
   <VueLoading :active="articleState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>

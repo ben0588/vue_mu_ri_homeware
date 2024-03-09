@@ -90,6 +90,7 @@
 </template>
 <script setup>
 import { ref, watchEffect } from 'vue';
+
 import useCategoryStore from '@/stores/categoryStores';
 
 const screenWidth = ref(window.innerWidth);
@@ -239,4 +240,5 @@ watchEffect(() => {
     height: 146px;
   }
 }
+
 </style>

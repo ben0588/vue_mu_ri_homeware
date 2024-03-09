@@ -50,9 +50,8 @@
         </div>
       </div>
     </div>
-
-    <RecommendedComponent />
   </div>
+  <RecommendedComponent />
   <VueLoading :active="eventState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>

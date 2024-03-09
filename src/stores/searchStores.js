@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Fuse from 'fuse.js';
-
+import { useRouter } from 'vue-router';
 import { useAlert } from '@/composables/useAlert';
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
@@ -11,9 +11,12 @@ const apiPath = import.meta.env.VITE_APP_API_PATH;
 
 const useSearchStore = defineStore('searchStore', () => {
   const { showAlert } = useAlert();
+  const router = useRouter();
 
   const fuseOptions = {
-    keys: ['title', 'category', 'subcategory'],
+    keys: ['title'],
+    threshold:1,
+    includeScore:true
   };
 
   const fuse = new Fuse([], fuseOptions); // 先初始化空資料
@@ -55,17 +58,25 @@ const useSearchStore = defineStore('searchStore', () => {
     return debounced;
   }
 
-  const debounceSearch = debounce(() => {
+  const debounceSearch = debounce(async() => {
     // 輸入文字後停兩秒後執行
     productsList.value = fuse.search(searchText.value);
     isSearch.value = true;
+    await router.push('/products')
   }, 2000);
 
-  const handleSearch = () => {
+  const handleSearch = async (event) => {
     // 按下Enter後直接觸發
-    debounceSearch.cancel(); // 取消防抖計時器
-    productsList.value = fuse.search(searchText.value);
-    isSearch.value = true;
+    if (event.code === 'Enter' || event.type === 'click') { 
+      debounceSearch.cancel(); // 取消防抖計時器
+      productsList.value = fuse.search(searchText.value);
+      isSearch.value = true;
+     setTimeout(async() => {
+        
+        await router.push('/products')
+      }, 1000);
+    }
+  
   };
 
   const handleInput = (event) => {
