@@ -36,8 +36,8 @@
               <td>
                 <div>
                   <div>{{ item.product.title }}</div>
-                  <div>{{ item.product.content }}</div>
-                  <div>{{ item.product.unit }}</div>
+                  <div>{{ item.product.description }}</div>
+                  <div>單位：{{ item.product.unit }}</div>
                 </div>
               </td>
               <td></td>

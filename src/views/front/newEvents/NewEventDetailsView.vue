@@ -73,7 +73,6 @@ const fetchEvent = async () => {
     eventState.value = true;
     const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}?id=${route.params.id}`;
     const response = await axios.get(api);
-    console.log('response', response);
     const [newData] = response.data;
     event.value = newData;
   } catch (error) {

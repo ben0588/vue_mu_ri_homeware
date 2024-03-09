@@ -31,7 +31,6 @@ const fetchArticles = async () => {
     const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
     const response = await axios.get(api);
     events.value = response.data.filter((item) => item.isPublic);
-    console.log('response', response);
   } catch (error) {
     showAlert({
       title: '失敗',

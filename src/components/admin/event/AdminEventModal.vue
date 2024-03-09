@@ -323,7 +323,6 @@ const fetchEvent = async (id) => {
     const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}?id=${id}`;
     const response = await axios.get(api);
     const [newData] = response.data;
-    console.log('response', response);
     resetForm({ values: newData }); // 更新表單內容
   } catch (error) {
     showAlert({

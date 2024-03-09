@@ -91,6 +91,9 @@
                       @click="() => zoomInImage(item, productsRatings.title)"
                     />
                   </SwiperSlide>
+                  <span class="details-magnifying-glass-icon"
+                    ><font-awesome-icon :icon="['fas', 'magnifying-glass']" class="fs-5"
+                  /></span>
                   <div ref="prevRef" class="details-swiper-button details-swiper-button-prev">
                     <font-awesome-icon :icon="['fas', 'chevron-left']" />
                   </div>
@@ -565,5 +568,19 @@ onMounted(() => {
 .details-swiper-pagination {
   position: absolute;
   margin-bottom: 30%;
+}
+
+.details-magnifying-glass-icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 40px;
+  height: 40px;
+  background: #ffffffa1;
+  z-index: 25;
+  border: 1px solid #b2bec3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

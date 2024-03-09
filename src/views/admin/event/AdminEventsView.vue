@@ -97,7 +97,6 @@ const fetchEvents = async () => {
     loadingStore.toggleLoading(); // 全頁加載
     const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
     const response = await axios.get(api);
-    console.log('response', response);
     adminEvents.value = response.data;
   } catch (error) {
     showAlert({
