@@ -295,8 +295,8 @@
   <ImageModal ref="imageModal"></ImageModal>
 </template>
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -554,37 +554,11 @@ onMounted(() => {
 .details-swiper-button-prev {
   top: 50%;
   left: 3%;
-
-  /* z-index: -1; */
-
-  // 大於等於 1290px 調整位置
-  /* @media (min-width: 768px) {
-    left: 4.7%;
-  }
-  @media (min-width: 1600px) {
-    left: 6.4%; // 筆電展示範圍
-  }
-  @media (min-width: 1920px) {
-    left: 13.53%;
-  } */
 }
 
 .details-swiper-button-next {
   top: 50%;
   right: 3%;
-
-  /* z-index: -1; */
-
-  // 大於等於 1290px 調整位置
-  /* @media (min-width: 768px) {
-    right: 4.7%;
-  }
-  @media (min-width: 1600px) {
-    right: 6.4%;
-  }
-  @media (min-width: 1920px) {
-    right: 13.53%;
-  } */
 }
 
 /* 設定下方分頁樣式 */

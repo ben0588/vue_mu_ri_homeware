@@ -25,10 +25,9 @@
 <script setup>
 import VueLoading from 'vue-loading-overlay';
 import { useI18n } from 'vue-i18n';
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 
 import useLoadingStore from '@/stores/loadingStores';
-import axios from 'axios';
 
 const { t } = useI18n();
 const loadingStore = useLoadingStore();
@@ -49,6 +48,10 @@ const navbarList = computed(() => [
   {
     path: 'articles',
     title: t('admin.menu_article_manage'),
+  },
+  {
+    path: 'events',
+    title: '活動管理',
   },
 ]);
 </script>

@@ -20,4 +20,14 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    proxy: {
+      './db.json': {
+        // target: 'http://localhost:3000', // json-server 的預設執行端口
+        target: import.meta.url, // 動態監聽當前開啟網址
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/db\.json/, '')
+      },
+    }
+  }
 });

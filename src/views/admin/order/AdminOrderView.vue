@@ -30,7 +30,6 @@
             <td>{{ order?.user?.email }}</td>
             <td>{{ usePriceToTw(order.total) }}</td>
             <td>
-              {{ order.paid_date }}
               <div
                 v-if="order.is_paid"
                 class="flex-center flex-column align-items-start text-success"

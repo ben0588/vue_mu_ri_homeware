@@ -2,7 +2,7 @@
   <div class="container py-32" v-if="!fetchLoading">
     <h2>新品專區</h2>
     <div
-      class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-between g-3 mt-32"
+      class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-between g-3 mt-3"
     >
       <div class="col px-3" v-for="product in productsRatings" :key="product.id">
         <HomeCard :product="product" :img-class="'new-products-img'" />

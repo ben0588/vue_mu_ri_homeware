@@ -109,6 +109,11 @@ const router = createRouter({
           component: () => import('@/views/front/newEvents/NewEventsView.vue'),
         },
         {
+          path: 'newEvents/:id',
+          name: 'front_newEvents_details',
+          component: () => import('@/views/front/newEvents/NewEventDetailsView.vue'),
+        },
+        {
           path: 'more',
           name: 'front_footer_more',
           component: () => import('@/views/front/footer/FooterView.vue'),
@@ -188,6 +193,13 @@ const router = createRouter({
               meta: { requiresAuth: false },
 
             },
+            {
+              path: 'events',
+              name: 'admin_event',
+              component: () => import('@/views/admin/event/AdminEventsView.vue'),
+              meta: { requiresAuth: false },
+
+            },
           ],
         },
       ],
@@ -203,7 +215,7 @@ const { showAlert } = useAlert();
 const checkAuth = async () => {
   try {
     // 每次進入頁面就先取出來 cookie 並且設定在 axios 的 headers。
-    const cookie = document.cookie.replace(/(?:(?:^|.*;\s*)AdminToken\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+    const cookie = document.cookie.replace(/(?:(?:^|.*;\s*)AdminToken\s*\/=\s*([^;]*).*$)|^.*$/, '$1');
     axios.defaults.headers.common.Authorization = cookie;
     if (!cookie) {
       return false;

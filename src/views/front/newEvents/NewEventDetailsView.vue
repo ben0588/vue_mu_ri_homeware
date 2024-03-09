@@ -1,36 +1,24 @@
 <template>
-  <div class="container py-32" v-if="!articleState">
+  <div class="container py-32" v-if="!eventState">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <router-link to="/inspiration">佈置靈感</router-link>
+          <router-link to="/newEvents">最新活動</router-link>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ event.title }}</li>
       </ol>
     </nav>
-    <h2 class="mb-0">{{ article.title }}</h2>
-    <div class="text-muted mb-1">
-      <span>
-        {{
-          new Date(article.create_at * 1000).toLocaleString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }}</span
-      >
-      <span class="ms-1">#{{ article.author }}</span>
-    </div>
+    <h2 class="mb-0">{{ event.title }}</h2>
     <div class="row mt-3">
       <div class="col-lg-7">
-        <p>{{ article.description }}</p>
+        <p>{{ event.description }}</p>
       </div>
       <div class="col-lg-5"></div>
     </div>
 
     <div class="row mb-32">
       <div class="col-12">
-        <img :src="article.image" :alt="article.title" class="inspiration-mid-img" />
+        <img :src="event.imagesUrl[0]" :alt="event.title" class="inspiration-mid-img" />
       </div>
       <div class="col-12">
         <div class="row gy-3 mt-4">
@@ -38,10 +26,10 @@
             <div class="row">
               <div class="col-lg-6">
                 <h3>
-                  {{ article.subtitle }}
+                  {{ event.subtitle }}
                 </h3>
                 <p class="d-flex justify-content-between align-items-center">
-                  <span>{{ article.content }}</span>
+                  <span>{{ event.content }}</span>
                 </p>
               </div>
               <div class="col-lg-6">
@@ -54,18 +42,18 @@
             </div>
           </div>
           <div class="col-6">
-            <img :src="article.imagesUrl[0]" :alt="article.title" class="inspiration-other-img" />
+            <img :src="event.imagesUrl[1]" :alt="event.title" class="inspiration-other-img" />
           </div>
           <div class="col-6">
-            <img :src="article.imagesUrl[1]" :alt="article.title" class="inspiration-other-img" />
+            <img :src="event.imagesUrl[2]" :alt="event.title" class="inspiration-other-img" />
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <RecommendedComponent />
 
-  <VueLoading :active="articleState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+    <RecommendedComponent />
+  </div>
+  <VueLoading :active="eventState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
 import { useRoute } from 'vue-router';
@@ -77,15 +65,17 @@ import RecommendedComponent from '@/components/common/RecommendedComponent.vue';
 
 const route = useRoute();
 const { showAlert } = useAlert();
-const articleState = ref(true);
-const article = ref({});
+const eventState = ref(true);
+const event = ref({});
 
-const fetchArticle = async () => {
+const fetchEvent = async () => {
   try {
-    articleState.value = true;
-    const api = `${import.meta.env.VITE_APP_BASE_API_URL}/v2/api/${import.meta.env.VITE_APP_API_PATH}/article/${route.params.id}`;
+    eventState.value = true;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}?id=${route.params.id}`;
     const response = await axios.get(api);
-    article.value = response.data.article;
+    console.log('response', response);
+    const [newData] = response.data;
+    event.value = newData;
   } catch (error) {
     showAlert({
       title: '失敗',
@@ -97,12 +87,12 @@ const fetchArticle = async () => {
       allowOutsideClick: false,
     });
   } finally {
-    articleState.value = false;
+    eventState.value = false;
   }
 };
 
 onMounted(() => {
-  fetchArticle();
+  fetchEvent();
 });
 </script>
 <style lang="scss">
