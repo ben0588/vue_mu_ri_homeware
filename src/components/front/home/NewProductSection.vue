@@ -55,10 +55,10 @@
     </div>
     <div class="container px-2 mt-3">
       <div
-        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
       >
         <div
-          class="col col-1-2 col-2-2 col-4-3 px-3"
+          class="col col-1-2 col-2-2 col-4-3 ps-1 pe-3"
           v-for="product in filteredProducts"
           :key="product.id"
         >
