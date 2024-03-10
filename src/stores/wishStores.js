@@ -40,6 +40,7 @@ const useWishStore = defineStore('wishStore', () => {
         price: product.price,
         imageUrl: product.imageUrl,
         unit: product.unit,
+        description:product.description
       };
       wishlist.value.push(newProduct);
       toastAlert({

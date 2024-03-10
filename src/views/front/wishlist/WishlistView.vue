@@ -32,8 +32,8 @@
               <td>
                 <div>
                   <div>{{ item.title }}</div>
-                  <div>{{ item.content }}asdasdasqweqweqwewqeqwe</div>
-                  <div>{{ item.unit }}</div>
+                  <div>{{ item.description }}</div>
+                  <div>單位：{{ item.unit }}</div>
                 </div>
               </td>
               <td>
@@ -47,13 +47,30 @@
               </td>
               <td class="text-center">
                 <router-link
-                  :to="`products/${item.id}`"
+                  :to="`/products/${item.id}`"
                   class="link-dark text-decoration-underline image-hover"
                   >查看商品詳情</router-link
                 >
               </td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary text-white">加入購物車</button>
+                <button
+                  type="button"
+                  class="btn btn-primary text-white w-100 px-1"
+                  title="加入購物車"
+                  @click="addCart({ id: item.id, quantity: 1 })"
+                  :disabled="cartStore.addTargetId === item.id"
+                  :class="{
+                    'cursor-not-allowed': cartStore.addTargetId === item.id,
+                  }"
+                >
+                  <span v-if="cartStore.addTargetId === item.id">
+                    <span class="spinner-border spinner-border-sm" role="status">
+                      <span class="visually-hidden">新增購物車中</span>
+                    </span>
+                    新增購物車中</span
+                  >
+                  <span v-else> 加入購物車 </span>
+                </button>
               </td>
               <td class="text-center">
                 <button
@@ -89,7 +106,10 @@
 import usePriceToTw from '@/composables/usePriceToTw';
 import useComputedDiscount from '@/composables/useComputedDiscount';
 import useWishStore from '@/stores/wishStores';
+import useCartStore from '@/stores/cartStores';
 
+const cartStore = useCartStore();
+const { addCart } = cartStore;
 const wishStore = useWishStore();
 const { removeWishItem, removeAllWishlist } = wishStore;
 // wishStore.wishlist 要用此方式取得，使用結構出來的 wishlist 並不會有資料

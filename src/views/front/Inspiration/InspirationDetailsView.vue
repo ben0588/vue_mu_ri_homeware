@@ -1,69 +1,71 @@
 <template>
-  <div class="container py-32" v-if="!articleState">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <router-link to="/inspiration">佈置靈感</router-link>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
-      </ol>
-    </nav>
-    <h2 class="mb-0">{{ article.title }}</h2>
-    <div class="text-muted mb-1">
-      <span>
-        {{
-          new Date(article.create_at * 1000).toLocaleString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }}</span
-      >
-      <span class="ms-1">#{{ article.author }}</span>
-    </div>
-    <div class="row mt-3">
-      <div class="col-lg-7">
-        <p>{{ article.description }}</p>
+  <div class="py-32" v-if="!articleState">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <router-link to="/inspiration">佈置靈感</router-link>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+        </ol>
+      </nav>
+      <h2 class="mb-0">{{ article.title }}</h2>
+      <div class="text-muted mb-1">
+        <span>
+          {{
+            new Date(article.create_at * 1000).toLocaleString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          }}</span
+        >
+        <span class="ms-1">#{{ article.author }}</span>
       </div>
-      <div class="col-lg-5"></div>
-    </div>
+      <div class="row mt-3">
+        <div class="col-lg-7">
+          <p>{{ article.description }}</p>
+        </div>
+        <div class="col-lg-5"></div>
+      </div>
 
-    <div class="row mb-32">
-      <div class="col-12">
-        <img :src="article.image" :alt="article.title" class="inspiration-mid-img" />
-      </div>
-      <div class="col-12">
-        <div class="row gy-3 mt-4">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-lg-6">
-                <h3>
-                  {{ article.subtitle }}
-                </h3>
-                <p class="d-flex justify-content-between align-items-center">
-                  <span>{{ article.content }}</span>
-                </p>
-              </div>
-              <div class="col-lg-6">
-                <div class="d-flex justify-content-end align-items-center h-100">
-                  <router-link to="/products" class="btn btn-primary text-white"
-                    >查看更多相關商品</router-link
-                  >
+      <div class="row mb-32">
+        <div class="col-12">
+          <img :src="article.image" :alt="article.title" class="inspiration-mid-img" />
+        </div>
+        <div class="col-12">
+          <div class="row gy-3 mt-4">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h3>
+                    {{ article.subtitle }}
+                  </h3>
+                  <p class="d-flex justify-content-between align-items-center">
+                    <span>{{ article.content }}</span>
+                  </p>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex justify-content-end align-items-center h-100">
+                    <router-link to="/products" class="btn btn-primary text-white"
+                      >查看更多相關商品</router-link
+                    >
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-6">
-            <img :src="article.imagesUrl[0]" :alt="article.title" class="inspiration-other-img" />
-          </div>
-          <div class="col-6">
-            <img :src="article.imagesUrl[1]" :alt="article.title" class="inspiration-other-img" />
+            <div class="col-6">
+              <img :src="article.imagesUrl[0]" :alt="article.title" class="inspiration-other-img" />
+            </div>
+            <div class="col-6">
+              <img :src="article.imagesUrl[1]" :alt="article.title" class="inspiration-other-img" />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <RecommendedComponent />
   </div>
-  <RecommendedComponent />
   <VueLoading :active="articleState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>

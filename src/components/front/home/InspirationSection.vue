@@ -37,10 +37,12 @@
       >
         <SwiperSlide v-for="item in inspirationList" :key="item.id">
           <div class="container px-0">
-            <img :src="item.image" :alt="item.title" className="inspiration-img" />
-            <div class="fs-4 fw-500 text-truncate" :style="{ maxWidth: `100%` }">
-              {{ item.title }}
-            </div>
+            <router-link :to="`/inspiration/${item.id}`">
+              <img :src="item.image" :alt="item.title" className="inspiration-img" />
+              <div class="fs-4 fw-500 text-truncate text-dark" :style="{ maxWidth: `100%` }">
+                {{ item.title }}
+              </div>
+            </router-link>
           </div>
         </SwiperSlide>
       </Swiper>

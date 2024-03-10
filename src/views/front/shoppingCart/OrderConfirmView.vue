@@ -36,8 +36,8 @@
               <td>
                 <div>
                   <div>{{ item.product.title }}</div>
-                  <div>{{ item.product.content }}</div>
-                  <div>{{ item.product.unit }}</div>
+                  <div>{{ item.product.description }}</div>
+                  <div>單位：{{ item.product.unit }}</div>
                 </div>
               </td>
               <td></td>
@@ -362,7 +362,7 @@ const schema = yup.object().shape({
 
 const discountPercentage = computed(
   // eslint-disable-next-line comma-dangle
-  () => ((cartStore.cartTotal - cartStore.cartFinalTotal) / cartStore.cartTotal) * 100
+  () => ((cartStore.cartTotal - cartStore.cartFinalTotal) / cartStore.cartTotal) * 100,
 );
 
 async function onSubmit(values) {

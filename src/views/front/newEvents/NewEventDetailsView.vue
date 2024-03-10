@@ -1,57 +1,59 @@
 <template>
-  <div class="container py-32" v-if="!eventState">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <router-link to="/newEvents">最新活動</router-link>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ event.title }}</li>
-      </ol>
-    </nav>
-    <h2 class="mb-0">{{ event.title }}</h2>
-    <div class="row mt-3">
-      <div class="col-lg-7">
-        <p>{{ event.description }}</p>
+  <div class="py-32" v-if="!eventState">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <router-link to="/newEvents">最新活動</router-link>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{ event.title }}</li>
+        </ol>
+      </nav>
+      <h2 class="mb-0">{{ event.title }}</h2>
+      <div class="row mt-3">
+        <div class="col-lg-7">
+          <p>{{ event.description }}</p>
+        </div>
+        <div class="col-lg-5"></div>
       </div>
-      <div class="col-lg-5"></div>
-    </div>
 
-    <div class="row mb-32">
-      <div class="col-12">
-        <img :src="event.imagesUrl[0]" :alt="event.title" class="inspiration-mid-img" />
-      </div>
-      <div class="col-12">
-        <div class="row gy-3 mt-4">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-lg-6">
-                <h3>
-                  {{ event.subtitle }}
-                </h3>
-                <p class="d-flex justify-content-between align-items-center">
-                  <span>{{ event.content }}</span>
-                </p>
-              </div>
-              <div class="col-lg-6">
-                <div class="d-flex justify-content-end align-items-center h-100">
-                  <router-link to="/products" class="btn btn-primary text-white"
-                    >查看更多相關商品</router-link
-                  >
+      <div class="row mb-32">
+        <div class="col-12">
+          <img :src="event.imagesUrl[0]" :alt="event.title" class="inspiration-mid-img" />
+        </div>
+        <div class="col-12">
+          <div class="row gy-3 mt-4">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h3>
+                    {{ event.subtitle }}
+                  </h3>
+                  <p class="d-flex justify-content-between align-items-center">
+                    <span>{{ event.content }}</span>
+                  </p>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex justify-content-end align-items-center h-100">
+                    <router-link to="/products" class="btn btn-primary text-white"
+                      >查看更多相關商品</router-link
+                    >
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-6">
-            <img :src="event.imagesUrl[1]" :alt="event.title" class="inspiration-other-img" />
-          </div>
-          <div class="col-6">
-            <img :src="event.imagesUrl[2]" :alt="event.title" class="inspiration-other-img" />
+            <div class="col-6">
+              <img :src="event.imagesUrl[1]" :alt="event.title" class="inspiration-other-img" />
+            </div>
+            <div class="col-6">
+              <img :src="event.imagesUrl[2]" :alt="event.title" class="inspiration-other-img" />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <RecommendedComponent />
   </div>
-  <RecommendedComponent />
   <VueLoading :active="eventState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
