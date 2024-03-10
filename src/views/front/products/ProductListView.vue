@@ -275,7 +275,7 @@ watch(
 </script>
 <style lang="scss">
 .products-select-rwd {
-  @media (min-width: 375px) {
+  @media (min-width: 414px) {
     width: 41.5% !important;
   }
   @media (min-width: 576px) {

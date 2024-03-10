@@ -137,7 +137,7 @@ defineProps({
 .card-img-container {
   width: 255px;
   height: 255px;
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     height: 165px;
     width: 165px;
   }
@@ -150,7 +150,7 @@ defineProps({
   object-fit: cover;
   object-position: center;
 
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     height: 165px;
     width: 165px;
   }

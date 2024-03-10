@@ -457,7 +457,7 @@ onMounted(() => {
 .thumbs-swiper-container .thumbs-swiper-img {
   cursor: pointer;
   width: 100%;
-  @media (min-width: 375px) {
+  @media (min-width: 414px) {
     height: 50px;
   }
   @media (min-width: 576px) {
@@ -483,7 +483,7 @@ onMounted(() => {
   object-fit: cover !important;
   width: 100% !important;
   height: auto;
-  @media (min-width: 375px) {
+  @media (min-width: 414px) {
     height: 400px !important;
   }
   @media (min-width: 576px) {
@@ -532,7 +532,7 @@ onMounted(() => {
   max-width: 233.6px;
   object-fit: cover;
 
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     max-width: 300px !important;
     max-height: 210px;
   }

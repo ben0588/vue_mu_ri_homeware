@@ -22,7 +22,7 @@
         </div>
       </div>
       <!-- 季節區塊 -->
-      <div class="row gx-32 overflow-x-nowrap-375 overflow-x-nowrap-768 px-2 mt-64">
+      <div class="row gx-32 overflow-x-nowrap-414 overflow-x-nowrap-768 px-2 mt-64">
         <div class="col-md-6 col-1-2-event col-2-2" v-for="event in events" :key="event.id">
           <div class="row">
             <div class="col-lg-7 px-0 mb-32">
@@ -91,14 +91,12 @@ onMounted(() => {
 <style lang="scss">
 .event-img {
   object-fit: contain;
-  width: 100%;
-  height: auto;
-  max-width: 380px;
-  max-height: 288px;
+  width: 380px;
+  height: 288px;
 
-  @media (max-width: 375px) {
-    max-width: 300px;
-    max-height: 199px;
+  @media (max-width: 414px) {
+    width: 300px;
+    height: 199px;
   }
 }
 </style>

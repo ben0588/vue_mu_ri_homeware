@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-column min-vh-100 position-relative px-0"
+    class="d-flex flex-column position-relative px-0"
     :style="{ maxWidth: `100%`, width: `100%` }"
   >
     <HeaderComponent></HeaderComponent>

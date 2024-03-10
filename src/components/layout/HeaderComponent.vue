@@ -318,7 +318,7 @@ watchEffect(() => {
   @media (max-width: 576px) {
     width: 32%;
   }
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     width: 85%;
   }
 }
@@ -327,7 +327,7 @@ watchEffect(() => {
   @media (max-width: 768px) {
     width: 100%;
   }
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     padding: 40px;
   }
 }

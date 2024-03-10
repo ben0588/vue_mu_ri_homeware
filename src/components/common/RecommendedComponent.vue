@@ -47,7 +47,7 @@ const originProductsRatings = computed(() => calculateProductsRatings(recommendL
   max-width: 233.6px;
   object-fit: cover;
 
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     max-width: 300px !important;
     max-height: 210px;
   }
