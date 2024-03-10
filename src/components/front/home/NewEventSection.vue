@@ -3,7 +3,7 @@
   <div class="mt-80 py-64">
     <h3 class="home-title">最新活動</h3>
     <div class="container mt-64">
-      <div class="row px-2">
+      <div class="row justify-content-between gx-0 px-1 px-sm-0 gx-lg-5">
         <div class="col-lg-6 mt-0 mb-12" v-for="item in bulletinList" :key="item.title">
           <div
             class="row flex-column flex-md-row justify-content-center align-items-center border border-2 border-primary bg-primary-sup-light h-100 px-0"
