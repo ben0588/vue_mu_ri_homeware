@@ -86,7 +86,7 @@
       </div>
 
       <div class="border-start border-end border-2 border-dark mb-3">
-        <div class="d-flex justify-content-end border-bottom border-2 border-dark pb-12 mb-12 pe-3">
+        <div class="d-flex justify-content-end pb-12 mb-12 pe-3">
           <div class="d-flex flex-column align-items-end">
             <span class="fs-5">
               <span> 共 {{ cartStore.cartList.length }} 項商品 | </span>

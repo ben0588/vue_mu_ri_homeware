@@ -148,8 +148,8 @@
                     }}</span
                   >
                 </div>
-                <div v-else>
-                  <div class="fs-4 fw-bolder text-dark mt-3">
+                <div v-else class="mt-3">
+                  <div class="fs-4 fw-bolder text-dark">
                     NT{{ usePriceToTw(productsRatings.origin_price) }}
                   </div>
                 </div>

@@ -31,7 +31,7 @@
               <div class="row">
                 <div class="col-md-4">
                   <VeeValidateCustomInput
-                    :name="'image'"
+                    :name="'imageUrl'"
                     :id="'admin-event-image'"
                     :required="true"
                     :labelText="'文章封面圖片網址(URL)'"
@@ -97,11 +97,11 @@
                   />
 
                   <!-- 主圖片預覽 -->
-                  <div v-if="values?.image?.match(/^https:\/\//)">
+                  <div v-if="values.imageUrl.match(/^https:\/\//)">
                     <h5 class="mb-1 mt-2">主圖片預覽</h5>
                     <img
                       class="img-fluid border border-2"
-                      :src="values.image"
+                      :src="values.imageUrl"
                       :alt="values.title"
                     />
                   </div>
@@ -224,12 +224,11 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted, markRaw, watch } from 'vue';
+import { ref, onMounted, onUnmounted, markRaw } from 'vue';
 import { Modal } from 'bootstrap';
 import axios from 'axios';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import vSelect from 'vue-select';
 
 import VeeValidateCustomInput from '@/components/common/VeeValidateCustomInput.vue';
 import VeeValidateCustomTextarea from '@/components/common/VeeValidateCustomTextarea.vue';
@@ -256,14 +255,14 @@ const initialFormValues = ref({
   subtitle: '',
   description: '',
   content: '',
-  image: '',
+  imageUrl: '',
   imagesUrl: ['', '', ''],
   ActivityTime: '',
   isPublic: true,
 });
 // Math.floor(new Date().getTime() / 1000)
 
-const { setFieldValue, values, errors, handleSubmit, meta, resetForm } = useForm({
+const { setFieldValue, values, handleSubmit, resetForm } = useForm({
   initialValues: JSON.parse(JSON.stringify(initialFormValues.value)),
   // 使用 markRaw 阻止 Vue 將 yup 設定成響應式內容
   validationSchema: markRaw(
@@ -272,7 +271,7 @@ const { setFieldValue, values, errors, handleSubmit, meta, resetForm } = useForm
       create_at: yup.number(),
       title: yup.string().required('此欄位必填'),
       subtitle: yup.string().required('此欄位必填'),
-      image: yup
+      imageUrl: yup
         .string()
         .required('此欄位必填')
         .matches(
@@ -294,13 +293,6 @@ const { setFieldValue, values, errors, handleSubmit, meta, resetForm } = useForm
     }),
   ),
 });
-
-// watch(
-//   () => selectedTag.value,
-//   () => {
-//     setFieldValue('tag', JSON.parse(JSON.stringify(selectedTag.value))); // 動態更新 tag 資料
-//   },
-// );
 
 onMounted(() => {
   // bootstrap modal init
@@ -361,15 +353,19 @@ const addOrEditArticle = async (val) => {
     let api;
     let response;
     if (type === '新增') {
-      api = `${baseApiUrl}/v2/api/${apiPath}/admin/article`;
+      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
       response = await axios.post(api, {
-        data: { ...val, create_at: Math.floor(new Date().getTime() / 1000) },
+        data: {
+          ...val,
+          id: new Date().getTime(),
+          create_at: Math.floor(new Date().getTime() / 1000),
+        },
       });
     } else if (type === '儲存') {
-      api = `${baseApiUrl}/v2/api/${apiPath}/admin/article/${eventId.value}`;
+      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/${eventId.value}`;
       response = await axios.put(api, { data: { ...val } });
     }
-    if (response.data.success) {
+    if (response.status === 200) {
       closeModal(); // 新增或更新成功後關閉模組
       showAlert({
         position: 'top-start',

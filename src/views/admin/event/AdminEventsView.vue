@@ -65,7 +65,7 @@
       </table>
     </div>
 
-    <AdminEventModal ref="adminEventModal" @refetch-articles="fetchEvents"></AdminEventModal>
+    <AdminEventModal ref="adminEventModal" @refetch-events="fetchEvents"></AdminEventModal>
   </div>
 </template>
 
