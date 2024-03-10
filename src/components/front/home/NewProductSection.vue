@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="container px-2 mt-3">
+    <div class="container px-2 mt-4">
       <div
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
       >
@@ -123,8 +123,36 @@ onMounted(() => {
 .new-products-mid-img {
   display: block;
   object-fit: cover;
-  width: 100%;
-  height: auto;
+  width: 339px;
+  height: 200px;
+
+  @media (min-width: 414px) {
+    width: 378px;
+    height: 232px;
+  }
+
+  @media (min-width: 576px) {
+    width: 512px;
+    height: 262px;
+  }
+
+  @media (min-width: 768px) {
+    width: 389px;
+    height: 262px;
+  }
+
+  @media (min-width: 992px) {
+    width: 536px;
+    height: 325px;
+  }
+  @media (min-width: 1200px) {
+    width: 649px;
+    height: 348px;
+  }
+  @media (min-width: 1400px) {
+    width: 746px;
+    height: 380px;
+  }
 }
 
 .new-products-img {
