@@ -3,7 +3,7 @@
   <div class="mt-80 py-64">
     <h3 class="home-title">最新活動</h3>
     <div class="container mt-64">
-      <div class="row gx-32 px-2">
+      <div class="row px-2">
         <div class="col-lg-6 mt-0 mb-12" v-for="item in bulletinList" :key="item.title">
           <div
             class="row flex-column flex-md-row justify-content-center align-items-center border border-2 border-primary bg-primary-sup-light h-100 px-0"
@@ -22,7 +22,7 @@
         </div>
       </div>
       <!-- 季節區塊 -->
-      <div class="row gx-32 overflow-x-nowrap-414 overflow-x-nowrap-768 px-2 mt-64">
+      <div class="row overflow-x-nowrap-414 overflow-x-nowrap-lg mt-64">
         <div class="col-md-6 col-1-2-event col-2-2" v-for="event in events" :key="event.id">
           <div class="row">
             <div class="col-lg-7 px-0 mb-32">
@@ -94,6 +94,14 @@ onMounted(() => {
   width: 380px;
   height: 288px;
 
+  @media (max-width: 768px) {
+    width: 258px;
+    height: 199px;
+  }
+  @media (max-width: 576px) {
+    width: 188px;
+    height: 143px;
+  }
   @media (max-width: 414px) {
     width: 300px;
     height: 199px;

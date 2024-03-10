@@ -248,5 +248,9 @@ watchEffect(() => {
     width: 180.5px;
     height: 163px;
   }
+  @media (max-width: 375px) {
+    width: 164px;
+    height: 146px;
+  }
 }
 </style>

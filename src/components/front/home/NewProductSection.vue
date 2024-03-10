@@ -53,12 +53,12 @@
         </div>
       </div>
     </div>
-    <div class="container px-2">
+    <div class="container px-2 mt-3">
       <div
-        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-between align-items-center overflow-x-nowrap-lg mt-32"
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-start align-items-stretch overflow-x-nowrap-lg m-0"
       >
         <div
-          class="col col-1-2 col-2-2 px-3 px-sm-3"
+          class="col col-1-2 col-2-2 col-4-3 px-3"
           v-for="product in filteredProducts"
           :key="product.id"
         >
@@ -123,15 +123,30 @@ onMounted(() => {
 .new-products-mid-img {
   display: block;
   object-fit: cover;
-  max-width: 746px;
-  max-height: 380px;
   width: 100%;
   height: auto;
 }
 
 .new-products-img {
-  object-fit: cover;
   width: 300px;
   height: 210px;
+  object-fit: cover;
+
+  @media (min-width: 576px) {
+    width: 181px;
+    height: 162px;
+  }
+  @media (min-width: 768px) {
+    width: 253px;
+    height: 210px;
+  }
+  @media (min-width: 992px) {
+    width: 210px;
+    height: 188.45px;
+  }
+  @media (min-width: 1200px) {
+    width: 233.6px;
+    height: 210px;
+  }
 }
 </style>

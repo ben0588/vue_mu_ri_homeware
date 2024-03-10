@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="d-flex flex-column position-relative px-0"
-    :style="{ maxWidth: `100%`, width: `100%` }"
-  >
+  <div class="d-flex flex-column position-relative px-0" :style="{ width: `100%` }">
     <HeaderComponent></HeaderComponent>
     <main class="flex-grow-1">
       <router-view></router-view>
