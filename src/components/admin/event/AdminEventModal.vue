@@ -36,6 +36,7 @@
                     :required="true"
                     :labelText="'文章封面圖片網址(URL)'"
                     :labelClass="'fs-6'"
+                    :type="'url'"
                   />
 
                   <div class="input-group mb-3">
@@ -79,6 +80,7 @@
                     :labelText="'文章副圖片網址(URL) [橫、直、直]'"
                     :inputContainer="'mb-1'"
                     :labelClass="'fs-6'"
+                    :type="'url'"
                   />
                   <VeeValidateCustomInput
                     :name="'imagesUrl[1]'"
@@ -87,6 +89,7 @@
                     :labelText="''"
                     :labelClass="'d-none'"
                     :inputContainer="'mb-1'"
+                    :type="'url'"
                   />
                   <VeeValidateCustomInput
                     :name="'imagesUrl[2]'"
@@ -94,6 +97,7 @@
                     :required="true"
                     :labelText="''"
                     :labelClass="'d-none'"
+                    :type="'url'"
                   />
 
                   <!-- 主圖片預覽 -->
@@ -155,6 +159,28 @@
                         :required="true"
                         :labelText="'活動副標題'"
                         :labelClass="'fs-6'"
+                      />
+                    </div>
+
+                    <div class="col-md-6">
+                      <VeeValidateCustomInput
+                        :name="'activity_start_time'"
+                        :id="'admin-event-start_time'"
+                        :required="true"
+                        :labelText="'活動開始時間'"
+                        :labelClass="'fs-6'"
+                        :type="'date'"
+                      />
+                    </div>
+
+                    <div class="col-md-6">
+                      <VeeValidateCustomInput
+                        :name="'activity_end_time'"
+                        :id="'admin-event-end_time'"
+                        :required="true"
+                        :labelText="'活動結束時間'"
+                        :labelClass="'fs-6'"
+                        :type="'date'"
                       />
                     </div>
 
@@ -257,10 +283,10 @@ const initialFormValues = ref({
   content: '',
   imageUrl: '',
   imagesUrl: ['', '', ''],
-  ActivityTime: '',
-  isPublic: true,
+  activity_start_time: '',
+  activity_end_time: '',
+  isPublic: false,
 });
-// Math.floor(new Date().getTime() / 1000)
 
 const { setFieldValue, values, handleSubmit, resetForm } = useForm({
   initialValues: JSON.parse(JSON.stringify(initialFormValues.value)),
@@ -290,6 +316,8 @@ const { setFieldValue, values, handleSubmit, resetForm } = useForm({
       content: yup.string().required('此欄位必填'),
       description: yup.string().required('此欄位必填'),
       isPublic: yup.boolean().required('此欄位必填'),
+      activity_start_time: yup.string().required('此欄位必填'),
+      activity_end_time: yup.string().required('此欄位必填'),
     }),
   ),
 });
@@ -312,7 +340,7 @@ onUnmounted(() => {
 const fetchEvent = async (id) => {
   try {
     eventState.value = true;
-    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}?id=${id}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events?id=${id}`;
     const response = await axios.get(api);
     const [newData] = response.data;
     resetForm({ values: newData }); // 更新表單內容
@@ -353,36 +381,34 @@ const addOrEditArticle = async (val) => {
     let api;
     let response;
     if (type === '新增') {
-      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
+      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events`;
       response = await axios.post(api, {
-        data: {
-          ...val,
-          id: new Date().getTime(),
-          create_at: Math.floor(new Date().getTime() / 1000),
-        },
+        id: new Date().getTime() + Math.floor(Math.random() * 10),
+        create_at: Math.floor(new Date().getTime() / 1000),
+        ...val,
       });
     } else if (type === '儲存') {
-      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/${eventId.value}`;
-      response = await axios.put(api, { data: { ...val } });
+      api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events/${eventId.value}`;
+      response = await axios.put(api, { ...val });
     }
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       closeModal(); // 新增或更新成功後關閉模組
       showAlert({
         position: 'top-start',
-        title: `成功 | ${response.data.message}`,
+        title: `成功`,
         icon: 'success',
         showConfirmButton: false,
         timer: 1000,
       });
       setTimeout(() => {
-        emits('refetch-events', true); // 呼叫父層 = 重新取得文章資料
+        emits('refetch-events', true);
       }, 1000);
     }
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error.response.data.message}`,
       icon: 'error',
+      text: `${error}`,
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
       allowEscapeKey: false,

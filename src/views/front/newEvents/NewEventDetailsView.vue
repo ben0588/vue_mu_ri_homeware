@@ -72,14 +72,14 @@ const event = ref({});
 const fetchEvent = async () => {
   try {
     eventState.value = true;
-    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}?id=${route.params.id}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events?id=${route.params.id}`;
     const response = await axios.get(api);
     const [newData] = response.data;
     event.value = newData;
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error.response.data.message}`,
+      text: `${error}`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',

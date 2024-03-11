@@ -95,7 +95,7 @@ const handleOpenModal = ({ type, id }) => {
 const fetchEvents = async () => {
   try {
     loadingStore.toggleLoading(); // 全頁加載
-    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events`;
     const response = await axios.get(api);
     adminEvents.value = response.data;
   } catch (error) {
@@ -120,10 +120,10 @@ const fetchEvents = async () => {
 
 const deleteArticle = async (id) => {
   try {
-    // const api = `${baseApiUrl}/v2/api/${apiPath}/admin/article/${id}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events/${id}`;
     showAlert({
-      title: '確認刪除訂單?',
-      text: '注意：確認刪除後，訂單將無法復原!',
+      title: '確認刪除活動?',
+      text: '注意：確認刪除活動後，內容將無法復原!',
       icon: 'question',
       confirmButtonColor: '#29292D',
       cancelButtonColor: '#b2bec3',
@@ -136,11 +136,10 @@ const deleteArticle = async (id) => {
       preConfirm: async () => {
         try {
           deleteTarget.value = id;
-          return await axios.delete();
+          return await axios.delete(api);
         } catch (error) {
           showAlert({
             title: '失敗',
-            text: `${error.response.data.message}`,
             icon: 'error',
             confirmButtonText: '確認',
             confirmButtonColor: '#000000',
@@ -152,10 +151,11 @@ const deleteArticle = async (id) => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then(async (result) => {
-      if (result?.value?.data?.success) {
+      if (result?.value?.status === 200) {
         showAlert({
           position: 'top-start',
-          title: `成功 | ${result?.value?.data?.message}`,
+          title: `成功`,
+          text: '已成功刪除活動',
           icon: 'success',
           showConfirmButton: false,
           timer: 1000,
@@ -168,8 +168,8 @@ const deleteArticle = async (id) => {
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error.response.data.message}`,
       icon: 'error',
+      text: `${error}`,
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
       allowEscapeKey: false,

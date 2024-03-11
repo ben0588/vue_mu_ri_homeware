@@ -66,7 +66,7 @@ const events = ref([]);
 const fetchArticles = async () => {
   try {
     eventLoading.value = true;
-    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events`;
     const response = await axios.get(api);
     events.value = response.data.filter((item) => item.isPublic);
   } catch (error) {

@@ -25,16 +25,16 @@ const { showAlert } = useAlert();
 const eventLoading = ref(false);
 const events = ref([]);
 
-const fetchArticles = async () => {
+const fetchEvents = async () => {
   try {
     eventLoading.value = true;
-    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}`;
+    const api = `${import.meta.env.VITE_APP_EVENTS_API_URL}/events`;
     const response = await axios.get(api);
     events.value = response.data.filter((item) => item.isPublic);
   } catch (error) {
     showAlert({
       title: '失敗',
-      text: `${error.response.data.message}`,
+      text: `${error} | json-server 喚醒中需 30s`,
       icon: 'error',
       confirmButtonText: '確認',
       confirmButtonColor: '#000000',
@@ -47,7 +47,7 @@ const fetchArticles = async () => {
 };
 
 onMounted(() => {
-  fetchArticles();
+  fetchEvents();
 });
 </script>
 <style lang="scss">
