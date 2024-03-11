@@ -27,9 +27,7 @@
                   {{ item.center }}
                 </span>
                 <span class="header-top-btn-container">
-                  <router-link
-                    :to="item.path"
-                    class="btn btn-outline-light text-white px-3 py-1 fw-500"
+                  <router-link :to="item.path" class="btn btn-outline-light px-3 py-1 fw-500"
                     >了解更多</router-link
                   >
                 </span>
