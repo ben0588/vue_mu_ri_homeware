@@ -52,9 +52,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-// import { changeLocale } from '@/languages/i18n';
 import { Dropdown } from 'bootstrap';
 import VueLoading from 'vue-loading-overlay';
 import Swal from 'sweetalert2';
@@ -68,14 +67,9 @@ import useAdminStore from '@/stores/adminStores';
 const adminStore = useAdminStore();
 
 const { showAlert } = useAlert();
-const isLogoutLoading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const adminIsLogin = ref(false);
-
-const toggleLogout = () => {
-  isLogoutLoading.value = !isLogoutLoading.value;
-};
 
 const i18nStore = useI18nStore();
 const { i18nChangeLocale } = i18nStore;
