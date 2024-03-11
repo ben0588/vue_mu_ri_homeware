@@ -79,9 +79,7 @@
         </table>
       </div>
       <div class="border-start border-end border-2 border-dark">
-        <div
-          class="d-flex justify-content-end border-bottom border-2 border-dark pt-2 pb-12 mb-12 pe-3"
-        >
+        <div class="d-flex justify-content-end border-bottom border-2 border-dark pb-12 pe-3">
           <div class="d-flex flex-column align-items-end">
             <span class="fs-5">
               <span> 共 {{ products.length }} 項商品 | </span>
