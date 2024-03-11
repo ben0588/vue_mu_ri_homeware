@@ -2,14 +2,22 @@
   <div class="container py-32" v-if="!articleLoading">
     <h2>空間佈置靈感</h2>
     <div class="mt-3 mb-4">
-      <span v-for="(navTag, navTagIndex) in tagList" :key="navTagIndex">
-        <button type="button" class="btn btn-outline-secondary text-dark fs-6 me-3">
+      <span
+        v-for="(navTag, navTagIndex) in tagList"
+        :key="navTagIndex"
+        @click="getSelectTag(navTag.title)"
+      >
+        <button
+          type="button"
+          class="btn btn-outline-secondary text-dark fs-6 me-3"
+          :class="`${targetTag === navTag.title && 'bg-secondary'}`"
+        >
           {{ navTag.title }}
         </button></span
       >
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-32 gy-3">
-      <div class="col" v-for="item in articles" :key="item.id">
+      <div class="col" v-for="item in filterTagList" :key="item.id">
         <div>
           <router-link :to="`/inspiration/${item.id}`" class="hover-opacity text-dark">
             <img :src="item.image" :alt="item.title" class="inspiration-card-img" />
@@ -50,7 +58,7 @@
   <VueLoading :active="articleLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 
@@ -61,6 +69,7 @@ const { showAlert } = useAlert();
 const articleLoading = ref(false);
 const articles = ref([]);
 const articlesPagination = ref([]);
+const targetTag = ref('顯示全部');
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
@@ -107,6 +116,18 @@ const fetchArticles = async (page = 1) => {
     articleLoading.value = false;
   }
 };
+
+const getSelectTag = (val) => {
+  targetTag.value = val;
+};
+
+// 計算選擇目標後重新會出 +
+const filterTagList = computed(() => {
+  if (targetTag.value === '顯示全部') {
+    return articles.value;
+  }
+  return articles.value.filter((item) => item.tag.find((el) => el === targetTag.value));
+});
 
 onMounted(() => {
   fetchArticles();

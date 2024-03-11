@@ -1,8 +1,8 @@
 // import './assets/sass/all.scss';
-import 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import 'vue-loading-overlay/dist/css/index.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { register } from 'swiper/element/bundle';
 
 import { createApp } from 'vue';
