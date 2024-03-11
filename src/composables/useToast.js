@@ -1,9 +1,7 @@
 import { toast } from 'vue3-toastify';
 
 function useToast() {
-  const toastAlert = ({
-    message, position = 'top-left', seconds = 1000, theme = 'colored', type = 'default', transition = 'flip',
-  }) => {
+  const toastAlert = ({message, position = 'top-left', seconds = 1000, theme = 'colored', type = 'default', transition = 'flip',}) => {
     toast(message, {
       theme, // 風格
       type, // 樣式

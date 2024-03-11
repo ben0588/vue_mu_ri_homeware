@@ -1,6 +1,5 @@
 import { defineRule, configure } from 'vee-validate';
 import * as AllRules from '@vee-validate/rules';
-import { ref } from 'vue';
 
 import { localize, setLocale } from '@vee-validate/i18n';
 // eslint-disable-next-line camelcase
@@ -9,7 +8,6 @@ import en from '@vee-validate/i18n/dist/locale/en.json';
 import ja from '@vee-validate/i18n/dist/locale/ja.json';
 import ko from '@vee-validate/i18n/dist/locale/ko.json';
 import th from '@vee-validate/i18n/dist/locale/th.json';
-import * as yup from 'yup';
 
 // 全域啟用 rules 規則
 Object.keys(AllRules).forEach((rule) => {
@@ -102,7 +100,7 @@ export function changeVeeValidateLocale() {
   setVeeValidateLocale(local); // 更新 vee-validate 的語言設定
 }
 
-// eslint-disable-next-line import/prefer-default-export
+// eslint-disable-next-line import/prefer-default-export, no-unused-vars
 export function setupVeeValidate(app) {
   // 這裡可以進行進一步的設定或插件註冊
 }
