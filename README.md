@@ -69,7 +69,7 @@
 ## 文件
 
 - 圖片來源皆由：unsplash.com
-- 設計圖+Logo：設計師Jesse
+- 設計圖+Logo：[設計師Jesse](https://www.yuchiehlin.com/about)
 - API：[六角學院](https://hexschool.github.io/vue3-courses-swaggerDoc/#/)
 
 ## 授權
