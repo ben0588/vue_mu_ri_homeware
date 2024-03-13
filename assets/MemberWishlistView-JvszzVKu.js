@@ -1,1 +1,0 @@
-import t from"./WishlistView-7t81BUlu.js";import{m as o,o as r}from"./index-7vrXDW6q.js";import"./usePriceToTw-mhH8eMrj.js";import"./useComputedDiscount-Ui6xFiaI.js";import"./wishStores-t6tW0o6I.js";import"./useToast-MPKBQK4H.js";import"./cartStores-cVzCKphA.js";const l={__name:"MemberWishlistView",setup(e){return(m,i)=>(r(),o(t,{"title-show":!1}))}};export{l as default};
