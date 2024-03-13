@@ -203,8 +203,8 @@ watchEffect(() => {
   }
 
   @media (max-width: 414px) {
-    width: 180.5px;
-    height: 163px;
+    width: 164.5px;
+    height: 164.5px;
   }
 
   @media (max-width: 375px) {
@@ -245,8 +245,8 @@ watchEffect(() => {
     height: 146px;
   }
   @media (max-width: 414px) {
-    width: 180.5px;
-    height: 163px;
+    width: 164.5px;
+    height: 164.5px;
   }
   @media (max-width: 375px) {
     width: 164px;

@@ -146,7 +146,7 @@ onMounted(() => {
     left: 94.9%;
   }
   @media (max-width: 992px) {
-    left: 95.5%;
+    left: 92.5%;
     top: 42%;
   }
   @media (max-width: 768px) {
@@ -167,7 +167,7 @@ onMounted(() => {
     right: 94.9%;
   }
   @media (max-width: 992px) {
-    right: 95.5%;
+    right:  92.5%;
     top: 42%;
   }
   @media (max-width: 768px) {
