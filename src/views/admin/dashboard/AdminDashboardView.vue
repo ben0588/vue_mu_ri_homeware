@@ -18,7 +18,7 @@
         :can-cancel="false"
         :color="'#0089A7'"
       ></VueLoading>
-      <router-view></router-view>
+      <RouterView />
     </div>
   </div>
 </template>

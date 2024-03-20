@@ -48,7 +48,7 @@
     </nav>
   </header>
   <VueLoading :active="adminIsLogin" :can-cancel="false" :color="'#d63031'"></VueLoading>
-  <router-view></router-view>
+  <RouterView />
 </template>
 
 <script setup>

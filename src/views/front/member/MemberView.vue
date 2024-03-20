@@ -16,7 +16,7 @@
         </nav>
       </div>
       <div class="col-lg-10">
-        <router-view></router-view>
+        <RouterView />
       </div>
     </div>
   </div>

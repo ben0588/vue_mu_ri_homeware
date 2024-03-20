@@ -10,7 +10,7 @@
         >
       </li>
     </ul>
-    <router-view></router-view>
+    <RouterView />
   </div>
 </template>
 <script setup>

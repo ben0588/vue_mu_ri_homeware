@@ -39,7 +39,7 @@
         </ul>
       </nav>
     </div>
-    <router-view></router-view>
+    <RouterView />
   </div>
 </template>
 
