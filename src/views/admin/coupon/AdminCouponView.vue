@@ -40,6 +40,7 @@
                 啟用
               </div>
               <div class="d-flex justify-content-start flex-column text-danger" v-else>未啟用</div>
+              {{ coupon.due_date }}
               <div
                 v-if="new Date().getTime() / 1000 <= coupon.due_date"
                 class="d-flex justify-content-start flex-column text-success"

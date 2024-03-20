@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`products/${product.id}`" class="hover-img-opacity">
+  <router-link :to="`/products/${product.id}`" class="hover-img-opacity">
     <div
       class="position-relative card bg-none h-100 border-0"
       :style="{ backgroundColor: cardBgColor }"

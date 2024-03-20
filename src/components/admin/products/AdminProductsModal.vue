@@ -929,7 +929,7 @@ const openModal = (type, data, page) => {
     bsModalInstance.value.show();
   } else if (type === 'edit') {
     // 編輯就直接將點選資料帶入。
-    newTempData.value = data;
+    newTempData.value = JSON.parse(JSON.stringify(data));
     fileRef.value.value = null; // 清空 file 檔案
     bsModalInstance.value.show();
   }

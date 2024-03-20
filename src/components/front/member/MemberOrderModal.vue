@@ -82,7 +82,11 @@
                       <tr>
                         <td>訂單付款狀態</td>
                         <td>
-                          <span v-if="orderData.is_paid" class="text-success">已付款</span>
+                          <span v-if="orderData.is_paid && orderData.paid_date" class="text-success"
+                            >已付款 ({{
+                              new Date(orderData.paid_date * 1000).toISOString().split('T')[0]
+                            }})</span
+                          >
                           <span class="text-danger" v-else>未付款</span>
                         </td>
                       </tr>

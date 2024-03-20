@@ -217,20 +217,22 @@ const props = defineProps({
 
 const emits = defineEmits(['refetch-coupon']);
 
+const initialValuesData = {
+  title: '',
+  is_enabled: 1,
+  percent: 0,
+  due_date: format(new Date().setMonth(new Date().getMonth() + 3), 'yyyy-MM-dd'),
+  code: '',
+  tw: { title: '' },
+  us: { title: '' },
+  jp: { title: '' },
+  kr: { title: '' },
+  th: { title: '' },
+};
+
 // eslint-disable-next-line object-curly-newline
 const { values, errors, meta, handleSubmit, defineField, resetForm } = useForm({
-  initialValues: {
-    title: '',
-    is_enabled: 1,
-    percent: 0,
-    due_date: format(new Date().setMonth(new Date().getMonth() + 3), 'yyyy-MM-dd'),
-    code: '',
-    tw: { title: '' },
-    us: { title: '' },
-    jp: { title: '' },
-    kr: { title: '' },
-    th: { title: '' },
-  },
+  initialValues: initialValuesData,
   validationSchema: yup.object().cast({
     title: yup.string().required('此欄位必填'),
     code: yup.string().required('此欄位必填'),
@@ -348,9 +350,12 @@ const openModal = (type, data) => {
     bsCouponModalInstance.value.show();
   } else if (type === 'edit') {
     // [編輯]初始化更新表單預設值 + 暫存資料
+    const manualFormattedDateUTC = `${new Date(data.due_date * 1000).getUTCFullYear()}-${String(
+      new Date(data.due_date * 1000).getUTCMonth() + 1,
+    ).padStart(2, '0')}-${String(new Date(data.due_date * 1000).getUTCDate()).padStart(2, '0')}`;
     const editData = {
       ...data,
-      due_date: format(new Date(data.due_date) * 1000, 'yyyy-MM-dd'),
+      due_date: manualFormattedDateUTC,
       // 轉換 input type=date 指定格式
     };
     newTempData.value = editData;
@@ -362,19 +367,7 @@ const openModal = (type, data) => {
 };
 
 const closeModal = () => {
-  newTempData.value = {
-    title: '',
-    is_enabled: 1,
-    percent: 0,
-    due_date: '',
-    code: '',
-    tw: { title: '' },
-    us: { title: '' },
-    jp: { title: '' },
-    kr: { title: '' },
-    th: { title: '' },
-  };
-  resetForm();
+  resetForm({ values: initialValuesData });
   bsCouponModalInstance.value.hide();
 }; // 關閉模組
 
