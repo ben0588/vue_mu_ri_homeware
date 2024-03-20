@@ -141,7 +141,7 @@ const closeModal = () => {
 const copyCouponCode = (code) => {
   navigator.clipboard.writeText(code).then(() => {
     toastAlert({
-      message: `<img src="https://cdn-icons-gif.flaticon.com/8948/8948314.gif" class="success-icon"/><a href="https://www.flaticon.com/free-animated-icons/document" title="document animated icons" class="d-none">Document animated icons created by Freepik - Flaticon</a> 複製代碼成功：${code}`,
+      message: `<img src="https://cdn-icons-gif.flaticon.com/8948/8948314.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/document" title="document animated icons" class="d-none">Document animated icons created by Freepik - Flaticon</a> 複製代碼成功：${code}`,
       transition: 'slide',
     });
   });
@@ -154,7 +154,7 @@ const useCouponCode = async () => {
     const response = await axios.post(api, { data: { code: couponCode.value } });
     if (response.data.success) {
       toastAlert({
-        message: `<img src="https://cdn-icons-gif.flaticon.com/10970/10970392.gif" class="success-icon" /><a href="https://www.flaticon.com/free-animated-icons/success" title="success animated icons" class="d-none">Success animated icons created by Freepik - Flaticon</a>${response.data.message}`,
+        message: `<img src="https://cdn-icons-gif.flaticon.com/10970/10970392.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/success" title="success animated icons" class="d-none">Success animated icons created by Freepik - Flaticon</a>${response.data.message}`,
         transition: 'slide',
       });
       couponCode.value = '';
@@ -165,7 +165,7 @@ const useCouponCode = async () => {
     }
   } catch (error) {
     toastAlert({
-      message: `<img src="https://cdn-icons-gif.flaticon.com/11257/11257124.gif" class="success-icon" /><a href="https://www.flaticon.com/free-animated-icons/error" title="error animated icons" class="d-none">Error animated icons created by Freepik - Flaticon</a>${error.response.data.message}`,
+      message: `<img src="https://cdn-icons-gif.flaticon.com/11257/11257124.gif" class="success-icon"  alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/error" title="error animated icons" class="d-none">Error animated icons created by Freepik - Flaticon</a>${error.response.data.message}`,
       transition: 'slide',
     });
     couponCode.value = '';

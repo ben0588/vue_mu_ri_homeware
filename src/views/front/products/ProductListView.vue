@@ -296,31 +296,11 @@ watch(
 </script>
 
 <style lang="scss">
-/* .products-select-rwd {
-  @media (min-width: 375px) {
-    width: 41.5% !important;
-  }
-  @media (min-width: 576px) {
-    width: 44.3% !important;
-  }
-  @media (min-width: 768px) {
-    width: 45.8% !important;
-  }
-  @media (min-width: 992px) {
-    width: 20.8% !important;
-  }
-  @media (min-width: 1200px) {
-    width: 16.8% !important;
-  }
-} */
-
 .products-card-img {
   display: block;
   object-fit: cover;
   width: 100%;
   height: auto;
-  /* max-width: 306px; */
-  /* max-height: 210px; */
   height: 300px;
 }
 </style>

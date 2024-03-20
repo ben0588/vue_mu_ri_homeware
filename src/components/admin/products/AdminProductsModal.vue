@@ -139,7 +139,7 @@
                   <img
                     class="img-fluid border border-2"
                     :src="newTempData[i18nStore.currentIcon].imageUrl"
-                    alt=""
+                    alt="主圖片預覽"
                   />
                 </div>
                 <!-- 讓其他五張圖片依序可以預覽 -->
@@ -154,7 +154,7 @@
                     <img
                       class="img-fluid border border-2"
                       :src="newTempData[i18nStore.currentIcon].imagesUrl[index]"
-                      alt=""
+                      alt="副圖片預覽"
                     />
                   </div>
                 </div>

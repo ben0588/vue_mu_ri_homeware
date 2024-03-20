@@ -197,14 +197,20 @@
     </div>
 
     <div v-else class="flex-center flex-column">
-      <p class="fs-4 mb-4">獲取訂單資訊失敗，請至我的訂單確認</p>
+      <p class="fs-4 mb-4">
+        <font-awesome-icon
+          :icon="['fas', 'circle-exclamation']"
+          class="text-danger me-2"
+        />獲取訂單資訊失敗，請至我的訂單確認
+      </p>
       <div>
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1709621706622.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=fLZyIKTO0xXtmpQpOKyoDdl84VK7ew%2BxUkWMypkYUZnck%2BUWoYQS%2BVJnE4EKlaeXsOb48Y1Pbue80Q%2FMlUdCh0Z17wnAWTy1Jw3m29KqfSxuElieGTLIjX%2FUbKe3x5S91LOs%2Fzz4icDvVafVFeWs%2FsXarIqTNnlkuEQ6JM%2Bid%2BzJO9IVRsVRAtXcgDUNmr%2Fj6nOVbw41qX8%2Bps0CliT4cQYZzvDZu%2BsY3BPA95%2B6MQbI9v8sZhPC344ozOi3o1O5Yw5%2FdvHDQsysSzEGdiOAzYtvqcxRlZ%2FXDTNNh1asPBglVsAXyzXIbvCt46GnScZvJR5uj%2F036CACPE1y1QGlrA%3D%3D"
           alt="獲取訂單資訊失敗，請至我的訂單確認"
+          :style="{ width: `200px`, height: `200px` }"
         />
       </div>
-      <div class="mt-4">
+      <div class="mt-4 w-100 text-center">
         <router-link to="/member" class="btn btn-dark px-4">前往確認</router-link>
       </div>
     </div>

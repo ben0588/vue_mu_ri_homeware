@@ -52,7 +52,7 @@ const useCartStore = defineStore('cartStores', () => {
       const response = await axios.post(api, { data: { product_id: id, qty: quantity } });
       if (response.data.success) {
         toastAlert({
-          message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${response.data.message}`,
+          message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${response.data.message}`,
           transition: 'slide',
         });
         addTargetId.value = '';
@@ -80,7 +80,7 @@ const useCartStore = defineStore('cartStores', () => {
       const response = await axios.put(api, { data: { product_id: productId, qty: quantity } });
       if (response.data.success) {
         toastAlert({
-          message: `<img src="https://cdn-icons-gif.flaticon.com/7211/7211795.gif" class="success-icon"/><a href="https://www.flaticon.com/free-animated-icons/refresh" title="refresh animated icons" class="d-none">Refresh animated icons created by Freepik - Flaticon</a> ${response.data.message}`,
+          message: `<img src="https://cdn-icons-gif.flaticon.com/7211/7211795.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/refresh" title="refresh animated icons" class="d-none">Refresh animated icons created by Freepik - Flaticon</a> ${response.data.message}`,
           transition: 'slide',
         });
         addTargetId.value = '';
@@ -137,7 +137,7 @@ const useCartStore = defineStore('cartStores', () => {
       }).then(async (result) => {
         if (result?.value?.data?.success) {
           toastAlert({
-            message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${result?.value?.data.message}`,
+            message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${result?.value?.data.message}`,
             transition: 'slide',
           });
           await fetchCarts();
@@ -191,7 +191,7 @@ const useCartStore = defineStore('cartStores', () => {
       }).then(async (result) => {
         if (result?.value?.data?.success) {
           toastAlert({
-            message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${result?.value?.data.message}`,
+            message: `<img src="https://cdn-icons-gif.flaticon.com/7920/7920939.gif" class="success-icon" alt="icon樣式"/><a href="https://www.flaticon.com/free-animated-icons/tick" title="tick animated icons" class="d-none">Tick animated icons created by Freepik - Flaticon</a> ${result?.value?.data.message}`,
             transition: 'slide',
           });
           await fetchCarts();
