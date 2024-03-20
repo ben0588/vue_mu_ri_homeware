@@ -57,21 +57,21 @@
                           <span
                             v-if="orderData.status"
                             :class="`${
-                              orderData.status === 0
+                              orderData.status == '0'
                                 ? 'text-muted'
-                                : orderData.status === 1
+                                : orderData.status == '1'
                                   ? 'text-dark'
-                                  : orderData.status === 2
+                                  : orderData.status == '2'
                                     ? 'text-info'
                                     : 'text-success'
                             }`"
                           >
                             {{
-                              orderData.status === 0
+                              orderData.status == '0'
                                 ? '未確認'
-                                : orderData.status === 1
+                                : orderData.status == '1'
                                   ? '已確認'
-                                  : orderData.status === 2
+                                  : orderData.status == '2'
                                     ? '寄送中'
                                     : '已送達'
                             }}

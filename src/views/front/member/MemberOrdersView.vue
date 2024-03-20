@@ -31,21 +31,21 @@
                 <span
                   v-if="order.status"
                   :class="`${
-                    order.status === 0
+                    order.status == 0
                       ? 'text-muted'
-                      : order.status === 1
+                      : order.status == 1
                         ? 'text-dark'
-                        : order.status === 2
+                        : order.status == 2
                           ? 'text-info'
                           : 'text-success'
                   }`"
                 >
                   {{
-                    order.status === 0
+                    order.status == 0
                       ? '未確認'
-                      : order.status === 1
+                      : order.status == 1
                         ? '已確認'
-                        : order.status === 2
+                        : order.status == 2
                           ? '寄送中'
                           : '已送達'
                   }}

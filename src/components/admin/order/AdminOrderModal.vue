@@ -60,21 +60,21 @@
                           <span
                             v-if="orderData.status"
                             :class="`${
-                              orderData.status === 0
+                              orderData.status === '0'
                                 ? 'text-muted'
-                                : orderData.status === 1
+                                : orderData.status === '1'
                                   ? 'text-dark'
-                                  : orderData.status === 2
+                                  : orderData.status === '2'
                                     ? 'text-info'
                                     : 'text-success'
                             }`"
                           >
                             {{
-                              orderData.status === 0
+                              orderData.status === '0'
                                 ? '未確認'
-                                : orderData.status === 1
+                                : orderData.status === '1'
                                   ? '已確認'
-                                  : orderData.status === 2
+                                  : orderData.status === '2'
                                     ? '寄送中'
                                     : '已送達'
                             }}
@@ -106,6 +106,7 @@
                           <label for="admin-order-select" class="form-label fw-500"
                             >修改商品送達狀態</label
                           >
+                          {{ orderStatus }}
                           <select
                             class="form-select"
                             aria-label="修改送達狀態"
@@ -260,7 +261,7 @@ const orderSubmitState = ref(false);
 const bsAdminOrderModalRef = ref(null);
 const bsAdminOrderModalInstance = ref(null); // 實體存放區
 
-const emits = defineEmits(['refetch-articles']);
+const emits = defineEmits(['refetch-orders']);
 
 onMounted(() => {
   // bootstrap modal init
@@ -308,7 +309,7 @@ const editOrder = async () => {
         timer: 1000,
       });
       setTimeout(() => {
-        emits('refetch-articles', true); // 呼叫父層 = 重新取得產品資料
+        emits('refetch-orders', true);
       }, 1000);
     }
   } catch (error) {

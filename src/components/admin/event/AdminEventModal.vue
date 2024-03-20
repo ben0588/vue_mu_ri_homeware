@@ -11,8 +11,8 @@
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
           <h5 id="adminEventModalLabel" class="modal-title">
-            <span v-if="modalType === 'create'">新增文章</span>
-            <span v-else>編輯文章 - 文章編碼：{{ eventId }}</span>
+            <span v-if="modalType === 'create'">新增活動</span>
+            <span v-else>編輯活動 - 活動編碼：{{ eventId }}</span>
           </h5>
           <button
             type="button"
