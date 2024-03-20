@@ -1,10 +1,13 @@
 <template>
-  <div class="d-flex flex-column position-relative mx-0" :style="{ maxWidth: `100%` }">
-    <HeaderComponent></HeaderComponent>
+  <div
+    class="d-flex flex-column position-relative mx-0"
+    :style="{ maxWidth: `100%`, height: `100vh` }"
+  >
+    <HeaderComponent />
     <main class="flex-grow-1">
-      <router-view></router-view>
+      <RouterView></RouterView>
     </main>
-    <FooterComponent></FooterComponent>
+    <FooterComponent />
     <HomeToTopBtn />
   </div>
 </template>

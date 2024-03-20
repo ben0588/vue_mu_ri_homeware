@@ -1,5 +1,5 @@
 <template>
-  <div class="py-64 text-white" :style="{ backgroundColor: '#29292D' }">
+  <footer class="py-64 text-white" :style="{ backgroundColor: '#29292D' }">
     <div class="d-flex justify-content-center align-items-center flex-column">
       <div class="container px-4 px-lg-64">
         <div
@@ -70,8 +70,9 @@
         </p>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
+
 <script setup>
 const scamAlertText = {
   text: '沐日家居絕不會以電話或簡訊通知訂單/分期出錯、或變更付款方式，更不會要您前往ATM進行任何操作！不應在沐日家居以外的任何地方輸入沐日家居帳密(例如非政府官網的電子發票app)，以免權益受損！',
@@ -112,4 +113,3 @@ const communityList = [
   },
 ];
 </script>
-<style lang="scss"></style>
