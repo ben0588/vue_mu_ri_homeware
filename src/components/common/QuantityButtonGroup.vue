@@ -1,11 +1,12 @@
 <template>
   <div class="input-group">
-    <button type="button"
-    class="btn border-1 py-2"
-     @click="handleChangQuantity('reduce')"
-     :class="btnClass"
-     :disabled="cartStore.addTargetId === id && cartStore.editState"
-     >
+    <button
+      type="button"
+      class="btn border-1 py-2"
+      @click="handleChangQuantity('reduce')"
+      :class="btnClass"
+      :disabled="(cartStore.addTargetId === id && cartStore.editState) || quantity === 1"
+    >
       <font-awesome-icon :icon="['fas', 'minus']" />
     </button>
     <input
@@ -15,11 +16,13 @@
       v-model.number="quantity"
       :class="inputClass"
     />
-    <button type="button"
-    class="btn border-1 py-2"
-     @click="handleChangQuantity('add')"
-     :class="btnClass"
-     :disabled="cartStore.addTargetId === id && cartStore.editState">
+    <button
+      type="button"
+      class="btn border-1 py-2"
+      @click="handleChangQuantity('add')"
+      :class="btnClass"
+      :disabled="cartStore.addTargetId === id && cartStore.editState"
+    >
       <font-awesome-icon :icon="['fas', 'plus']" />
     </button>
   </div>
@@ -103,6 +106,5 @@ onMounted(() => {
     quantity.value = props.cartQuantity;
   }
 });
-
 </script>
 <style lang="scss"></style>

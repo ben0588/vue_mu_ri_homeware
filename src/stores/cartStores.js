@@ -84,9 +84,7 @@ const useCartStore = defineStore('cartStores', () => {
           transition: 'slide',
         });
         addTargetId.value = '';
-        setTimeout(() => {
-          fetchCarts();
-        }, 1000);
+        fetchCarts();
       }
     } catch (error) {
       showAlert({
