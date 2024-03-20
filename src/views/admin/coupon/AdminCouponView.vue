@@ -40,7 +40,6 @@
                 啟用
               </div>
               <div class="d-flex justify-content-start flex-column text-danger" v-else>未啟用</div>
-              {{ coupon.due_date }}
               <div
                 v-if="new Date().getTime() / 1000 <= coupon.due_date"
                 class="d-flex justify-content-start flex-column text-success"
@@ -166,8 +165,8 @@ const deleteCoupon = async (id) => {
     deleteTargetId.value = id; // 紀錄刪除商品 id
     deleteLoading.value = true; // 單獨加載
     showAlert({
-      title: t('admin.products_delete_title'),
-      text: t('admin.products_delete_confirm_text'),
+      title: '刪除優惠卷?',
+      text: '確認刪除後，優惠卷資料將無法回復!',
       icon: 'question',
       confirmButtonColor: '#111c30',
       cancelButtonColor: '#b2bec3',
@@ -207,7 +206,7 @@ const deleteCoupon = async (id) => {
           confirmButtonColor: '#000000',
         });
       }
-      deleteTargetId.value = ''; // 清空商品紀錄 id
+      deleteTargetId.value = '';
     });
   } catch (error) {
     showAlert({

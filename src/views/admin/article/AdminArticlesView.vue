@@ -143,8 +143,8 @@ const deleteArticle = async (id) => {
   try {
     const api = `${baseApiUrl}/v2/api/${apiPath}/admin/article/${id}`;
     showAlert({
-      title: '確認刪除訂單?',
-      text: '注意：確認刪除後，訂單將無法復原!',
+      title: '確認刪除文章?',
+      text: '注意：確認刪除後，文章資料將無法復原!',
       icon: 'question',
       confirmButtonColor: '#29292D',
       cancelButtonColor: '#b2bec3',

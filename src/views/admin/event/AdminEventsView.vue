@@ -31,7 +31,20 @@
           <tr v-for="event in adminEvents" :key="event.id">
             <td>{{ event.id }}</td>
             <td>{{ event.title }}</td>
-            <td>wqeqwe</td>
+            <td>
+              <div
+                class="d-flex flex-column align-items-start text-success"
+                v-if="!isExpired(event.activity_end_time)"
+              >
+                <span>{{ event.activity_start_time }} ~</span>
+                <span>{{ event.activity_end_time }}</span>
+              </div>
+              <div class="d-flex flex-column align-items-start text-danger" v-else>
+                <span>{{ event.activity_start_time }} ~</span>
+                <span>{{ event.activity_end_time }}</span>
+                <span>[活動已結束]</span>
+              </div>
+            </td>
             <td>
               <span v-if="event.isPublic" class="text-success"> 啟用 </span>
               <span v-else class="text-danger">未啟用</span>
@@ -86,6 +99,22 @@ const loadingStore = useLoadingStore();
 const adminEventModal = ref(null);
 const adminEvents = ref([]);
 const deleteTarget = ref('');
+
+const isExpired = (dateString) => {
+  const currentDate = new Date();
+  if (dateString) {
+    const dateParts = dateString?.split('-');
+    const dateToCheck = new Date(
+      parseInt(dateParts[0], 10),
+      parseInt(dateParts[1], 10) - 1,
+      parseInt(dateParts[2], 10),
+    );
+
+    // 檢查日期是否過期（比較當前日期與要檢查的日期）
+    return currentDate > dateToCheck && currentDate.toDateString() !== dateToCheck.toDateString();
+  }
+  return false;
+};
 
 // 傳遞開啟方法與資料給 Modal 子元件
 const handleOpenModal = ({ type, id }) => {
