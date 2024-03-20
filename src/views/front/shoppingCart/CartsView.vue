@@ -1,16 +1,16 @@
-<!-- eslint-disable max-len -->
 <template>
   <div class="py-32">
-    <div class="container pb-12">
+    <div class="container pb-12" v-if="cartStore.cartList.length || route.params.id">
       <nav>
-        <ul
-          class="list-unstyled d-flex justify-content-between justify-content-xl-around align-items-center mb-0 py-32"
-        >
+        <ul class="list-unstyled d-flex justify-content-around align-items-center mb-0 py-32">
           <li
             v-for="(item, index) in cartNavList"
             :key="item.id"
             class="position-relative"
-            :class="[`item-${index}`, { 'cart-navbar-active': isCurrentOrPreviousRoute(index) }]"
+            :class="[
+              `item-${index + 1}`,
+              { 'cart-navbar-active': isCurrentOrPreviousRoute(index) },
+            ]"
           >
             <div class="d-flex justify-content-center align-items-center flex-column">
               <div
@@ -29,7 +29,7 @@
                 <span v-if="isCurrentOrPreviousRoute(index)"
                   ><font-awesome-icon :icon="['fas', 'check']" class="text-white"
                 /></span>
-                <span v-else>{{ index + 1 }}</span>
+                <span v-else class="fs-5">{{ index + 1 }}</span>
               </div>
               <div>
                 {{ item.title }}
@@ -39,13 +39,17 @@
         </ul>
       </nav>
     </div>
-
     <router-view></router-view>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+
+import useCartStore from '@/stores/cartStores';
+
+const cartStore = useCartStore();
 
 const route = useRoute();
 
@@ -81,11 +85,12 @@ const isCurrentOrPreviousRoute = (index) => {
   return index < currentRouteIndex;
 };
 </script>
+
 <style lang="scss">
 .cart-navbar-item {
   padding: 1rem;
-  width: 65px;
-  height: 65px;
+  width: 50px;
+  height: 50px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -100,96 +105,122 @@ li::after {
   display: block;
 }
 
-.item-0::after {
+.item-1::after {
   content: '';
   position: absolute;
   width: 27px;
-  height: 5px;
+  height: 3px;
   background: #b2bec3;
   top: 40%;
   left: 98%;
   transform: translateY(-40%);
   transition: all 0.3s ease-in-out;
 
+  @media (min-width: 375px) {
+    width: 21px;
+    left: 116%;
+  }
   @media (min-width: 576px) {
     width: 50px;
     left: 123%;
   }
   @media (min-width: 768px) {
     width: 77px;
+    left: 139%;
   }
   @media (min-width: 992px) {
-    width: 156px;
+    width: 130px;
+    left: 143%;
   }
   @media (min-width: 1200px) {
     width: 175px;
-    left: 123%;
+    left: 154%;
+  }
+  @media (min-width: 1400px) {
+    width: 202px;
+    left: 154%;
   }
   @media (min-width: 1600px) {
     width: 200px;
-    left: 142%;
-  }
-}
-
-.item-1::after {
-  content: '';
-  position: absolute;
-  width: 44px;
-  height: 5px;
-  background: #b2bec3;
-  top: 40%;
-  left: 83%;
-  transform: translateY(-40%);
-  transition: all 0.3s ease-in-out;
-
-  @media (min-width: 576px) {
-    width: 53px;
-    left: 107%;
-  }
-  @media (min-width: 768px) {
-    width: 77px;
-    left: 128%;
-  }
-  @media (min-width: 992px) {
-    width: 156px;
-    left: 127%;
-  }
-  @media (min-width: 1200px) {
-    width: 175px;
-    left: 108%;
-  }
-  @media (min-width: 1600px) {
-    width: 200px;
-    left: 123%;
+    left: 163%;
   }
 }
 
 .item-2::after {
   content: '';
   position: absolute;
-  width: 27px;
-  height: 5px;
+  width: 44px;
+  height: 3px;
   background: #b2bec3;
   top: 40%;
   left: 83%;
   transform: translateY(-40%);
   transition: all 0.3s ease-in-out;
 
+  @media (min-width: 375px) {
+    width: 21px;
+    left: 96%;
+  }
   @media (min-width: 576px) {
     width: 53px;
-    left: 103%;
+    left: 100%;
   }
   @media (min-width: 768px) {
     width: 77px;
-    left: 122%;
+    left: 107%;
   }
   @media (min-width: 992px) {
-    width: 156px;
-    left: 123%;
+    width: 130px;
+    left: 116%;
   }
   @media (min-width: 1200px) {
     width: 175px;
-    left: 108%;
+    left: 116%;
+  }
+  @media (min-width: 1400px) {
+    width: 202px;
+    left: 126%;
+  }
+  @media (min-width: 1600px) {
+    width: 200px;
+    left: 123%;
+  }
+}
+
+.item-3::after {
+  content: '';
+  position: absolute;
+  width: 27px;
+  height: 3px;
+  background: #b2bec3;
+  top: 40%;
+  left: 83%;
+  transform: translateY(-40%);
+  transition: all 0.3s ease-in-out;
+
+  @media (min-width: 375px) {
+    width: 21px;
+    left: 87%;
+  }
+  @media (min-width: 576px) {
+    width: 53px;
+    left: 93%;
+  }
+  @media (min-width: 768px) {
+    width: 77px;
+    left: 107%;
+  }
+  @media (min-width: 992px) {
+    width: 130px;
+    left: 112%;
+  }
+  @media (min-width: 1200px) {
+    width: 175px;
+    left: 109%;
+  }
+  @media (min-width: 1400px) {
+    width: 202px;
+    left: 122%;
   }
   @media (min-width: 1600px) {
     width: 200px;

@@ -180,8 +180,7 @@
         </div>
       </div>
 
-      <!--  -->
-      <div class="d-flex justify-content-end pb-12 mt-12">
+      <div class="d-flex justify-content-center justify-content-sm-end py-12 mt-12">
         <router-link to="/products" class="btn btn-outline-dark" :style="{ width: `150px` }"
           >繼續逛逛</router-link
         >

@@ -1,6 +1,5 @@
-<!-- eslint-disable max-len -->
 <template>
-  <div class="mt-80 py-64">
+  <div class="mt-32 mt-lg-80 pt-80">
     <h3 class="home-title">最新活動</h3>
     <div class="container mt-64">
       <div class="row justify-content-between gx-0 px-1 px-sm-0 gx-lg-5">
@@ -94,6 +93,14 @@ onMounted(() => {
   width: 380px;
   height: 288px;
 
+  @media (max-width: 1200px) {
+    width: 323px;
+    height: 225px;
+  }
+  @media (max-width: 992px) {
+    width: 258px;
+    height: 199px;
+  }
   @media (max-width: 768px) {
     width: 258px;
     height: 199px;

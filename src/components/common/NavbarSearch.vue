@@ -1,14 +1,12 @@
-<!-- eslint-disable max-len -->
 <template>
-  <div class="d-flex">
+  <div class="d-flex justify-content-center align-items-center">
     <div class="dropdown mt-0">
       <button
-        class="btn btn-outline-primary-sup-light dropdown-toggle text-dark border-secondary border-2"
+        class="nav-search-btn btn btn-outline-primary-sup-light dropdown-toggle text-dark border-secondary border-2"
         type="button"
         id="headerDropdownMenuButton"
         data-bs-toggle="dropdown"
         :aria-expanded="isOpen"
-        :style="{ width: '128px', height: '48px' }"
         @click.prevent="toggleOpen"
       >
         {{ categoryStore.categoryTarget }}
@@ -39,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <div :style="{ width: '320px', height: '48px' }" class="overflow-hidden position-relative">
+    <div class="nav-search-input overflow-hidden position-relative">
       <input
         class="form-control h-100 border-2"
         type="text"
@@ -47,14 +45,24 @@
         placeholder="輸入商品"
         aria-label="default input example"
         v-model="searchStore.searchText"
-        @keydown.enter="handleSearch"
+        @keydown.enter="
+          (e) => {
+            handleSearch(e);
+            emits('toggle-open', false);
+          }
+        "
         @input="handleInput"
       />
       <font-awesome-icon
         :icon="['fas', 'magnifying-glass']"
         class="search-icon"
         role="button"
-        @click="handleSearch"
+        @click="
+          (e) => {
+            handleSearch(e);
+            emits('toggle-open', false);
+          }
+        "
         :title="'搜尋'"
       />
     </div>
@@ -72,12 +80,15 @@ const categoryStore = useCategoryStore();
 const searchStore = useSearchStore();
 const { handleSearch, handleInput } = searchStore;
 
+const emits = defineEmits(['toggle-open']);
+
 const toggleOpen = () => {
   isOpen.value = !isOpen.value;
 };
 
 const handleChangeCategory = (target) => {
   categoryStore.categoryTarget = target;
+  emits('toggle-open', false);
 };
 
 const categoryList = [
@@ -92,7 +103,30 @@ const categoryList = [
   { id: '8', text: '收納' }, // 收納
 ];
 </script>
+
 <style lang="scss">
+.nav-search-btn {
+  height: 48px;
+  width: 128px;
+}
+
+.nav-search-input {
+  height: 48px;
+  width: 160px;
+  @media (min-width: 576px) {
+    width: 320px;
+  }
+  @media (min-width: 992px) {
+    width: 189px;
+  }
+  @media (min-width: 1200px) {
+    width: 233px;
+  }
+  @media (min-width: 1920px) {
+    width: 320px;
+  }
+}
+
 .dropdown-item {
   width: 240px;
   font-size: 1rem;
@@ -129,4 +163,3 @@ const categoryList = [
   }
 }
 </style>
-useRouter,

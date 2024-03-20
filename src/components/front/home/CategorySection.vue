@@ -1,6 +1,6 @@
 <template>
-  <section class="mt-80">
-    <h3 class="home-title mb-3">類型選擇</h3>
+  <section class="mt-32 mt-lg-80 pt-80">
+    <h3 class="home-title mb-3">商品分類</h3>
     <div class="container mt-5">
       <div class="row justify-content-center align-items-start">
         <div class="col-4" v-if="!isTable">
@@ -183,30 +183,28 @@ watchEffect(() => {
 <style lang="scss">
 .category-sale-sm-img {
   height: auto;
-  max-width: 196px;
-  max-height: 196px;
   object-fit: cover;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1600px) {
     width: 156px;
     height: 156px;
   }
-
-  @media (max-width: 768px) {
-    width: 111px;
-    height: 111px;
+  @media (max-width: 992px) {
+    width: 136px;
+    height: 136px;
   }
-
+  @media (max-width: 768px) {
+    width: 156px;
+    height: 156px;
+  }
   @media (max-width: 576px) {
     width: 111px;
     height: 111px;
   }
-
   @media (max-width: 414px) {
     width: 164.5px;
     height: 164.5px;
   }
-
   @media (max-width: 375px) {
     width: 163.5px;
     height: 146px;
@@ -221,12 +219,10 @@ watchEffect(() => {
     width: 289px;
     height: 352px;
   }
-
   @media (min-width: 1200px) {
     width: 349px;
     height: 412px;
   }
-
   @media (min-width: 1400px) {
     width: 411px;
     height: 474px;
@@ -236,8 +232,6 @@ watchEffect(() => {
 .category-img {
   width: 100%;
   height: auto;
-  max-width: 196px;
-  max-height: 196px;
   object-fit: cover;
 
   @media (max-width: 500px) {

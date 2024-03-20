@@ -40,10 +40,8 @@
           spaceBetween: 64,
         },
       }"
-      class="position-relative"
+      class="banner-swiper-container position-relative"
       :style="{
-        width: `100%`,
-        height: `750px`,
         '--swiper-navigation-size': '20px',
         '--swiper-pagination-color': '#0089a7',
         '--swiper-pagination-bullet-inactive-color': '#fff',
@@ -71,7 +69,7 @@
             <router-link
               to="products"
               role="button"
-              class="btn btn-primary btn-lg fs-6 text-white py-3 mt-5"
+              class="btn btn-primary btn-lg fs-6 text-white py-3 mt-3"
             >
               {{ item.buttonText }}
             </router-link>
@@ -149,7 +147,15 @@ onMounted(() => {
 // 控制當桌機板與手機板 banner 圖片切換
 const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'imgMobileUrl'));
 </script>
+
 <style lang="scss">
+.banner-swiper-container {
+  height: 650px;
+  @media (min-width: 1920px) {
+    height: 750px;
+  }
+}
+
 // 客製化左右按鈕的樣式
 .swiper-button-prev {
   left: 6%;
@@ -239,7 +245,7 @@ const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'img
   align-items: center;
   flex-direction: column;
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
   @media (max-width: 500px) {
@@ -257,48 +263,4 @@ const currentImage = computed(() => (currentWidth.value >= 500 ? 'imgUrl' : 'img
     font-size: 48px;
   }
 }
-
-/* .swiper-slide {
-  padding-block: 110px;
-  text-align: center;
-  font-size: 18px;
-  background: #ccc;
-} */
 </style>
-
-<!--
-
-.banner-title-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* 假設當視窗寬度小於 768px 時，設定 spaceBetween 為 20px */
-@media (max-width: 768px) {
-  .swiper-container {
-    --swiper-space-between: 20px;
-  }
-}
-
-/* 假設當視窗寬度介於 768px 和 1024px 之間時，設定 spaceBetween 為 30px */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .swiper-container {
-    --swiper-space-between: 30px;
-  }
-}
-
-/* 假設當視窗寬度大於 1024px 時，設定 spaceBetween 為 40px */
-@media (min-width: 1024px) {
-  .swiper-container {
-    --swiper-space-between: -140px;
-  }
-}
- -->

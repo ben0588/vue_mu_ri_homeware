@@ -4,9 +4,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <router-link to="/newEvents">最新活動</router-link>
+            <router-link to="/newEvents" class="text-dark">最新活動</router-link>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ event.title }}</li>
+          <li class="breadcrumb-item text-primary" aria-current="page">{{ event.title }}</li>
         </ol>
       </nav>
       <h2 class="mb-0">{{ event.title }}</h2>

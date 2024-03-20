@@ -58,7 +58,7 @@ body {
 }
 
 .col-4-3 {
-  @media (max-width: 992px) {
+  @media (max-width: 991px) {
     flex: 0 0 auto;
     /* 讓右側顯示區塊 */
     width: calc((100% - 16px) / 4.5);

@@ -64,6 +64,7 @@ const useWishStore = defineStore('wishStore', () => {
       cancelButtonText: '取消',
       showCancelButton: true,
       showCloseButton: true,
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         wishlist.value = wishlist.value.filter((item) => item.id !== product.id);
@@ -86,6 +87,7 @@ const useWishStore = defineStore('wishStore', () => {
       cancelButtonText: '取消',
       showCancelButton: true,
       showCloseButton: true,
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         wishlist.value = []; // 確認後重新清除

@@ -9,7 +9,7 @@
       <div class="card-body pt-3 px-0">
         <h5 class="card-title fs-4 text-start text-ellipsis">{{ product.title }}</h5>
 
-        <div class="mb-32">
+        <div class="mb-3">
           <RatingStar
             :averageRating="product.averageRating || 0"
             :totalRatings="product.totalRatings || 0"

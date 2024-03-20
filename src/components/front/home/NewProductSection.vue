@@ -1,6 +1,5 @@
-<!-- eslint-disable max-len -->
 <template>
-  <section class="mt-64 py-80" :style="{ backgroundColor: '#FBF9F9' }">
+  <section class="mt-32 mt-lg-80 pt-80" :style="{ backgroundColor: '#FBF9F9' }">
     <h3 class="home-title">最新商品</h3>
     <div class="container mt-64 px-2 w-100">
       <div
@@ -11,7 +10,7 @@
         <div class="col-md-12 px-1 px-sm-3" v-if="index === 0">
           <div class="row border border-2 border-primary">
             <div class="col-md-7 px-0">
-              <router-link :to="`/products/${product.id}`">
+              <router-link :to="`/products/${product.id}`" class="hover-opacity">
                 <img
                   :src="product.imageUrl"
                   :alt="product.title"
@@ -130,24 +129,21 @@ onMounted(() => {
     width: 378px;
     height: 232px;
   }
-
   @media (min-width: 576px) {
     width: 512px;
     height: 262px;
   }
-
   @media (min-width: 768px) {
     width: 389px;
     height: 262px;
   }
-
   @media (min-width: 992px) {
     width: 536px;
     height: 325px;
   }
   @media (min-width: 1200px) {
     width: 649px;
-    height: 348px;
+    height: 354px;
   }
   @media (min-width: 1400px) {
     width: 746px;

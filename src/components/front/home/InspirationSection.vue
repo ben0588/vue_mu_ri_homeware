@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative mt-60 py-80">
+  <div class="position-relative my-32 pt-80">
     <h3 class="home-title mb-64" :style="{ width: `244px` }">最新佈置靈感</h3>
     <div class="container px-0 px-xl-1">
       <Swiper
@@ -27,10 +27,8 @@
             spaceBetween: 30,
           },
         }"
-        class="position-relative px-lg-2"
+        class="inspiration-swiper-container position-relative px-lg-2"
         :style="{
-          width: `100%`,
-          height: `544px`,
           '--swiper-navigation-size': '20px',
         }"
         ref="swiperRef"
@@ -92,6 +90,13 @@ onMounted(() => {
 });
 </script>
 <style lang="scss">
+/* .inspiration-swiper-container {
+  height: px;
+  @media (min-width: 1920px) {
+    height: 750px;
+  }
+} */
+
 .swiper-pagination-inspiration {
   display: none;
 }
@@ -135,19 +140,19 @@ onMounted(() => {
 
 .swiper-new-inspiration-prev {
   left: 95%;
-  top: 54%;
+  top: 57%;
   @media (max-width: 1920px) {
     left: 84.5%;
   }
   @media (max-width: 1600px) {
-    left: 91.5%;
+    left: 94.9%;
   }
   @media (max-width: 1200px) {
     left: 94.9%;
   }
   @media (max-width: 992px) {
-    left: 92.5%;
-    top: 42%;
+    left: 95.5%;
+    top: 62%;
   }
   @media (max-width: 768px) {
     display: none;
@@ -156,19 +161,19 @@ onMounted(() => {
 
 .swiper-new-inspiration-next {
   right: 95%;
-  top: 54%;
+  top: 57%;
   @media (max-width: 1920px) {
     right: 84.5%;
   }
   @media (max-width: 1600px) {
-    right: 91.5%;
+    right: 94.9%;
   }
   @media (max-width: 1200px) {
     right: 94.9%;
   }
   @media (max-width: 992px) {
-    right:  92.5%;
-    top: 42%;
+    right: 95.5%;
+    top: 62%;
   }
   @media (max-width: 768px) {
     display: none;

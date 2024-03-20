@@ -116,7 +116,7 @@ const useCartStore = defineStore('cartStores', () => {
         showCancelButton: true,
         showCloseButton: true,
         showLoaderOnConfirm: true,
-        reverseButtons: false,
+        reverseButtons: true,
         preConfirm: async () => {
           try {
             return await axios.delete(api);
@@ -170,7 +170,7 @@ const useCartStore = defineStore('cartStores', () => {
         showCancelButton: true,
         showCloseButton: true,
         showLoaderOnConfirm: true,
-        reverseButtons: false,
+        reverseButtons: true,
         preConfirm: async () => {
           try {
             return await axios.delete(api);

@@ -4,10 +4,10 @@
     <div class="row">
       <div class="col-lg-1 col-xl-2"></div>
       <div class="col-lg-10 col-xl-8">
-        <p class="lh-lg fs-4 pt-32">
+        <p class="lh-lg pt-32">
           {{ text.center1 }}
         </p>
-        <p class="lh-lg fs-4 pb-32 pt-4">
+        <p class="lh-lg pb-32 pt-4">
           {{ text.center2 }}
         </p>
         <nav>
@@ -17,9 +17,9 @@
                 :href="item.path"
                 target="_blank"
                 rel="noopener"
-                class="link-dark nav-link-line-hover text-decoration-underline fs-4"
+                class="link-dark nav-link-line-hover text-decoration-underline"
               >
-                <font-awesome-icon :icon="[item.iconType, item.icon]" class="fs-4" />
+                <font-awesome-icon :icon="[item.iconType, item.icon]" />
                 <span class="ms-2">
                   {{ item.title }}
                 </span>

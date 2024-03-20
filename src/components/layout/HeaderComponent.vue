@@ -14,7 +14,6 @@
           }"
           :direction="'vertical'"
           :scrollbar="{ draggable: true }"
-          class=""
           :style="{
             width: `100%`,
             height: `45px`,
@@ -39,7 +38,7 @@
     </div>
     <div class="bg-white py-2">
       <div class="container">
-        <nav class="navbar navbar-expand-lg" @click="toggleMenuOpen">
+        <nav class="navbar navbar-expand-lg">
           <div class="container-fluid px-0">
             <!-- 左側 Logo 或品牌名稱 -->
             <router-link
@@ -67,7 +66,6 @@
               aria-label="Toggle navigation"
             >
               <!-- aria-expanded 控制表單開與關 -->
-
               <font-awesome-icon :icon="['fas', 'bars']" class="custom-toggler-icon" />
             </button>
             <div
@@ -82,12 +80,14 @@
                 <div class="col-4 d-flex justify-content-center" v-if="!isTable">
                   <NavbarSearch v-if="!isTable"></NavbarSearch>
                 </div>
-
                 <div class="col-12 col-lg-5 pe-0 p-0">
                   <nav class="d-flex justify-content-end w-100 h-100">
                     <ul
-                      class="header-navbar-container list-unstyled d-flex flex-column flex-lg-row align-items-center justify-content-end text-center m-0"
+                      class="list-unstyled d-flex flex-column flex-lg-row align-items-center justify-content-end text-center w-100 m-0 py-3 py-lg-0"
                     >
+                      <li>
+                        <NavbarSearch v-if="isTable" @toggle-open="toggleMenuOpen"></NavbarSearch>
+                      </li>
                       <li
                         class="ms-4 header-navbar-items"
                         v-for="(item, index) in navbarList"
@@ -221,17 +221,17 @@ const advertiseList = [
   // path 可以用來連結對應的活動頁面/或者商品資訊
   {
     id: 1,
-    path: '',
+    path: '/newEvents',
     center: '【獨家優惠】所有時尚家飾及大型傢俱滿千即享免運費 + 會員專屬：指定品項點數翻倍送',
   },
   {
     id: 2,
-    path: '',
+    path: '/newEvents',
     center: '【特別驚喜】精選家居擺飾及豪華傢俱滿千即享免運 + 會員獨享：指定商品積分雙倍贈送',
   },
   {
     id: 3,
-    path: '',
+    path: '/newEvents',
     center: '【限時特惠】選購精緻家飾或奢華大型傢俱滿千即免運費 + 會員尊享：指定品項點數加倍回饋',
   },
 ];
@@ -325,13 +325,11 @@ watchEffect(() => {
   @media (max-width: 768px) {
     width: 100%;
   }
-  @media (max-width: 414px) {
-    padding: 40px;
-  }
 }
 
 .header-navbar-items {
   @media (max-width: 768px) {
+    width: 100%;
     &:nth-of-type(1) {
       padding-top: 0;
     }

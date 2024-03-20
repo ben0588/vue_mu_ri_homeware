@@ -4,9 +4,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <router-link to="/inspiration">佈置靈感</router-link>
+            <router-link to="/inspiration" class="text-dark">佈置靈感</router-link>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+          <li class="breadcrumb-item text-primary" aria-current="page">{{ article.title }}</li>
         </ol>
       </nav>
       <h2 class="mb-0">{{ article.title }}</h2>

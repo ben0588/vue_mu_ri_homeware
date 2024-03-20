@@ -40,7 +40,7 @@
                   <div>單位：{{ item.product.unit }}</div>
                 </div>
               </td>
-              <td></td>
+              <td class="order-phone-td"></td>
               <td>
                 <div class="d-flex flex-column justify-content-center">
                   <span
@@ -99,10 +99,10 @@
     </div>
 
     <!-- 下方區塊 -->
-    <div class="row" v-if="cartStore.cartList.length">
+    <div class="row flex-column-reverse flex-lg-row" v-if="cartStore.cartList.length">
       <!-- 填寫訂購人資料 + 運送方式 -->
       <div class="col-lg-6">
-        <div class="border border-2 border-dark p-3">
+        <div class="border border-2 border-dark p-3 mt-3 mt-lg-0">
           <VeeForm
             v-slot="{ handleSubmit, isSubmitting, errors, meta }"
             :validation-schema="schema"
@@ -140,7 +140,7 @@
                 :name="'address'"
                 :label="'地址'"
                 :id="'order-address'"
-                :placeholder="'請輸入聯絡電子信箱'"
+                :placeholder="'請輸入寄送地址'"
                 :errors="errors"
                 :type="'text'"
               />
@@ -148,6 +148,7 @@
                 type="submit"
                 class="btn btn-dark w-100"
                 :disabled="!meta.valid || isSubmitting"
+                :class="`${!meta.valid || isSubmitting ? 'cursor-not-allowed' : ''}`"
               >
                 <span v-if="isSubmitting">
                   <span class="spinner-grow spinner-grow-sm me-1" aria-hidden="true"></span>
@@ -160,7 +161,7 @@
         </div>
 
         <!-- 備註填寫 -->
-        <div class="border border-2 border-dark p-3 mt-3">
+        <div class="border border-2 border-dark p-3 mt-3 mt-lg-0">
           <div class="mb-3">
             <label
               for="order-message"
@@ -221,28 +222,28 @@
           <!-- 優惠卷 -->
           <div class="border-bottom border-dark">
             <div class="row pb-3">
-              <div class="col-lg-3"></div>
-              <div class="col-lg-9">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-10">
                 <div class="row">
-                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-3"></div>
                   <div class="col-6 col-sm-4 col-md-3 col-lg-6">商品總金額</div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-3 text-end">
                     {{ usePriceToTw(cartStore.cartTotal) }}
                   </div>
-                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-3"></div>
                   <div class="col-6 col-sm-4 col-md-3 col-lg-6">運費小計</div>
                   <div
-                    class="col-6 col-sm-4 col-md-3 col-lg-4 text-end text-decoration-line-through"
+                    class="col-6 col-sm-4 col-md-3 col-lg-3 text-end text-decoration-line-through"
                   >
                     <span class="text-muted"> {{ usePriceToTw(0) }}</span>
                   </div>
                 </div>
 
                 <div class="row" v-if="cartStore.cartList[0].coupon">
-                  <div class="col-0 col-sm-4 col-md-6 col-lg-2 text-danger text-end">
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-3 text-danger text-start text-sm-end">
                     - {{ Math.floor(discountPercentage) }} %
                   </div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-7 text-danger">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-6 text-danger">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
                   </div>
                   <div class="col-6 col-sm-4 col-md-3 col-lg-3 text-danger text-end">
@@ -250,29 +251,27 @@
                   </div>
                 </div>
                 <div v-else class="row">
-                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                  <div class="col-0 col-sm-4 col-md-6 col-lg-3"></div>
                   <div class="col-6 col-sm-4 col-md-3 col-lg-6">
                     <font-awesome-icon :icon="['fas', 'ticket-simple']" /> 折價卷折抵
                   </div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">未使用</div>
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-3 text-end">未使用</div>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- 最終金額 -->
-          <div class="border-bottom border-dark">
-            <div class="row py-3">
-              <div class="col-lg-3"></div>
-              <div class="col-lg-9">
-                <div class="row">
-                  <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-6">
-                    <div class="fs-5 fw-700">訂單最終總金額</div>
-                  </div>
-                  <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">
-                    <span class="fs-5 fw-700">NT{{ usePriceToTw(cartStore.cartFinalTotal) }}</span>
-                  </div>
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+              <div class="row pt-3">
+                <div class="col-0 col-sm-4 col-md-6 col-lg-2"></div>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-6">
+                  <div class="fs-5 fw-700">訂單最終總金額</div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-4 text-end">
+                  <span class="fs-5 fw-700">NT{{ usePriceToTw(cartStore.cartFinalTotal) }}</span>
                 </div>
               </div>
             </div>
@@ -456,3 +455,11 @@ const refetchCartsFn = () => {
   fetchCarts();
 };
 </script>
+
+<style lang="scss">
+.order-phone-td {
+  @media (max-width: 375px) {
+    min-width: 12px !important;
+  }
+}
+</style>

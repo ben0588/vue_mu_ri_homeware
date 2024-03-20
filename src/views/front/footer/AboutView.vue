@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-1 col-xl-2"></div>
       <div class="col-lg-10 col-xl-8">
-        <p class="lh-lg fs-4 py-32">
+        <p class="lh-lg py-32">
           {{ text.center }}
         </p>
       </div>

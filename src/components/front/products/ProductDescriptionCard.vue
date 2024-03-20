@@ -7,7 +7,7 @@
     >
       <img :src="product.imageUrl" class="card-img-top" :alt="product.title" :class="imgClass" />
       <div class="card-body px-0 py-0">
-        <h5 class="card-title fs-5 text-start my-0">{{ product.title }}</h5>
+        <h5 class="card-title fs-5 text-start my-0 pt-2">{{ product.title }}</h5>
         <div>
           <RatingStar
             :averageRating="product.averageRating || 0"

@@ -16,12 +16,12 @@
         </button></span
       >
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-32 gy-3">
-      <div class="col" v-for="item in filterTagList" :key="item.id">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <div class="col mb-5" v-for="item in filterTagList" :key="item.id">
         <div>
           <router-link :to="`/inspiration/${item.id}`" class="hover-opacity text-dark">
             <img :src="item.image" :alt="item.title" class="inspiration-card-img" />
-            <h3 class="mt-2 mb-4 fs-4">{{ item.title }}</h3>
+            <h3 class="mt-2 fs-4">{{ item.title }}</h3>
             <div class="mb-1">
               <span>
                 {{

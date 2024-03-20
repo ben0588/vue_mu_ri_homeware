@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <template>
   <div>
     <div class="py-32" v-if="!loadingStore.isLoading">
@@ -14,12 +13,14 @@
                       handleChangeCategory('全部商品');
                     }
                   "
+                  class="text-dark"
                   >全部商品</router-link
                 >
               </li>
               <li class="breadcrumb-item">
                 <router-link
                   to="/products"
+                  class="text-dark"
                   @click="
                     () => {
                       handleChangeCategory(productsRatings.category);
@@ -28,7 +29,7 @@
                   >{{ productsRatings.category }}</router-link
                 >
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
+              <li class="breadcrumb-item text-primary" aria-current="page">
                 {{ productsRatings.title }}
               </li>
             </ol>
@@ -93,10 +94,13 @@
                         :zoomFactor="1"
                         @click="() => zoomInImage(item, productsRatings.title)"
                       />
+                      <span
+                        class="details-magnifying-glass-icon"
+                        @click="() => zoomInImage(item, productsRatings.title)"
+                        ><font-awesome-icon :icon="['fas', 'magnifying-glass']" class="fs-5"
+                      /></span>
                     </SwiperSlide>
-                    <span class="details-magnifying-glass-icon"
-                      ><font-awesome-icon :icon="['fas', 'magnifying-glass']" class="fs-5"
-                    /></span>
+
                     <div ref="prevRef" class="details-swiper-button details-swiper-button-prev">
                       <font-awesome-icon :icon="['fas', 'chevron-left']" />
                     </div>
@@ -217,13 +221,6 @@
                                 :key="colorIndex"
                               >
                                 {{ color.title }}
-                                <span
-                                  v-if="
-                                    colorIndex < productsRatings.colors.length - 1 &&
-                                    color.title !== ''
-                                  "
-                                  >、</span
-                                >
                               </span>
                             </td>
                           </tr>
@@ -475,6 +472,10 @@ onMounted(() => {
   @media (min-width: 1400px) {
     height: 82px;
   }
+
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 // 大圖
@@ -586,5 +587,6 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 </style>

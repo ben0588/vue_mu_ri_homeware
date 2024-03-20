@@ -6,15 +6,15 @@
         <table class="table align-middle">
           <thead>
             <tr>
-              <th class="text-start" colspan="2">追蹤商品資訊</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th class="text-center" colspan="2">
-                <button type="button" class="btn btn-none" @click="removeAllWishlist">
+              <td class="text-start" colspan="2">追蹤商品資訊</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="text-center" colspan="2">
+                <button type="button" class="btn btn-outline-danger" @click="removeAllWishlist">
                   移除所有項目
                 </button>
-              </th>
+              </td>
             </tr>
           </thead>
           <tbody>
@@ -30,25 +30,20 @@
                 </router-link>
               </td>
               <td>
-                <div>
-                  <div>{{ item.title }}</div>
-                  <div>{{ item.description }}</div>
-                  <div>單位：{{ item.unit }}</div>
-                </div>
+                <div>{{ item.title }}</div>
               </td>
               <td>
                 <div class="text-decoration-line-through text-muted">
                   {{ usePriceToTw(item.origin_price) }}
                 </div>
-                <div class="fw-bolder">{{ usePriceToTw(item.price) }}</div>
-                <div class="text-danger fw-700">
-                  折扣 {{ useComputedDiscount(item.origin_price, item.price) }}
+                <div>
+                  <span class="fw-bolder">{{ usePriceToTw(item.price) }}</span>
                 </div>
               </td>
               <td class="text-center">
                 <router-link
                   :to="`/products/${item.id}`"
-                  class="link-dark text-decoration-underline image-hover"
+                  class="link-dark text-decoration-underline image-hover text-primary"
                   >查看商品詳情</router-link
                 >
               </td>
@@ -88,15 +83,21 @@
     </div>
 
     <div v-else class="flex-center flex-column">
-      <p class="fs-4">目前並無任何追蹤商品</p>
+      <p class="fs-4">
+        <font-awesome-icon
+          :icon="['fas', 'circle-exclamation']"
+          class="text-danger me-2"
+        />目前並無任何追蹤商品
+      </p>
       <div>
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709362628868.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=h5XkhkexYnztCWjUC4P%2Bq2GcYACqx4RCgfPeAjKqqb4Xe%2BnBJJEVCz7v4TAcyYy%2BJSBlvRWWbk6qxveKZY9sJNVinlFg7WSBqssHpt4G5A0ZcrLlLc%2BRwg3dROKNkrAJNwKZs5QOcMO3mqU3W1qKSwCO3t6jLsAxgJxrdKhttiIoE%2F6n%2FpRzljAED%2BfI7KacbrUSSPVAdbllRxKbVcZ7rjcOzSqA2McBCotwTXYpuvCwOF91bHHZr7w5CJP63Z62CO8GUmQTJWXLxmaFWJJkOA429IC22Ts8%2FOCWGm%2BdH%2Fb4VQgC4kDgEE%2BU7sz0ODgHbwaT8kjq45vAIJOC3%2FY4ww%3D%3D"
           alt="暫無任何追蹤商品"
+          :style="{ width: `200px`, height: `200px` }"
         />
       </div>
-      <div class="mt-4">
-        <router-link to="/products" class="btn btn-dark px-4">前去逛逛</router-link>
+      <div class="mt-4 w-100 text-center">
+        <router-link to="/products" class="btn btn-dark px-64">前去逛逛</router-link>
       </div>
     </div>
   </div>
@@ -104,7 +105,6 @@
 
 <script setup>
 import usePriceToTw from '@/composables/usePriceToTw';
-import useComputedDiscount from '@/composables/useComputedDiscount';
 import useWishStore from '@/stores/wishStores';
 import useCartStore from '@/stores/cartStores';
 

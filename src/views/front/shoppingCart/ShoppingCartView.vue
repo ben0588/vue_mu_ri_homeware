@@ -13,7 +13,7 @@
               </td>
               <td class="text-center">小計</td>
               <th class="pb-0" colspan="1">
-                <button type="button" class="btn btn-none" @click="deleteCarts">
+                <button type="button" class="btn btn-outline-danger py-1 mb-1" @click="deleteCarts">
                   移除所有品項
                 </button>
               </th>
@@ -80,7 +80,11 @@
                       class="text-danger fs-3"
                       :title="isWishListed(item.product) ? '移除願望清單' : '加入願望清單中'"
                   /></span>
-                  <button @click.prevent="deleteCart(item.id)" type="button" class="btn btn-none">
+                  <button
+                    @click.prevent="deleteCart(item.id)"
+                    type="button"
+                    class="btn btn btn-none"
+                  >
                     <font-awesome-icon
                       :icon="['far', 'trash-can']"
                       title="移除購物車"
@@ -115,15 +119,21 @@
       </div>
     </div>
     <div v-else class="flex-center flex-column">
-      <p class="fs-4 mb-4">購物車目前並無任何商品</p>
-      <div>
+      <p class="fs-4 mb-4">
+        <font-awesome-icon
+          :icon="['fas', 'circle-exclamation']"
+          class="text-danger me-2"
+        />購物車目前並無任何商品
+      </p>
+      <div class="my-3">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1709523797457.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=TVpfq289hPAS0eJEUfUdQ094vN5dKwHD%2B261x5OpEH1uHeeE0Nd99HygcwvSAOfHcQJ4%2F%2B9BK4ugP20MZHg4sW9yksSFesbZoGYe6mOP3%2FLGJYD%2BwUyH3Go3d544OviGcMSRW%2FzcR1RKaWsMH1JEKdqCXibbCmwjqmnGufKB%2FeMqTzm3u8%2Fa66DIcFfmJf4t4%2BWdh2R5EQWzKN%2FVTud3sRRhiH%2BrltLOEoty5SBftDQnphuRO19cubaX2FaUG5ZpArGLvfPUgNu8lW9ivRIlaWgEqf36Mki4GOVn1cL2QV5lPje1jeZqN5oQjRZk1%2F52YRpaP7LcSt%2ByA%2FZEa0mnpQ%3D%3D"
           alt="購物車目前並無任何商品"
+          :style="{ width: `200px`, height: `200px` }"
         />
       </div>
-      <div class="mt-4">
-        <router-link to="/products" class="btn btn-dark px-4">前去逛逛</router-link>
+      <div class="mt-4 w-100 text-center">
+        <router-link to="/products" class="btn btn-dark px-64">前去逛逛</router-link>
       </div>
     </div>
   </div>

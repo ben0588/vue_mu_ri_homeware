@@ -1,61 +1,82 @@
 <template>
-  <div class="container pb-32">
+  <div class="container pb-32" v-if="!loadingStore.isLoading">
     <span class="row border-bottom border-2 my-2 py-2">
       <div class="col-12 col-lg-10">
-        <button
-          type="button"
-          class="btn border border-1 d-inline reset-btn me-2"
-          :style="{ marginTop: '-0.10rem', marginBottom: '0.10rem' }"
-          title="重置選擇"
-          @click="handleResetCategory"
-        >
-          <font-awesome-icon :icon="['fas', 'rotate']" class="" />
-        </button>
-        <button
-          type="button"
-          class="btn btn-warning border border-1 d-inline reset-btn me-2"
-          :style="{ marginTop: '-0.10rem', marginBottom: '0.10rem' }"
-          title="重置關鍵字搜尋"
-          @click="handleResetCategory"
-          v-if="searchStore.isSearch"
-        >
-          重置關鍵字搜尋
-        </button>
-        <select
-          class="products-select-rwd form-select d-inline"
-          aria-label="Default select example"
-          v-model="categoryStore.categoryTarget"
-        >
-          <!-- @change="handleChangCategory" -->
-          <option value="" selected disabled>請選擇主類型</option>
-          <option :value="category.text" v-for="category in categoryList" :key="category.id">
-            <span v-if="category.text === '特價中'">全部商品(特價)</span>
-            <span v-else>
-              {{ category.text }}
-            </span>
-          </option>
-        </select>
-        <select
-          class="products-select-rwd form-select d-inline ms-2"
-          aria-label="Default select example"
-          v-model="targetSort"
-        >
-          <option
-            :value="sort.command"
-            v-for="sort in sortList"
-            :key="sort.id"
-            :selected="sort.command === 'create_date'"
-          >
-            {{ sort.title }}
-          </option>
-        </select>
+        <div class="row flex-row-reverse flex-md-row align-items-center justify-content-start">
+          <div class="col-2 col-md-1 px-0">
+            <button
+              type="button"
+              class="btn border border-1 d-inline reset-btn ms-2 ms-lg-0 me-lg-2"
+              title="重置選擇"
+              @click="handleResetCategory"
+            >
+              <font-awesome-icon :icon="['fas', 'rotate']" class="" />
+            </button>
+          </div>
+
+          <div class="col-4 col-md-3 ps-0 pe-lg-0">
+            <select
+              class="products-select-rwd form-select d-inline ms-2 ms-lg-0 me-lg-2"
+              aria-label="Default select example"
+              v-model="categoryStore.categoryTarget"
+            >
+              <option value="" selected disabled>請選擇主類型</option>
+              <option :value="category.text" v-for="category in categoryList" :key="category.id">
+                <span v-if="category.text === '特價中'">全部商品(特價)</span>
+                <span v-else>
+                  {{ category.text }}
+                </span>
+              </option>
+            </select>
+          </div>
+          <div class="col-6 col-md-4 pe-1 pe-md-0">
+            <select
+              class="products-select-rwd form-select d-inline ms-lg-0"
+              aria-label="Default select example"
+              v-model="targetSort"
+            >
+              <option
+                :value="sort.command"
+                v-for="sort in sortList"
+                :key="sort.id"
+                :selected="sort.command === 'create_date'"
+              >
+                {{ sort.title }}
+              </option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4 ps-1 ps-lg-12 mt-2 mt-md-0" v-if="searchStore.isSearch">
+            <button
+              type="button"
+              class="btn btn-warning border border-1 d-inline reset-btn ms-2 ms-lg-0 me-lg-2"
+              title="重置關鍵字搜尋"
+              @click="handleResetCategory"
+              v-if="searchStore.isSearch"
+            >
+              重置關鍵字搜尋
+            </button>
+          </div>
+        </div>
       </div>
     </span>
 
-    <div class="row mt-4">
-      <div class="col-sm-6 col-md-4 col-lg-3" v-for="product in newSortProducts" :key="product.id">
+    <div class="row mt-4" v-if="newSortProducts.length !== 0">
+      <div
+        class="col-sm-6 col-md-4 col-lg-3 mb-3"
+        v-for="product in newSortProducts"
+        :key="product.id"
+      >
         <HomeCard :product="product" :img-class="'products-card-img'" />
       </div>
+    </div>
+
+    <div v-else class="pt-3">
+      <p>
+        <font-awesome-icon
+          :icon="['fas', 'circle-exclamation']"
+          class="text-danger me-2"
+        />您輸入的關鍵字找不到相關商品，請嘗試其他關鍵字，或使用類別查看商品。謝謝
+      </p>
     </div>
 
     <div class="flex-center mt-3 pt-3" v-if="!searchStore.isSearch">
@@ -65,6 +86,7 @@
       ></PaginationComponent>
     </div>
   </div>
+
   <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
 </template>
 <script setup>
@@ -122,18 +144,18 @@ const fetchProducts = async (page = 1, category = '') => {
 const productsRatings = computed(() => calculateProductsRatings(productsList.value));
 
 const categoryList = computed(() => [
-  { id: '0', text: '全部商品' }, // 全部商品
-  { id: '1', text: '特價中' }, // 全部商品
-  { id: '2', text: '家具' }, // 家具
-  { id: '3', text: '家飾' }, // 家飾
-  { id: '4', text: '燈具' }, // 燈具
-  { id: '5', text: '廚房用品' }, // 廚房用品
-  { id: '6', text: '浴室用品' }, // 浴室用品
-  { id: '7', text: '寢具' }, // 寢具
-  { id: '8', text: '收納' }, // 收納
-  { id: '9', text: '戶外與園藝' }, // 戶外與園藝
-  { id: '10', text: '辦公室用品' }, // 辦公室用品
-  { id: '11', text: '孩童家居' }, // 孩童家居
+  { id: '0', text: '全部商品' },
+  { id: '1', text: '特價中' },
+  { id: '2', text: '家具' },
+  { id: '3', text: '家飾' },
+  { id: '4', text: '燈具' },
+  { id: '5', text: '廚房用品' },
+  { id: '6', text: '浴室用品' },
+  { id: '7', text: '寢具' },
+  { id: '8', text: '收納' },
+  { id: '9', text: '戶外與園藝' },
+  { id: '10', text: '辦公室用品' },
+  { id: '11', text: '孩童家居' },
 ]);
 
 const sortList = ref([
@@ -143,8 +165,8 @@ const sortList = ref([
   { id: 3, title: '排序：評價高到低', command: 'comments' },
   { id: 4, title: '排序：價格低到高', command: 'price_small' },
   { id: 5, title: '排序：價格高到低', command: 'price_big' },
-  { id: 6, title: '排序：建立產品新到舊', command: 'create_date_new' }, // 產品建立時間
-  { id: 7, title: '排序：建立產品舊到新', command: 'create_date_old' }, // 產品建立時間
+  { id: 6, title: '排序：建立產品新到舊', command: 'create_date_new' },
+  { id: 7, title: '排序：建立產品舊到新', command: 'create_date_old' },
 ]);
 
 // 改變當前排序順序
@@ -272,9 +294,10 @@ watch(
   },
 );
 </script>
+
 <style lang="scss">
-.products-select-rwd {
-  @media (min-width: 414px) {
+/* .products-select-rwd {
+  @media (min-width: 375px) {
     width: 41.5% !important;
   }
   @media (min-width: 576px) {
@@ -289,7 +312,7 @@ watch(
   @media (min-width: 1200px) {
     width: 16.8% !important;
   }
-}
+} */
 
 .products-card-img {
   display: block;
