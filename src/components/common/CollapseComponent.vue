@@ -26,6 +26,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { Collapse } from 'bootstrap';
@@ -69,6 +70,7 @@ const toggleOpen = () => {
   isOpenState.value = !isOpenState.value;
 };
 </script>
+
 <style lang="scss">
 .collapse {
   .card-body {

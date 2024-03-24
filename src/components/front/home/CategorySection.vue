@@ -88,6 +88,7 @@
     </div>
   </section>
 </template>
+
 <script setup>
 import { ref, watchEffect } from 'vue';
 

@@ -37,11 +37,7 @@
           </router-link>
           <span v-for="(tag, index) in item.tag" :key="index" class="me-2">
             <!-- 搜尋相同 tag 的標籤，重新篩選出內容 -->
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm text-dark py-0 me-1"
-              :style="{ fontSize: `14px` }"
-            >
+            <button type="button" class="btn btn-secondary btn-sm text-dark py-0 me-1">
               {{ tag }}
             </button>
           </span>
@@ -49,14 +45,12 @@
       </div>
     </div>
     <div class="mt-5" v-if="articles.length">
-      <PaginationComponent
-        :pagination="articlesPagination"
-        @updated:page="fetchArticles"
-      ></PaginationComponent>
+      <PaginationComponent :pagination="articlesPagination" @updated:page="fetchArticles" />
     </div>
   </div>
-  <VueLoading :active="articleLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="articleLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import VueLoading from 'vue-loading-overlay';
@@ -133,6 +127,7 @@ onMounted(() => {
   fetchArticles();
 });
 </script>
+
 <style lang="scss">
 .inspiration-card-img {
   width: 100%;

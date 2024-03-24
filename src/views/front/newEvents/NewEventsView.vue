@@ -12,8 +12,9 @@
       </div>
     </div>
   </div>
-  <VueLoading :active="eventLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="eventLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import VueLoading from 'vue-loading-overlay';
@@ -50,6 +51,7 @@ onMounted(() => {
   fetchEvents();
 });
 </script>
+
 <style lang="scss">
 .events-card-img {
   width: 100%;

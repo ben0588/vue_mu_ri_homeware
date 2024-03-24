@@ -37,10 +37,7 @@
               <td></td>
               <td>
                 <div class="d-flex flex-column justify-content-center">
-                  <span
-                    class="text-decoration-line-through text-muted ms-1"
-                    :style="{ fontSize: '15px' }"
-                  >
+                  <span class="text-decoration-line-through text-muted ms-1">
                     {{ usePriceToTw(item.product.origin_price) }}</span
                   >
 
@@ -162,7 +159,7 @@
               <p class="text-success mb-0">
                 <font-awesome-icon :icon="['fas', 'shield']" /> 支付安全
               </p>
-              <p class="mb-0" :style="{ fontSize: `15px` }">
+              <p class="mb-0">
                 沐日家居
                 致力於保護您的付款資訊，並且只與同意保護您的資料的付款服務提供商共享您的信用卡資訊。
               </p>
@@ -171,7 +168,7 @@
               <p class="text-success mb-0">
                 <font-awesome-icon :icon="['fas', 'lock']" /> 安全與隱私
               </p>
-              <p class="mb-0" :style="{ fontSize: `15px` }">
+              <p class="mb-0">
                 沐日家居
                 尊重我們網站上用戶和訪問者的隱私，我們致力於通過維護行業標準的物理、技術和管理措施來保護相關隱私，這些措施旨在保護您的個人數據免遭未經授權的處理、使用或披露。
               </p>
@@ -215,9 +212,9 @@
       </div>
     </div>
   </div>
-
-  <VueLoading :active="fetchLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="fetchLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -349,4 +346,3 @@ const triggerSubmit = () => {
   submitBtn.value.click(); // 觸發隱藏的提交按鈕的點擊事件
 };
 </script>
-<style lang="scss"></style>

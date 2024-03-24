@@ -9,8 +9,9 @@
       </div>
     </div>
   </div>
-  <VueLoading :active="fetchLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="fetchLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
@@ -57,6 +58,7 @@ onMounted(() => {
   fetchProducts();
 });
 </script>
+
 <style lang="scss">
 .new-products-img {
   object-fit: cover;

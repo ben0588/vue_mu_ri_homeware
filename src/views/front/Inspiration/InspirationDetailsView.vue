@@ -66,8 +66,9 @@
     </div>
     <RecommendedComponent />
   </div>
-  <VueLoading :active="articleState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="articleState" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
@@ -106,12 +107,11 @@ onMounted(() => {
   fetchArticle();
 });
 </script>
+
 <style lang="scss">
 .inspiration-mid-img {
   object-fit: cover;
-  /* width: 1050px; */
   max-width: 100%;
-  /* height: 580px; */
   height: auto;
 }
 
@@ -119,7 +119,6 @@ onMounted(() => {
   object-fit: cover;
   max-width: 100%;
   width: 100%;
-  /* height: auto; */
   height: 100%;
 }
 </style>

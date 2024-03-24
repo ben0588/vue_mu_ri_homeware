@@ -117,15 +117,12 @@
       </table>
     </div>
 
-    <PaginationComponent
-      :pagination="adminPagination"
-      @updated:page="fetchAdminProducts"
-    ></PaginationComponent>
+    <PaginationComponent :pagination="adminPagination" @updated:page="fetchAdminProducts" />
     <AdminProductsModal
       ref="adminProductsModal"
       :typeName="typeName"
       @refetch-products="fetchAdminProducts"
-    ></AdminProductsModal>
+    />
   </div>
 </template>
 

@@ -53,6 +53,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -89,14 +90,8 @@ onMounted(() => {
   fetchArticles();
 });
 </script>
-<style lang="scss">
-/* .inspiration-swiper-container {
-  height: px;
-  @media (min-width: 1920px) {
-    height: 750px;
-  }
-} */
 
+<style lang="scss">
 .swiper-pagination-inspiration {
   display: none;
 }

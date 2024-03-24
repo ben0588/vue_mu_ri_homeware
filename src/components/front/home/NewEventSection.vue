@@ -41,6 +41,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -87,6 +88,7 @@ onMounted(() => {
   fetchArticles();
 });
 </script>
+
 <style lang="scss">
 .event-img {
   object-fit: contain;

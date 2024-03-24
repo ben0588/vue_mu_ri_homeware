@@ -1,11 +1,11 @@
 <template>
   <div>
-    <BannerComponent></BannerComponent>
-    <CategorySection></CategorySection>
-    <RecommendSection></RecommendSection>
-    <NewEventSection></NewEventSection>
-    <NewProductSection></NewProductSection>
-    <InspirationSection></InspirationSection>
+    <BannerComponent />
+    <CategorySection />
+    <RecommendSection />
+    <NewEventSection />
+    <NewProductSection />
+    <InspirationSection />
   </div>
 </template>
 

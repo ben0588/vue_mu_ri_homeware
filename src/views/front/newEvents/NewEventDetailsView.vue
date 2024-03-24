@@ -54,8 +54,9 @@
     </div>
     <RecommendedComponent />
   </div>
-  <VueLoading :active="eventState" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="eventState" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
@@ -95,6 +96,7 @@ onMounted(() => {
   fetchEvent();
 });
 </script>
+
 <style lang="scss">
 .inspiration-mid-img {
   object-fit: cover;

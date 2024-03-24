@@ -14,6 +14,7 @@
     </span>
   </span>
 </template>
+
 <script setup>
 import { computed } from 'vue';
 
@@ -42,6 +43,7 @@ const fullStars = computed(() => Math.floor(props.averageRating));
 const halfStar = computed(() => props.averageRating % 1 >= 0.5);
 const emptyStars = computed(() => 5 - fullStars.value - (halfStar.value ? 1 : 0));
 </script>
+
 <style lang="scss">
 // 首頁用的 icon
 .star-icon {

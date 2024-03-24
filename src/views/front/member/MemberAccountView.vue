@@ -61,6 +61,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 
@@ -87,4 +88,3 @@ const userData = ref([
   },
 ]);
 </script>
-<style lang="scss"></style>

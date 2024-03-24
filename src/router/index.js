@@ -131,7 +131,7 @@ const router = createRouter({
             {
               path: 'FAQ',
               name: 'front_footer_FAQ',
-              component: () => import('@/views/front/footer/FAQVivew.vue'),
+              component: () => import('@/views/front/footer/FAQView.vue'),
             },
             {
               path: 'contact',

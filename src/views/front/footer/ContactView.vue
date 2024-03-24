@@ -83,6 +83,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -155,4 +156,3 @@ async function onSubmit(values, actions) {
   }
 }
 </script>
-<style lang="scss"></style>

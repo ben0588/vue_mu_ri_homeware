@@ -13,15 +13,12 @@
       </nav>
     </div>
     <div class="col-10">
-      <VueLoading
-        :active="loadingStore.isLoading"
-        :can-cancel="false"
-        :color="'#0089A7'"
-      ></VueLoading>
+      <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'" />
       <RouterView />
     </div>
   </div>
 </template>
+
 <script setup>
 import VueLoading from 'vue-loading-overlay';
 import { useI18n } from 'vue-i18n';

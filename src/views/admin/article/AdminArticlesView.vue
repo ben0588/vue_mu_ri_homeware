@@ -70,15 +70,8 @@
         </tbody>
       </table>
     </div>
-    <PaginationComponent
-      :pagination="adminPagination"
-      @updated:page="fetchArticles"
-    ></PaginationComponent>
-
-    <AdminArticleModal
-      ref="adminArticleModal"
-      @refetch-articles="fetchArticles"
-    ></AdminArticleModal>
+    <PaginationComponent :pagination="adminPagination" @updated:page="fetchArticles" />
+    <AdminArticleModal ref="adminArticleModal" @refetch-articles="fetchArticles" />
   </div>
 </template>
 

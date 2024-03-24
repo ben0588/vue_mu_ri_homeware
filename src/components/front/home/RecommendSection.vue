@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <template>
   <section class="mt-32 mt-lg-80 pt-80" :style="{ backgroundColor: '#FBF9F9' }">
     <h3 class="home-title">推薦商品</h3>
@@ -23,6 +22,7 @@
     </div>
   </section>
 </template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
@@ -63,6 +63,7 @@ onMounted(() => {
   fetchProducts();
 });
 </script>
+
 <style lang="scss">
 .recommend-card-img {
   width: 300px;

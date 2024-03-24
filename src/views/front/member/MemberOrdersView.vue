@@ -18,7 +18,7 @@
               <td>{{ usePriceToTw(order.total) }}</td>
               <td>
                 <div
-                  v-if="order.is_paid"
+                  v-if="order.is_paid && order.paid_date"
                   class="flex-center flex-column align-items-start text-success"
                 >
                   <span>已付款</span>
@@ -76,10 +76,7 @@
           </tbody>
         </table>
       </div>
-      <PaginationComponent
-        :pagination="ordersPagination"
-        @updated:page="fetchOrders"
-      ></PaginationComponent>
+      <PaginationComponent :pagination="ordersPagination" @updated:page="fetchOrders" />
     </div>
 
     <div v-else class="row justify-content-start py-32">
@@ -92,9 +89,10 @@
       <div class="col-xl-6"></div>
     </div>
   </div>
-  <VueLoading :active="orderLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="orderLoading" :can-cancel="false" :color="'#0089A7'" />
   <MemberOrderModal ref="orderModal" />
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import VueLoading from 'vue-loading-overlay';
@@ -150,4 +148,3 @@ const openOrderInfoModal = (id) => {
   orderModal.value.openModal(id);
 };
 </script>
-<style lang="scss"></style>

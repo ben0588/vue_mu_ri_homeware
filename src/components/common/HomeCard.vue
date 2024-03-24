@@ -37,6 +37,7 @@
     </div>
   </router-link>
 </template>
+
 <script setup>
 import RatingStar from '@/components/common/RatingStar.vue';
 import usePriceToTw from '@/composables/usePriceToTw';
@@ -65,6 +66,7 @@ defineProps({
   },
 });
 </script>
+
 <style lang="scss">
 .hover-img-opacity {
   &:hover {
@@ -78,7 +80,6 @@ defineProps({
   right: 0;
   width: 82px;
   height: 35px;
-  /* background-color: $danger; */
   background: #d63031;
   backdrop-filter: blur(5px);
   color: #fff;

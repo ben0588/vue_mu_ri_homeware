@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <template>
   <div
     class="modal fade"
@@ -243,6 +242,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Modal } from 'bootstrap';
@@ -297,6 +297,7 @@ const editOrder = async () => {
       data: {
         ...orderData.value,
         status: orderStatus.value,
+        paid_date: Math.floor(new Date() / 1000),
       },
     });
     if (response.data.success) {

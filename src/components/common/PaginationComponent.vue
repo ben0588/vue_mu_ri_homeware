@@ -7,7 +7,7 @@
           href="#"
           @click.prevent="
             () => {
-              changePage(pagination.current_page - 1);
+              changePage(pagination.current_page - 1, pagination.category);
               handleToTop();
             }
           "
@@ -20,7 +20,7 @@
           href="#"
           @click.prevent="
             () => {
-              changePage(page);
+              changePage(page, pagination.category);
               handleToTop();
             }
           "
@@ -28,13 +28,14 @@
           >{{ page }}</a
         >
       </li>
+
       <li class="page-item" :class="{ disabled: !pagination.has_next }">
         <a
           class="page-link"
           href="#"
           @click.prevent="
             () => {
-              changePage(pagination.current_page + 1);
+              changePage(pagination.current_page + 1, pagination.category);
               handleToTop();
             }
           "
@@ -44,6 +45,7 @@
     </ul>
   </nav>
 </template>
+
 <script setup>
 defineProps({
   pagination: Object,
@@ -59,7 +61,7 @@ const handleToTop = () => {
   });
 };
 
-const changePage = (page) => {
-  emits('updated:page', page);
+const changePage = (page, category) => {
+  emits('updated:page', page, category);
 };
 </script>

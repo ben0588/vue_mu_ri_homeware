@@ -43,10 +43,7 @@
               <td></td>
               <td>
                 <div class="d-flex flex-column justify-content-center">
-                  <span
-                    class="text-decoration-line-through text-muted ms-1"
-                    :style="{ fontSize: '15px' }"
-                  >
+                  <span class="text-decoration-line-through text-muted ms-1">
                     {{ usePriceToTw(item.product.origin_price) }}</span
                   >
 
@@ -137,7 +134,7 @@
       </div>
     </div>
   </div>
-  <VueLoading :active="cartStore.cartLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="cartStore.cartLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
 
 <script setup>

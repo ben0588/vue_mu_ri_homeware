@@ -2,7 +2,7 @@
   <div class="py-32">
     <div class="container pb-12" v-if="cartStore.cartList.length || route.params.id">
       <nav>
-        <ul class="list-unstyled d-flex justify-content-around align-items-center mb-0 py-32">
+        <ul class="list-unstyled d-flex justify-content-around align-items-center mb-0 pb-3">
           <li
             v-for="(item, index) in cartNavList"
             :key="item.id"
@@ -29,7 +29,7 @@
                 <span v-if="isCurrentOrPreviousRoute(index)"
                   ><font-awesome-icon :icon="['fas', 'check']" class="text-white"
                 /></span>
-                <span v-else class="fs-5">{{ index + 1 }}</span>
+                <span v-else>{{ index + 1 }}</span>
               </div>
               <div>
                 {{ item.title }}
@@ -89,13 +89,13 @@ const isCurrentOrPreviousRoute = (index) => {
 <style lang="scss">
 .cart-navbar-item {
   padding: 1rem;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border: 2px solid #b2bec3;
   transition: all 0.3s ease-in-out;
 }

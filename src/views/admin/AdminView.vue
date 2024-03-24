@@ -47,7 +47,7 @@
       </div>
     </nav>
   </header>
-  <VueLoading :active="adminIsLogin" :can-cancel="false" :color="'#d63031'"></VueLoading>
+  <VueLoading :active="adminIsLogin" :can-cancel="false" :color="'#d63031'" />
   <RouterView />
 </template>
 
@@ -124,7 +124,8 @@ const handleAdminLogout = async () => {
     }).then((result) => {
       adminIsLogin.value = false;
       if (result?.value?.data?.success) {
-        localStorage.setItem('s72241', '');
+        localStorage.removeItem('s72241'); // 清除 token
+        document.cookie = 'AdminToken=; Max-Age=-1;'; // 清除 cookie
         showAlert({
           icon: 'success',
           title: '成功',

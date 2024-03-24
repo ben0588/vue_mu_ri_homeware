@@ -151,6 +151,7 @@
     </div>
   </header>
 </template>
+
 <script setup>
 import { ref, watchEffect } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';

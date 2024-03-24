@@ -13,6 +13,7 @@
     <RouterView />
   </div>
 </template>
+
 <script setup>
 import { useRoute } from 'vue-router';
 
@@ -26,6 +27,7 @@ const footerList = [
   { id: 5, title: '隱私權政策', path: 'privacyPolicy' },
 ];
 </script>
+
 <style lang="scss">
 /* 客製化選中樣式 */
 .nav-item .nav-link.active {

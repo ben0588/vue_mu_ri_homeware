@@ -14,6 +14,7 @@
         <p class="fs-5 border-bottom border-dark pb-2 mb-3">
           <font-awesome-icon :icon="['far', 'rectangle-list']" /> 確認訂單
         </p>
+
         <table class="table align-middle">
           <thead>
             <tr>
@@ -34,19 +35,19 @@
                 </div>
               </td>
               <td>
-                <div>
+                <div class="position-relative">
                   <div>{{ item.product.title }}</div>
                   <div>{{ item.product.description }}</div>
                   <div>單位：{{ item.product.unit }}</div>
+                  <div class="arrow-animation-container">
+                    <font-awesome-icon :icon="['fas', 'angles-right']" class="fs-1" />
+                  </div>
                 </div>
               </td>
               <td class="order-phone-td"></td>
               <td>
                 <div class="d-flex flex-column justify-content-center">
-                  <span
-                    class="text-decoration-line-through text-muted ms-1"
-                    :style="{ fontSize: '15px' }"
-                  >
+                  <span class="text-decoration-line-through text-muted ms-1">
                     {{ usePriceToTw(item.product.origin_price) }}</span
                   >
 
@@ -466,6 +467,50 @@ const refetchCartsFn = () => {
 .order-phone-td {
   @media (max-width: 375px) {
     min-width: 12px !important;
+  }
+}
+
+.arrow-animation-container {
+  position: absolute;
+  right: -21%;
+  top: 33%;
+  animation: arrow-animation 1.2s ease-in-out 0s infinite normal;
+  @media (min-width: 414px) {
+    right: -39%;
+    animation: arrow-animation-414 1.2s ease-in-out 0s infinite normal;
+  }
+  @media (min-width: 500px) {
+    display: none;
+  }
+}
+
+@keyframes arrow-animation {
+  0% {
+    right: -21%;
+    opacity: 0.85;
+  }
+  50% {
+    right: -24%;
+    opacity: 0.6;
+  }
+  100% {
+    right: -21%;
+    opacity: 0.85;
+  }
+}
+
+@keyframes arrow-animation-414 {
+  0% {
+    right: -39%;
+    opacity: 0.85;
+  }
+  50% {
+    right: -42%;
+    opacity: 0.6;
+  }
+  100% {
+    right: -39%;
+    opacity: 0.85;
   }
 }
 </style>

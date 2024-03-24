@@ -82,16 +82,12 @@
         </tbody>
       </table>
     </div>
-    <PaginationComponent
-      :pagination="adminPagination"
-      @updated:page="fetchAdminCoupons"
-    ></PaginationComponent>
-
+    <PaginationComponent :pagination="adminPagination" @updated:page="fetchAdminCoupons" />
     <AdminCouponModal
       ref="adminCouponModal"
       :typeName="typeName"
       @refetch-coupon="fetchAdminCoupons"
-    ></AdminCouponModal>
+    />
   </div>
 </template>
 

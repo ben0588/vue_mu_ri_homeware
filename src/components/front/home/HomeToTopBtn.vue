@@ -5,6 +5,7 @@
     </button>
   </div>
 </template>
+
 <script setup>
 const handleToTop = () => {
   window.scrollTo({
@@ -13,6 +14,7 @@ const handleToTop = () => {
   });
 };
 </script>
+
 <style lang="scss">
 .home-to-top-container {
   position: fixed;

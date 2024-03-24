@@ -49,6 +49,8 @@
                     :freeMode="true"
                     :watchSlidesProgress="true"
                     class="thumbs-swiper-container ms-sm-1 ms-lg-0"
+                    ref="thumbsSwiper"
+                    :observer="true"
                   >
                     <SwiperSlide
                       v-for="(item, index) in productsRatings.imagesUrl"
@@ -83,6 +85,7 @@
                       '--details-swiper-pagination-bullet-size': '15px',
                     }"
                     @swiper="onSwiper"
+                    :observer="true"
                   >
                     <SwiperSlide v-for="item in productsRatings.imagesUrl" :key="item">
                       <VueMagnifier
@@ -295,12 +298,13 @@
       </div>
     </div>
   </div>
-  <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'" />
   <ImageModal ref="imageModal"></ImageModal>
 </template>
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, onBeforeRouteUpdate } from 'vue-router';
 import VueLoading from 'vue-loading-overlay';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -336,27 +340,27 @@ const { addCart } = cartStore;
 const products = ref([]);
 const productCategory = ref('');
 const quantity = ref(1);
+const targetId = ref('');
 
 const baseApiUrl = import.meta.env.VITE_APP_BASE_API_URL;
 const apiPath = import.meta.env.VITE_APP_API_PATH;
 
-// 取得對應類型的產品，只取五個
+// 取得對應類型的產品，只取五個，並且排除當前訪問的商品 id
 function recommendList() {
   return searchStore.originProducts
-    .filter((item) => item.category === productCategory.value)
+    .filter((item) => item.category === productCategory.value && item.id !== targetId.value)
     .slice(0, 5);
 }
 const originProductsRatings = computed(() => calculateProductsRatings(recommendList()));
 
 const thumbsSwiper = ref(null); // 存放 swiper 實體
+let swiperInstance = null;
+const prevRef = ref(null);
+const nextRef = ref(null);
 
 const setThumbsSwiper = (swiper) => {
   thumbsSwiper.value = swiper;
 };
-
-let swiperInstance = null;
-const prevRef = ref(null);
-const nextRef = ref(null);
 
 // 雙向綁定控制器
 const onSwiper = (swiper) => {
@@ -367,20 +371,15 @@ const onSwiper = (swiper) => {
   swiperInstance.navigation.update();
 };
 
-onMounted(() => {
-  if (swiperInstance) {
-    swiperInstance.navigation.init();
-    swiperInstance.navigation.update();
-  }
-});
-
-const fetchProduct = async () => {
+const fetchProduct = async (newId) => {
   try {
+    targetId.value = newId;
     loadingStore.toggleLoading(); // 全頁加載
-    const api = `${baseApiUrl}/v2/api/${apiPath}/product/${route.params.id}`;
+    const api = `${baseApiUrl}/v2/api/${apiPath}/product/${newId}`;
     const response = await axios.get(api);
-    productCategory.value = response.data.product.category;
-    products.value.push(response.data.product); // 為了計算星星數先用陣列儲存
+    productCategory.value = response?.data?.product?.category;
+    products.value = [];
+    products.value.push(response?.data?.product); // 為了計算星星數先用陣列儲存
   } catch (error) {
     showAlert({
       title: '失敗',
@@ -414,9 +413,17 @@ const handleChangQty = ({ qty }) => {
 };
 
 onMounted(() => {
-  fetchProduct();
+  fetchProduct(route?.params?.id);
+});
+
+// 動態偵測當 id 有更動就重新加載畫面
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.params.id !== from.params.id) {
+    await fetchProduct(to.params.id);
+  }
 });
 </script>
+
 <style lang="scss">
 .details-table td,
 .details-table th {
@@ -436,6 +443,9 @@ onMounted(() => {
 }
 
 .thumbs-swiper {
+  @media (min-width: 375px) {
+    height: 50px !important;
+  }
   @media (min-width: 576px) {
     width: 75px !important;
   }
@@ -454,6 +464,9 @@ onMounted(() => {
 .thumbs-swiper-container .thumbs-swiper-img {
   cursor: pointer;
   width: 100%;
+  @media (min-width: 375px) {
+    height: 50px;
+  }
   @media (min-width: 414px) {
     height: 50px;
   }
@@ -484,6 +497,9 @@ onMounted(() => {
   object-fit: cover !important;
   width: 100% !important;
   height: auto;
+  @media (min-width: 375px) {
+    height: 400px !important;
+  }
   @media (min-width: 414px) {
     height: 400px !important;
   }

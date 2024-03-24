@@ -1,6 +1,7 @@
 <template>
-  <WishlistViewVue :title-show="false" />
+  <WishlistView :title-show="false" />
 </template>
+
 <script setup>
-import WishlistViewVue from '../wishlist/WishlistView.vue';
+import WishlistView from '../wishlist/WishlistView.vue';
 </script>

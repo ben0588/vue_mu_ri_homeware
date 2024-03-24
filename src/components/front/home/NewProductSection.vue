@@ -67,6 +67,7 @@
     </div>
   </section>
 </template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
@@ -118,6 +119,7 @@ onMounted(() => {
   fetchProducts();
 });
 </script>
+
 <style lang="scss">
 .new-products-mid-img {
   display: block;

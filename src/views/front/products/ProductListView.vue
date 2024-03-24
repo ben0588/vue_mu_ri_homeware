@@ -80,15 +80,13 @@
     </div>
 
     <div class="flex-center mt-3 pt-3" v-if="!searchStore.isSearch">
-      <PaginationComponent
-        :pagination="ProductsPagination"
-        @updated:page="fetchProducts"
-      ></PaginationComponent>
+      <PaginationComponent :pagination="ProductsPagination" @updated:page="fetchProducts" />
     </div>
   </div>
 
-  <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'"></VueLoading>
+  <VueLoading :active="loadingStore.isLoading" :can-cancel="false" :color="'#0089A7'" />
 </template>
+
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import VueLoading from 'vue-loading-overlay';

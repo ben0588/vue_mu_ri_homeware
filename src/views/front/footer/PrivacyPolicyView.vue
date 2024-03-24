@@ -14,6 +14,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import CollapseComponent from '@/components/common/CollapseComponent.vue';
 
@@ -86,4 +87,3 @@ const privacyPolicyList = [
   },
 ];
 </script>
-<style lang="scss"></style>

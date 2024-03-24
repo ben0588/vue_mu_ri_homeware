@@ -25,6 +25,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { computed } from 'vue';
 
@@ -40,6 +41,7 @@ function recommendList() {
 }
 const originProductsRatings = computed(() => calculateProductsRatings(recommendList()));
 </script>
+
 <style lang="scss">
 .product-description-card-img {
   width: 100%;

@@ -500,7 +500,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line object-curly-newline
 import { ref, onMounted, onUnmounted, computed, watch, watchEffect } from 'vue';
 import { Modal } from 'bootstrap';
 import { useI18n } from 'vue-i18n';

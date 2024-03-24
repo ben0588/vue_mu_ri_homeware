@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <template>
   <div
     class="modal fade"
@@ -231,6 +230,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted, markRaw, watch } from 'vue';
 import { Modal } from 'bootstrap';

@@ -79,6 +79,7 @@
     </Swiper>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';

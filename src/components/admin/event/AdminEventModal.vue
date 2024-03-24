@@ -249,6 +249,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted, markRaw } from 'vue';
 import { Modal } from 'bootstrap';

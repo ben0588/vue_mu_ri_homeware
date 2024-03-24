@@ -32,6 +32,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Modal } from 'bootstrap';
@@ -68,4 +69,3 @@ defineExpose({
   closeModal,
 });
 </script>
-<style lang="scss"></style>

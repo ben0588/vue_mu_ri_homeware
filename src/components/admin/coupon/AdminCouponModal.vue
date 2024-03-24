@@ -1,4 +1,3 @@
-<!-- eslint-disable max-len -->
 <template>
   <div
     class="modal fade"
@@ -189,14 +188,11 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line object-curly-newline
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Modal } from 'bootstrap';
 import { useI18n } from 'vue-i18n';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { format, parseISO, getUnixTime } from 'date-fns';
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as yup from 'yup';
 import { useForm } from 'vee-validate';
 

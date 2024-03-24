@@ -17,6 +17,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import CollapseComponent from '@/components/common/CollapseComponent.vue';
 
@@ -62,4 +63,3 @@ const FAQList = [
   },
 ];
 </script>
-<style lang="scss"></style>

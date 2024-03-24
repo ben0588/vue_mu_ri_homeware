@@ -32,6 +32,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 const text = {
   center1:
@@ -64,4 +65,3 @@ const mediaList = [
   },
 ];
 </script>
-<style lang="scss"></style>

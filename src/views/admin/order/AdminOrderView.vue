@@ -31,7 +31,7 @@
             <td>{{ usePriceToTw(order.total) }}</td>
             <td>
               <div
-                v-if="order.is_paid"
+                v-if="order.is_paid && order.paid_date"
                 class="flex-center flex-column align-items-start text-success"
               >
                 <span>已付款</span>
@@ -93,12 +93,8 @@
         </tbody>
       </table>
     </div>
-    <PaginationComponent
-      :pagination="adminPagination"
-      @updated:page="fetchOrders"
-    ></PaginationComponent>
-
-    <AdminOrderModal ref="adminOrderModal" @refetch-orders="fetchOrders"></AdminOrderModal>
+    <PaginationComponent :pagination="adminPagination" @updated:page="fetchOrders" />
+    <AdminOrderModal ref="adminOrderModal" @refetch-orders="fetchOrders" />
   </div>
 </template>
 

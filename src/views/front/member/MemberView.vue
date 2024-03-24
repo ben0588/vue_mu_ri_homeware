@@ -21,6 +21,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 const memberList = [
   { path: '/member/account', title: '我的帳戶' },
@@ -28,6 +29,7 @@ const memberList = [
   { path: '/member/orders', title: '我的訂單' },
 ];
 </script>
+
 <style lang="scss">
 .front-member-nav-link-dark {
   text-decoration: none;
