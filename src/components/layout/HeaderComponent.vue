@@ -49,7 +49,7 @@
               @click="toggleMenuOpen"
               ><img
                 class="nav-logo-img"
-                src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1708198178575.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=MyixMrWe7Sfw4u7daZqBr5OfDnLd6iNzLKNo5QBUXsn%2BkOM%2BN1jdIsG%2FJDviTMjSWvG%2BMF7eDujVmz219ZXNsy1nrE4bdXQNCXC3RikoaaaiHKrDjawm3QK%2BYScsRAB%2BiEg8y%2Fr6iey9u1zvEkgwLRT5jcSzv664ypgGi%2BSlnbuJ58aw1T107ZtoidIavbzWh48RwMIn5jlHqU22bBLQRKJ02GD0fyHJPwxGChBNlk7atqCf%2FFDWsgnsZmCG617F2oHibvQvJ31qUwNTxkscakEC519vpVEqS%2FiEcfRW7JguBbwM7jnjms0x%2FKtiO%2FqB3wVPHUYiYNKewzKyDjD1wA%3D%3D"
+                src="https://storage.googleapis.com/vue-course-api.appspot.com/vue-ben0588/1708198178575.png"
                 alt="沐日家居線上購物"
               />
               <h1 class="logo-title-hide" v-show="false">沐日家居線上購物</h1>

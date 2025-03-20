@@ -91,7 +91,7 @@
       </p>
       <div>
         <img
-          src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709362628868.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=h5XkhkexYnztCWjUC4P%2Bq2GcYACqx4RCgfPeAjKqqb4Xe%2BnBJJEVCz7v4TAcyYy%2BJSBlvRWWbk6qxveKZY9sJNVinlFg7WSBqssHpt4G5A0ZcrLlLc%2BRwg3dROKNkrAJNwKZs5QOcMO3mqU3W1qKSwCO3t6jLsAxgJxrdKhttiIoE%2F6n%2FpRzljAED%2BfI7KacbrUSSPVAdbllRxKbVcZ7rjcOzSqA2McBCotwTXYpuvCwOF91bHHZr7w5CJP63Z62CO8GUmQTJWXLxmaFWJJkOA429IC22Ts8%2FOCWGm%2BdH%2Fb4VQgC4kDgEE%2BU7sz0ODgHbwaT8kjq45vAIJOC3%2FY4ww%3D%3D"
+          src="https://storage.googleapis.com/vue-course-api.appspot.com/ben0588/1709362628868.png"
           alt="暫無任何追蹤商品"
           :style="{ width: `200px`, height: `200px` }"
         />
